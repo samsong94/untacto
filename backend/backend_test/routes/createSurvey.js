@@ -26,7 +26,6 @@ router.post('/',upload.single('video'), function(req,res,next) {
 		var selectedKiosk = req.body['selectedKiosk'];
 		var duration = req.body['duration'];
 		var expiresAt = moment().add(duration, 'd').format("YYYY-MM-DD hh:mm:ss");
-		console.log(expiresAt);
 		let file = req.file;
 		var companyId = res.locals.userId;
 		var videoPath = path.join(__dirname+'/../'+file.path);
@@ -40,7 +39,6 @@ router.post('/',upload.single('video'), function(req,res,next) {
 		connection.connect();
 		var sql = 'select COUNT(*) as num from survey where companyId='+companyId+';'
 		connection.query(sql,function(err,rows,fields){
-			console.log(rows);
 			var num=rows[0]['num']+1;
 			sql = 'insert into survey (surveyId,companyId,title,kioskId,video,description_survey,expiresAt) values('+num+','+companyId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'","'+expiresAt+'");';
 			connection.query(sql,function(err){
