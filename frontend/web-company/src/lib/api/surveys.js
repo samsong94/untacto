@@ -5,6 +5,7 @@ export const writeSurvey = ({
   title,
   description,
   video,
+  beginsAt,
   duration,
   selectedKiosk,
 }) => {
@@ -13,6 +14,7 @@ export const writeSurvey = ({
   formData.append('title', title);
   formData.append('description', description);
   formData.append('video', video);
+  formData.append('beginsAt', beginsAt);
   formData.append('duration', duration);
   formData.append('selectedKiosk', selectedKiosk);
   return client.post('/api/surveys', formData);

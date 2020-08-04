@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 const EditorBlock = styled.form`
   position: absolute;
@@ -45,6 +46,14 @@ const EditorBlock = styled.form`
       }
     }
   }
+  .date-label {
+    margin-top: 2rem;
+    font-size: 1.125rem;
+    font-family: 'Nanum-Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+      'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+      'Helvetica Neue', sans-serif;
+  }
+
   @media (max-width: 1600px) {
     width: 1200px;
   }
@@ -92,11 +101,6 @@ const DescriptionInput = styled.textarea`
     'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
 `;
-const StyledCalendar = styled(Calendar)`
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  text-align: center;
-`;
 const DurationInput = styled.input`
   font-size: 1rem;
   outline: none;
@@ -138,6 +142,10 @@ const StyledButton = styled(Button)`
     margin-left: 0.5rem;
   }
 `;
+const StyledCalendar = styled(Calendar)`
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+`;
 
 const Editor = ({
   onChangeField,
@@ -146,6 +154,7 @@ const Editor = ({
   title,
   description,
   video,
+  beginsAt,
   duration,
   kiosks,
 }) => {
@@ -157,6 +166,9 @@ const Editor = ({
   };
   const onChangeVideo = (e) => {
     onChangeField({ key: 'video', value: e.target.files[0] });
+  };
+  const onChangeBegisAt = (date) => {
+    onChangeField({ key: 'beginsAt', value: date });
   };
   const onChangeDuration = (e) => {
     onChangeField({ key: 'duration', value: e.target.value });
@@ -201,13 +213,20 @@ const Editor = ({
         className="video-input"
         onChange={onChangeVideo}
       ></VideoInput>
-      <StyledCalendar />
-      <DurationInput
-        placeholder="설문을 진행할 기간을 입력하세요 (일 단위)"
-        onChange={onChangeDuration}
-        value={duration}
-        name="duration"
-      ></DurationInput>
+      <div className="date-block">
+        <div className="date-label">설문 시작일을 선택해주세요</div>
+        <StyledCalendar
+          name="beginsAt"
+          onChange={onChangeBegisAt}
+          value={beginsAt}
+        />
+        <DurationInput
+          placeholder="설문을 진행할 기간을 입력하세요 (일 단위)"
+          onChange={onChangeDuration}
+          value={duration}
+          name="duration"
+        ></DurationInput>
+      </div>
       <div className="select-label">Kiosk를 선택해주세요</div>
       <KioskSelect onChange={onChangeSelect} name="selectedKiosk">
         {kiosks &&
