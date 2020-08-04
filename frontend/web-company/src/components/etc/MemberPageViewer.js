@@ -12,7 +12,6 @@ const HelpViewerBlock = styled(Main)`
     color: #373d51;
     padding: 1.3rem;
     margin: 0;
-    bottom-margin: 4rem;
   }
 
   .trash {

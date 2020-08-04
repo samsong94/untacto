@@ -131,7 +131,7 @@ const HelpPageViewer = ({ surveysAnswers, error, loading }) => {
 
         <div className="accordion">
           <div className="accordion-item">
-            <a>What can JavaScript Do?</a>
+            <div>What can JavaScript Do?</div>
             <div className="content">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -142,7 +142,7 @@ const HelpPageViewer = ({ surveysAnswers, error, loading }) => {
             </div>
           </div>
           <div className="accordion-item">
-            <a>How JavaScript Can Modify HTML and CSS Values?</a>
+            <div>How JavaScript Can Modify HTML and CSS Values?</div>
             <div className="content">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -153,7 +153,7 @@ const HelpPageViewer = ({ surveysAnswers, error, loading }) => {
             </div>
           </div>
           <div className="accordion-item">
-            <a>What Is SVG?</a>
+            <div>What Is SVG?</div>
             <div className="content">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -164,7 +164,7 @@ const HelpPageViewer = ({ surveysAnswers, error, loading }) => {
             </div>
           </div>
           <div className="accordion-item">
-            <a>Is FAQ Section Matters In Website?</a>
+            <div>Is FAQ Section Matters In Website?</div>
             <div className="content">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -175,7 +175,7 @@ const HelpPageViewer = ({ surveysAnswers, error, loading }) => {
             </div>
           </div>
           <div className="accordion-item">
-            <a>How To Create a Light FAQ Element?</a>
+            <div>How To Create a Light FAQ Element?</div>
             <div className="content">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
