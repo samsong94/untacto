@@ -34,8 +34,8 @@ router.post('/', function (req, res, next) {
 					},
 					secret);
 					res.cookie('user', token);
-					res.cookie('userName', rows[0]['userName']);
-					res.cookie('userId', rows[0]['userId']);
+					res.cookie('userName', userName);
+					res.cookie('userId', userId);
 					res.json({
 						result: 'ok',
 						token
