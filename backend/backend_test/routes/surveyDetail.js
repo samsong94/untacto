@@ -15,18 +15,18 @@ router.post('/',function(req,res,next){
 		database: 'project1'
 	});
 	connection.connect();
-	var sql = "select emotions from answer where surveyId="+surveyId+"and companyId="+companyId+";";
+	var sql = "select emotions from answer where surveyId="+surveyId+"and userId="+companyId+";";
 	connection.query(sql, function(err,rows,fields){
 			if(!err){
 				console.log(rows);
 				console.log("answer select success");
-				var sql = "select title, kioskId, description_survey, createdAt, expiresAt from survey wher surveyId="+surveyId+"and companyId ="+companyId+";";
+				var sql = "select title, kioskId, description_survey, createdAt, expiresAt from survey wher surveyId="+surveyId+"and userId ="+companyId+";";
 				connection.query(sql,function(err,rows,fields){
 						connection.end();
 						if(!err){
 							console.log(rows);
 							console.log("survey select success");
-							res.json:({
+							res.json({
 								title: rows[0]['title'],
 								kioskId: rows[0]['kioskId'],
 								description_survey: rows[0]["description_survey"],
