@@ -18,7 +18,7 @@ router.post('/', function (req, res, next) {
 	});
     connection.connect();
 	
-	var sql = 'insert into  (userId, userName, password, email) values(';
+	var sql = 'insert into user (userId, userName, password, email) values(';
 	connection.query('select COUNT(*) as cnt from user', function(err, rows){
 		if(!err){
 			var userId=rows[0]['cnt'] + 1;
