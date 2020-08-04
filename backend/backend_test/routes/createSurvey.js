@@ -3,11 +3,12 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const path = require('path');
+const moment = require('moment');
 const multer = require('multer');
 const uuidv4 = require('uuid/v4');
 const storage=multer.diskStorage({
 	destination: (req,file,cb)=>{
-		cb(null, '../upload');
+		cb(null, 'upload/');
 	},
 	filename: (req,file,cb) => {
 		const newFilename = `${uuidv4()}${path.extname(file.originalname)}`;
@@ -17,51 +18,52 @@ const storage=multer.diskStorage({
 
 const upload = multer({ storage });
 
-const uploadSurvey = (req,res,err) =>{
-	try{
-		upload.single("video");
-		console.log(req.file);
-		let file = req.file;
+router.post('/',upload.single('video'), function(req,res,next) {
 		if(req.file!=undefined){
-			console.log("upload success");
-			var title = req.body['title'];
-			var explain = req.body['description'];
-			var selectedKiosk = req.body['selectedKiosk'];
-			var companyId = 1;
-			var videoPath = path.join(__dirname,file.originalname);
-			var connection = mysql.createConnection({
-				host:'localhost',
-				post: 3306,
-				password: 'a103',
-				database:'project1'
+		console.log("upload success");
+		var title = req.body['title'];
+		var explain = req.body['description'];
+		var selectedKiosk = req.body['selectedKiosk'];
+		var duration = req.body['duration'];
+		var expiresAt = moment().add(duration, 'd').format("YYYY-MM-DD hh:mm:ss");
+		let file = req.file;
+		var companyId = res.locals.userId;
+		var videoPath = path.join(__dirname+'/../'+file.path);
+		var connection = mysql.createConnection({
+			host: 'localhost',
+			post: 3306,
+			user: 'admin',
+			password: 'a103',
+			database: 'project1'
 			});
-			conection.connect();
-			var sql = 'insert into survey (surveyId,companyId,title,location,video,description_survey) values(1,'+companyId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'")';
+		connection.connect();
+		var sql = 'select COUNT(*) as num from survey where companyId='+companyId+';'
+		connection.query(sql,function(err,rows,fields){
+			var num=rows[0]['num']+1;
+			sql = 'insert into survey (surveyId,companyId,title,kioskId,video,description_survey,expiresAt) values('+num+','+companyId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'","'+expiresAt+'");';
 			connection.query(sql,function(err){
-					if(!err){
-						console.log("insert survey success");
-						res.json({
-								result:"ok"
-						});
-					}
-					else{
-						console.log("insert survey error");
-						res.status(403).json({
-							message:err
-						});
-					}
+				connection.end();
+				if(!err){
+						console.log("insert success");
+					res.json({
+						result: "ok"
+					});
+				}
+				else{
+					console.log("insert error");
+					console.log(err);
+					res.status(403).json({
+						message: err
+					});
+				}
 			});
-
+		});
 		}
 		else{
 			console.log("upload fail");
-			res.send(err);
+			res.status(403).json({
+				message:"error"
+			});
 		}
-	}
-	catch(err){
-		console.log(err);
-		console.log("upload error");
-		res.send(err);
-	}
-}
-exports.uploadSurvey=uploadSurvey
+});
+module.exports = router;
