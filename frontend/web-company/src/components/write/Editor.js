@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
+import Calendar from 'react-calendar';
 
 const EditorBlock = styled.form`
   position: absolute;
@@ -14,7 +15,7 @@ const EditorBlock = styled.form`
   height: calc(100% - 8rem);
 
   .select-label {
-    margin-top: 3rem;
+    margin-top: 2rem;
     font-size: 1.125rem;
     font-family: 'Nanum-Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI',
       'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
@@ -44,7 +45,6 @@ const EditorBlock = styled.form`
       }
     }
   }
-
   @media (max-width: 1600px) {
     width: 1200px;
   }
@@ -92,13 +92,17 @@ const DescriptionInput = styled.textarea`
     'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
 `;
+const StyledCalendar = styled(Calendar)`
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+`;
 const DurationInput = styled.input`
   font-size: 1rem;
   outline: none;
   padding-bottom: 0.5rem;
   border: none;
   border-bottom: 1px solid ${palette.gray[4]};
-  margin-top: 2rem;
   width: 100%;
 `;
 const KioskSelect = styled.select`
@@ -126,8 +130,8 @@ const WriteActionButtonsBlock = styled.div`
   button + button {
     margin-left: 0.5rem;
   }
+  margin-bottom: 2rem;
 `;
-
 const StyledButton = styled(Button)`
   height: 2.125rem;
   & + & {
@@ -197,6 +201,7 @@ const Editor = ({
         className="video-input"
         onChange={onChangeVideo}
       ></VideoInput>
+      <StyledCalendar />
       <DurationInput
         placeholder="설문을 진행할 기간을 입력하세요 (일 단위)"
         onChange={onChangeDuration}
