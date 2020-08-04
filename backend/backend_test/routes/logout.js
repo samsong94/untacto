@@ -3,8 +3,6 @@ var express = require('express');
 var router = express.Router();
 var cookieParser = require('cookie-parser')
 
-var mysql = require('mysql');
-
 router.use(cookieParser());
 
 router.post('/', function (req, res, next) {

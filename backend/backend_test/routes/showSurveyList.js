@@ -8,8 +8,6 @@ const cookieParser = require('cookie-parser');
 router.use(cookieParser());
 
 router.get('/', function(req, res, next){
-	console.log("test");
-	console.log("cookie: " + req.cookies.companyId);
 	var companyId = req.cookies.companyId;
 	var connection = mysql.createConnection({
 			host: 'localhost',
@@ -20,9 +18,9 @@ router.get('/', function(req, res, next){
 	});
 	connection.connect();
 
-	var sql_count = 'select count(*) as cnt from survey where companyId=\'' + companyId + '\''; 
-	var sql_list = 'select * from survey where companyId=\'' + companyId + '\'';
-	var sql_company = 'select * from company where companyId=\'' + companyId + '\'';
+	var sql_count = 'select count(*) as cnt from survey where userId=\'' + companyId + '\''; 
+	var sql_list = 'select * from survey where userId=\'' + companyId + '\'';
+	var sql_company = 'select * from user where userId=\'' + companyId + '\'';
 	var sql_kiosk = 'select * from kiosk';
 	var sql_kiosk_count = 'select count(*) as k_cnt from kiosk';
 
@@ -63,7 +61,13 @@ router.get('/', function(req, res, next){
 	connection.query(sql_company, function(err_company, rows_company, fields_company){
 		if(!err_company){
 			console.log('get information about a company');
+			//for converting from 'user*' to 'company*'
 			company_information = rows_company[0];
+			company_information.companyId = company_information.userId;
+			company_information.companyName = company_information.userName; 
+			delete company_information.userId;
+			delete company_information.userName;
+
 		} else {
 			throw err_company;
 		}
@@ -73,13 +77,15 @@ router.get('/', function(req, res, next){
 		if(!err_list){
 			console.log('set state in surveys');
 
-			var companyObj = new Object;
+			var companyObj = new Object();
 			var survey_list = new Array();
 			for(var i=0; i<count_survey; i++){
 				var kioskId = rows_list[i].kioskId;
 				delete rows_list[i].companyId;
+				delete rows_list[i].userId;
 				delete rows_list[i].kioskId;
 				rows_list[i].company = JSON.stringify(company_information);
+				rows_list[i].companyId = companyId;
 				rows_list[i].kiosk = JSON.stringify(kiosk[kioskId]);
 				survey_list.push(rows_list[i]);
 			}
