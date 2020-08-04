@@ -18,7 +18,7 @@ router.post('/', function (req, res, next) {
 	});
     connection.connect();
 	
-	var sql = 'insert into company (userId, userName, password, email) values(';
+	var sql = 'insert into user (userId, userName, password, email) values(';
 	connection.query('select COUNT(*) as cnt from user', function(err, rows){
 		if(!err){
 			var userId=rows[0]['cnt'] + 1;
@@ -34,8 +34,8 @@ router.post('/', function (req, res, next) {
 					},
 					secret);
 					res.cookie('user', token);
-					res.cookie('companyName', rows[0]['companyName']);
-					res.cookie('companyId', rows[0]['companyId']);
+					res.cookie('userName', userName);
+					res.cookie('userId', userId);
 					res.json({
 						result: 'ok',
 						token
