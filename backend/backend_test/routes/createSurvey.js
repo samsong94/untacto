@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const path = require('path');
+const moment = require('moment');
 const multer = require('multer');
 const uuidv4 = require('uuid/v4');
 const storage=multer.diskStorage({
@@ -23,8 +24,10 @@ router.post('/',upload.single('video'), function(req,res,next) {
 		var title = req.body['title'];
 		var explain = req.body['description'];
 		var selectedKiosk = req.body['selectedKiosk'];
+		var duration = req.body['duration'];
+		var expiresAt = moment().add(duration, 'd').format("YYYY-MM-DD hh:mm:ss");
 		let file = req.file;
-		var companyId = res.locals.userId;
+		var userId = res.locals.userId;
 		var videoPath = path.join(__dirname+'/../'+file.path);
 		var connection = mysql.createConnection({
 			host: 'localhost',
@@ -34,11 +37,10 @@ router.post('/',upload.single('video'), function(req,res,next) {
 			database: 'project1'
 			});
 		connection.connect();
-		var sql = 'select COUNT(*) as num from survey where companyId='+companyId+';'
+		var sql = 'select COUNT(*) as num from survey where companyId='+userId+';'
 		connection.query(sql,function(err,rows,fields){
-			console.log(rows);
 			var num=rows[0]['num']+1;
-			sql = 'insert into survey (surveyId,companyId,title,location,video,description_survey) values('+num+','+companyId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'")';
+			sql = 'insert into survey (surveyId,userId,title,kioskId,video,description_survey,expiresAt) values('+num+','+userId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'","'+expiresAt+'");';
 			connection.query(sql,function(err){
 				connection.end();
 				if(!err){
