@@ -11,6 +11,7 @@ const EditorContainer = ({ history }) => {
     title,
     description,
     video,
+    beginsAt,
     duration,
     selectedKiosk,
     survey,
@@ -20,6 +21,7 @@ const EditorContainer = ({ history }) => {
     title: write.title,
     description: write.description,
     video: write.video,
+    beginsAt: write.beginsAt,
     duration: write.duration,
     selectedKiosk: write.selectedKiosk,
     survey: write.survey,
@@ -36,7 +38,11 @@ const EditorContainer = ({ history }) => {
     [dispatch],
   );
   const onPublish = () => {
-    if ([title, description, video, duration, selectedKiosk].includes('')) {
+    if (
+      [title, description, video, beginsAt, duration, selectedKiosk].includes(
+        '',
+      )
+    ) {
       alert('빈칸을 채워주세요');
       return;
     }
@@ -50,7 +56,14 @@ const EditorContainer = ({ history }) => {
     // }
     // client.post('/api/surveys', formData);
     dispatch(
-      writeSurvey({ title, description, video, duration, selectedKiosk }),
+      writeSurvey({
+        title,
+        description,
+        video,
+        beginsAt,
+        duration,
+        selectedKiosk,
+      }),
     );
   };
 
@@ -101,6 +114,7 @@ const EditorContainer = ({ history }) => {
       title={title}
       description={description}
       video={video}
+      beginsAt={beginsAt}
       duration={duration}
       kiosks={kiosks}
     />
