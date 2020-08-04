@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 const app = express();
 const bodyParser = require('body-parser');
-const port =process.env.PORT || 8080;
+const port =process.env.PORT || 3101;
 
 const route = require('../routes/index');
 const createSurveyRouter = require('../routes/beforeCreateSurvey');
@@ -12,6 +12,7 @@ const loginRouter = require('../routes/login');
 const logoutRouter = require('../routes/logout');
 const checkRouter = require('../routes/check');
 const detailRouter = require('../routes/beforeSurveyDetail');
+const showSurveyListRouter = require('../routes/showSurveyList');
 
 app.use(bodyParser.json());
 app.use('/api/auth/signup', signUpRouter);
@@ -19,6 +20,7 @@ app.use('/api/auth/login', loginRouter);
 app.use('/api/auth/logout', logoutRouter);
 app.use('/api/auth/check', checkRouter);
 app.use('/api/surveys',createSurveyRouter);
+app.use('/api/surveys/?',showSurveyListRouter);
 app.use('/api/surveys/${id}',detailRouter);
 //app.use('/api/surveys',express.static('uploads'));
 
