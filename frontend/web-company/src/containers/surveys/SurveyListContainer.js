@@ -21,6 +21,7 @@ const SurveyListContainer = ({ match, history }) => {
   }, [history, user]);
   if (user) {
     const { companyId } = user;
+    console.log(companyId);
   }
   useEffect(() => {
     dispatch(listSurveys({ companyId }));

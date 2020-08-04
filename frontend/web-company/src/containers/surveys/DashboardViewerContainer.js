@@ -21,6 +21,7 @@ const DashboardViewerContainer = ({ history }) => {
   }, [history, user]);
   if (user) {
     const { companyId } = user;
+    console.log(companyId);
   }
   useEffect(() => {
     dispatch(readSurveysAnswers({ companyId }));
