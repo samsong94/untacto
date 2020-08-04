@@ -123,7 +123,7 @@ function toggleAccordion() {
 items.forEach((item) => item.addEventListener('click', toggleAccordion));
 
 //내용은 나중에 바꿉시다..
-const HelpViewer = ({ surveysAnswers, error, loading }) => {
+const HelpPageViewer = ({ surveysAnswers, error, loading }) => {
   return (
     <>
       <HelpViewerBlock>
@@ -191,4 +191,4 @@ const HelpViewer = ({ surveysAnswers, error, loading }) => {
   );
 };
 
-export default HelpViewer;
+export default HelpPageViewer;
