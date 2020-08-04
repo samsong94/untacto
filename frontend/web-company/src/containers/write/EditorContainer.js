@@ -15,7 +15,8 @@ const EditorContainer = ({ history }) => {
     selectedKiosk,
     survey,
     surveyError,
-  } = useSelector(({ write }) => ({
+    user,
+  } = useSelector(({ write, user }) => ({
     title: write.title,
     description: write.description,
     video: write.video,
@@ -23,7 +24,13 @@ const EditorContainer = ({ history }) => {
     selectedKiosk: write.selectedKiosk,
     survey: write.survey,
     surveyError: write.surveyError,
+    user: user.user,
   }));
+  useEffect(() => {
+    if (!user) {
+      history.push('/login');
+    }
+  }, [history, user]);
   const onChangeField = useCallback(
     (payload) => dispatch(changeField(payload)),
     [dispatch],
