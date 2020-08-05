@@ -18,7 +18,6 @@ const showSurveyListRouter = require('../routes/showSurveyList');
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-//var companyId = express.request.cookies.companyId;
 
 app.use('/api/auth/signup', signUpRouter);
 app.use('/api/auth/login', loginRouter);
@@ -26,9 +25,7 @@ app.use('/api/auth/logout', logoutRouter);
 app.use('/api/auth/check', checkRouter);
 app.use('/api/surveys',createSurveyRouter);
 app.use('/api/surveys?', showSurveyListRouter);
-app.use('/api/answers/',detailRouter);
-//app.use('/api/answers?',Router);
-//app.use('/api/surveys',express.static('uploads'));
+app.use('/api/answers/:id',detailRouter);
 
 app.listen(port, ()=>{
     console.log(`express is running on ${port}`);
