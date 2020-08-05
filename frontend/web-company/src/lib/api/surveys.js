@@ -25,5 +25,5 @@ export const readSurvey = (id) => client.get(`/api/surveys/${id}`);
 
 // 설문 리스트
 export const listSurveys = ({ companyId }) => {
-  return client.get(`/api/surveys?${companyId}`);
+  return client.get(`/api/surveys?companyId=${companyId}`);
 };
