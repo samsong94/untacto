@@ -15,12 +15,12 @@ router.get('/',function(req,res,next){
 		database: 'project1'
 	});
 	connection.connect();
-	var sql = "select emotions from answer where surveyId="+surveyId+"and userId="+companyId+";";
+	var sql = "select emotions from answer where surveyId="+surveyId+" and userId="+companyId+";";
 	connection.query(sql, function(err,rows,fields){
 			if(!err){
 				console.log(rows);
 				console.log("answer select success");
-				var sql = "select title, kioskId, description_survey, createdAt, expiresAt from survey wher surveyId="+surveyId+"and userId ="+companyId+";";
+				var sql = "select title, kioskId, description_survey, createdAt, expiresAt from survey wher surveyId="+surveyId+" and userId ="+companyId+";";
 				connection.query(sql,function(err,rows,fields){
 						connection.end();
 						if(!err){
@@ -36,12 +36,14 @@ router.get('/',function(req,res,next){
 						}
 						else{
 							console.log("survey select error");
+							console.log(err);
 						}
 				});
 				
 			}
 			else{
 				console.log("answer select error");
+				console.log(err);
 			}
 	});
 });
