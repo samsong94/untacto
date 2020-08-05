@@ -27,7 +27,6 @@ router.post('/',upload.single('video'), function(req,res,next) {
 		var beginsAt = req.body['beginsAt'];
 		var duration = req.body['duration'];
 		var start = new Date(beginsAt);
-		//var expiresAt = 
 		var startYear=start.getFullYear();
 		var startMonth=start.getMonth();
 		var startDate=start.getDate();
