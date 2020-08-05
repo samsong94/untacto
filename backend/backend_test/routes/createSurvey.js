@@ -24,8 +24,16 @@ router.post('/',upload.single('video'), function(req,res,next) {
 		var title = req.body['title'];
 		var explain = req.body['description'];
 		var selectedKiosk = req.body['selectedKiosk'];
+		var beginsAt = req.body['beginsAt'];
 		var duration = req.body['duration'];
-		var expiresAt = moment().add(duration, 'd').format("YYYY-MM-DD hh:mm:ss");
+		var start = new Date(beginsAt);
+		//var expiresAt = 
+		var startYear=start.getFullYear();
+		var startMonth=start.getMonth();
+		var startDate=start.getDate();
+		beginsAt=moment([startYear,startMonth,startDate]).format("YYYY-MM-DD hh:mm:ss");
+		var expiresAt = moment([startYear,startMonth,startDate]).add(duration, 'd').format("YYYY-MM-DD hh:mm:ss");
+		console.log(expiresAt);
 		let file = req.file;
 		var userId = res.locals.userId;
 		var videoPath = path.join(__dirname+'/../'+file.path);
@@ -37,10 +45,12 @@ router.post('/',upload.single('video'), function(req,res,next) {
 			database: 'project1'
 			});
 		connection.connect();
-		var sql = 'select COUNT(*) as num from survey where companyId='+userId+';'
+		var sql = 'select COUNT(*) as num from survey where userId='+userId+';';
 		connection.query(sql,function(err,rows,fields){
-			var num=rows[0]['num']+1;
-			sql = 'insert into survey (surveyId,userId,title,kioskId,video,description_survey,expiresAt) values('+num+','+userId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'","'+expiresAt+'");';
+			if(!err){
+			var num = rows[0]['num'] + 1;
+			sql = 'insert into survey (surveyId,userId,title,kioskId,video,description_survey,beginsAt,expiresAt) values('+num+','+userId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'","'+beginsAt+'","'+expiresAt+'");';
+			console.log(sql);
 			connection.query(sql,function(err){
 				connection.end();
 				if(!err){
@@ -57,10 +67,16 @@ router.post('/',upload.single('video'), function(req,res,next) {
 					});
 				}
 			});
+			}
+			else{
+				console.log("survey select error");
+				console.log(err);
+			}
 		});
 		}
 		else{
 			console.log("upload fail");
+			console.log(err);
 			res.status(403).json({
 				message:"error"
 			});
