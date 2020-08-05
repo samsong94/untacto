@@ -86,60 +86,10 @@ const SurveyItem = ({ survey }) => {
   );
 };
 
-// const SurveyList = ({ surveys, loading, error }) => {
-//   if (error) {
-//     return <SurveyListBlock>에러가 발생했습니다</SurveyListBlock>;
-//   }
-
-const SurveyList = () => {
-  const loading = false;
-  const surveys = [
-    {
-      surveyId: 1,
-      title: '예시 설문',
-      user: {
-        companyName: 'kenny company',
-        userId: 1,
-      },
-      createdAt: '2020-07-30',
-      kiosk: {
-        kioskId: 1,
-        location: '역삼',
-      },
-      description: '이런저런 설문입니다',
-      answers: [],
-    },
-    {
-      surveyId: 2,
-      title: '예시 설문',
-      user: {
-        companyName: 'kenny company',
-        userId: 1,
-      },
-      createdAt: '2020-07-30',
-      kiosk: {
-        kioskId: 1,
-        location: '역삼',
-      },
-      description: '이런저런 설문입니다',
-      answers: [],
-    },
-    {
-      surveyId: 3,
-      title: '예시 설문',
-      user: {
-        companyName: 'kenny company',
-        userId: 1,
-      },
-      createdAt: '2020-07-30',
-      kiosk: {
-        kioskId: 1,
-        location: '역삼',
-      },
-      description: '이런저런 설문입니다',
-      answers: [],
-    },
-  ];
+const SurveyList = ({ surveys, loading, error }) => {
+  if (error) {
+    return <SurveyListBlock>에러가 발생했습니다</SurveyListBlock>;
+  }
   return (
     <SurveyListBlock>
       {!loading && surveys && (

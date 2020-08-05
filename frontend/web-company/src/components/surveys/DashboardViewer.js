@@ -53,21 +53,26 @@ const DashboardItem = styled.div`
 
 // 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
 const DashboardViewer = ({ surveysAnswers, error, loading }) => {
+  if (error) {
+    return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+  }
   return (
-    <>
-      <DashboardViewerBlock>
-        <h2>설문 현황</h2>
-        <DashboardItem className="one">
-          <AreaRangeChart />
-        </DashboardItem>
-        <DashboardItem className="two">
-          <DonutChart />
-        </DashboardItem>
-        <DashboardItem className="three">
-          <BarChart />
-        </DashboardItem>
-      </DashboardViewerBlock>
-    </>
+    <DashboardViewerBlock>
+      {!loading && surveysAnswers && (
+        <>
+          <h2>설문 현황</h2>
+          <DashboardItem className="one">
+            <AreaRangeChart />
+          </DashboardItem>
+          <DashboardItem className="two">
+            <DonutChart />
+          </DashboardItem>
+          <DashboardItem className="three">
+            <BarChart />
+          </DashboardItem>
+        </>
+      )}
+    </DashboardViewerBlock>
   );
 };
 

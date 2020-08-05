@@ -71,27 +71,32 @@ const AnalysisItem = styled.div`
 
 // 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
 const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
+  if (error) {
+    return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
+  }
   return (
-    <>
-      <AnalysisViewerBlock>
-        <h2>설문 분석</h2>
-        <AnalysisItem className="one">
-          <LineChart />
-        </AnalysisItem>
-        <AnalysisItem className="two">
-          <LineChart />
-        </AnalysisItem>
-        <AnalysisItem className="three">
-          <LineChart />
-        </AnalysisItem>
-        <AnalysisItem className="four">
-          <LineChart />
-        </AnalysisItem>
-        <AnalysisItem className="five">
-          <LineChart />
-        </AnalysisItem>
-      </AnalysisViewerBlock>
-    </>
+    <AnalysisViewerBlock>
+      {!loading && surveyAnswer && (
+        <>
+          <h2>설문 분석</h2>
+          <AnalysisItem className="one">
+            <LineChart />
+          </AnalysisItem>
+          <AnalysisItem className="two">
+            <LineChart />
+          </AnalysisItem>
+          <AnalysisItem className="three">
+            <LineChart />
+          </AnalysisItem>
+          <AnalysisItem className="four">
+            <LineChart />
+          </AnalysisItem>
+          <AnalysisItem className="five">
+            <LineChart />
+          </AnalysisItem>
+        </>
+      )}
+    </AnalysisViewerBlock>
   );
 };
 
