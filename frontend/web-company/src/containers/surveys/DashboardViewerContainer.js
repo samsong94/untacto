@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 const DashboardViewerContainer = ({ history }) => {
   const dispatch = useDispatch();
-  const { surveysAnswers, error, loading, user, companyId } = useSelector(
+  const { surveysAnswers, error, loading, user } = useSelector(
     ({ surveysAnswers, loading, user }) => ({
       surveysAnswers: surveysAnswers.surveysAnswers,
       error: surveysAnswers.error,
@@ -15,17 +15,15 @@ const DashboardViewerContainer = ({ history }) => {
     }),
   );
   useEffect(() => {
+    console.log('user :', user);
     if (!user) {
       history.push('/login');
+    } else {
+      const { companyId } = user;
+      console.log('companyId: ', companyId);
+      dispatch(readSurveysAnswers({ companyId }));
     }
-  }, [history, user]);
-  if (user) {
-    const { companyId } = user;
-    console.log(companyId);
-  }
-  useEffect(() => {
-    dispatch(readSurveysAnswers({ companyId }));
-  }, [dispatch, companyId]);
+  }, [history, user, dispatch]);
 
   if (user) {
     return (

@@ -6,7 +6,7 @@ import { listSurveys } from '../../modules/surveys';
 
 const SurveyListContainer = ({ match, history }) => {
   const dispatch = useDispatch();
-  const { surveys, error, loading, user, companyId } = useSelector(
+  const { surveys, error, loading, user } = useSelector(
     ({ surveys, loading, user }) => ({
       surveys: surveys.surveys,
       error: surveys.error,
@@ -15,17 +15,16 @@ const SurveyListContainer = ({ match, history }) => {
     }),
   );
   useEffect(() => {
+    console.log('user :', user);
     if (!user) {
       history.push('/login');
+    } else {
+      const { companyId } = user;
+      console.log('companyId: ', companyId);
+      dispatch(listSurveys({ companyId }));
     }
-  }, [history, user]);
-  if (user) {
-    const { companyId } = user;
-    console.log(companyId);
-  }
-  useEffect(() => {
-    dispatch(listSurveys({ companyId }));
-  }, [dispatch, companyId]);
+  }, [history, user, dispatch]);
+
   return <SurveyList loading={loading} error={error} surveys={surveys} />;
 };
 
