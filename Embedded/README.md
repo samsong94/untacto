@@ -72,7 +72,9 @@ sudo apt-get install python3-pyqt5.qtsql
 pip3 install imutils
 pip3 uninstall opencv-python
 pip3 install opencv-contrib-python==4.1.0.25
-pip3 install 
+
+apt-get install python3-pyqt5 qttools5-dev-tools python3-pyqt5.qtsql libqt5sql5-mysql
+sudo pip install firebase-admin
 ```
 
 ## Submit Data
