@@ -4,7 +4,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const path = require('path');
 
-router.post('/',function(req,res,next){
+router.get('/',function(req,res,next){
 	var companyId = res.locals.userId;
 	var surveyId = req.params.id;
 	var connection = mysql.createConnection({
