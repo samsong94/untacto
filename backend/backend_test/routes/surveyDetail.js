@@ -6,7 +6,8 @@ const path = require('path');
 
 router.get('/',function(req,res,next){
 	var companyId = res.locals.userId;
-	var surveyId = req.params.id;
+	var surveyId = res.locals.id;
+	console.log(surveyId);
 	var connection = mysql.createConnection({
 		host: 'localhost',
 		post: 3306,
@@ -20,7 +21,7 @@ router.get('/',function(req,res,next){
 			if(!err){
 				console.log(rows);
 				console.log("answer select success");
-				var sql = "select title, kioskId, description_survey, createdAt, expiresAt from survey wher surveyId="+surveyId+" and userId ="+companyId+";";
+				var sql = "select title, kioskId, description_survey, createdAt, expiresAt from survey where surveyId = "+surveyId+" and userId = "+companyId+";";
 				connection.query(sql,function(err,rows,fields){
 						connection.end();
 						if(!err){
