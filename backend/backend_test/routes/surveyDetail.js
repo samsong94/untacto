@@ -16,8 +16,8 @@ router.get('/',function(req,res,next){
 		database: 'project1'
 	});
 	connection.connect();
-	var sql1 = "select emotions from answer where surveyId="+surveyId+" and userId="+companyId+";";
-	var sql2 = "select title, kioskId, description_survey, createdAt, expiresAt from survey where surveyId = "+surveyId+" and userId = "+companyId+";";
+	var sql1 = "select COUNT(*) as cnt from answer where surveyId="+surveyId+" and userId="+companyId+";";
+	var sql2 = "select title, kioskId, description_survey, createdAt, beginsAt,expiresAt from survey where surveyId = "+surveyId+" and userId = "+companyId+";";
 	var sql3 = "select userName from user where userId = "+companyId+";";
 	var sql4 = "select location from kiosk where kioskId = ";
 	//answer sql
@@ -25,7 +25,7 @@ router.get('/',function(req,res,next){
 	connection.query(sql1,function(err,rows,fields){
 			if(!err){
 				console.log("answer select success");
-				send_message="answer:"+rows[0]['emotions']+",";
+				send_message="answer: "+rows[0]['cnt']+",";
 			}
 			else{
 				console.log("answer select error");
@@ -40,6 +40,7 @@ router.get('/',function(req,res,next){
 				var kioskId = rows[0]['kioskId'];
 				var description_survey = rows[0]['description_survey'];
 				var createdAt = rows[0]['createdAt'];
+				var beginsAt = rows[0]['beginsAt'];
 				var expiresAt = rows[0]['expiresAt'];
 				sql4+=kioskId+";";
 				//kiosk sql
@@ -56,7 +57,7 @@ router.get('/',function(req,res,next){
 						console.log(err2);
 					}
 				});
-				send_message+="title:"+title+",createdAt:"+createdAt+",expiresAt:"+expiresAt+",description:"+description_survey+",";
+				send_message+="title: "+title+",createdAt: "+createdAt+",expiresAt: "+expiresAt+",description: "+description_survey+",beginsAt: "+beginsAt+",";
 			}
 			else{
 				console.log("survey select error");
@@ -68,7 +69,7 @@ router.get('/',function(req,res,next){
 			connection.end();
 			if(!err){
 				var companyName = rows[0]['userName'];
-				send_message+="user:{companyName:"+companyName+",userId:"+companyId+"},";
+				send_message+="user:{companyName: "+companyName+",userId: "+companyId+"},";
 			}
 			else{
 				console.log("user select error");
