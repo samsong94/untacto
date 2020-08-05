@@ -5,11 +5,10 @@ import BillboardChart from 'react-billboardjs';
 import 'react-billboardjs/lib/billboard.css';
 
 const CHART_DATA = {
-  columns: [
-    //["total", 230, 200, 100, 400, 150],
-    ['man', 130, 90, 40, 200, 100],
-    ['woman', 100, 110, 60, 200, 50],
-  ],
+  json: {
+    man: [],
+    woman: [],
+  },
   data: { groups: [['man', 'waman']] },
   type: 'bar',
   labels: {
@@ -25,7 +24,8 @@ const SIZE = {
 const CHART_AXIS = {
   //rotated: true,
   x: {
-    categories: ['A광고', 'B광고', 'C광고', 'D광고', 'F광고'],
+    //categories: [],
+    categories: ['A', 'B', 'C', 'D', 'E'],
     type: 'category',
   },
 };
@@ -39,6 +39,7 @@ class BarChart extends PureComponent {
 
   state = {
     data: null,
+    x: null,
   };
 
   componentDidMount() {
@@ -46,16 +47,24 @@ class BarChart extends PureComponent {
       this.setState(
         () => ({
           data: CHART_DATA,
+          x: CHART_AXIS,
         }),
-        //() => {
-        //  setTimeout(() => {
-        //    this.element.loadData({
-        //      columns: [["data3", 130, 150, 200, 300, 200, 100]],
-        //    });
-
-        //    console.log(BillboardChart.getInstances());
-        //  }, 1000);
-        //}
+        () => {
+          setTimeout(() => {
+            this.element.loadData({
+              json: {
+                man: [130, 90, 40, 200, 100],
+                woman: [100, 110, 60, 200, 50],
+              },
+            });
+            //this.element.loadData({
+            //  x: {
+            //    categories: ['A', 'B', 'C', 'D', 'E'],
+            //  },
+            //});
+            //console.log(BillboardChart.getInstances());
+          }, 1000);
+        },
       );
     }, 1000);
   }

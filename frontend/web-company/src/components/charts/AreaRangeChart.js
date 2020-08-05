@@ -9,20 +9,12 @@ const LINE_CHART_DATA = {
     color: '#ffffff',
   },
   x: 'x',
-  columns: [
-    [
-      'x',
-      '2013-01-01',
-      '2013-01-02',
-      '2013-01-03',
-      '2013-01-04',
-      '2013-01-05',
-      '2013-01-06',
-    ],
-    ['total', 130, 240, 200, 500, 250, 350],
-    ['survey1', 60, 120, 40, 50, 100, 120],
-    ['survey2', 70, 120, 160, 450, 150, 230],
-  ],
+  json: {
+    x: [],
+    total: [],
+    survey1: [],
+    survey2: [],
+  },
   types: {
     total: 'area',
     survey1: 'area',
@@ -52,25 +44,34 @@ class AreaRangeChart extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState(
-        ({ data }) => {
-          return {
-            data: {
-              ...data,
-              columns: data.columns.map((values) => {
-                return values[0] === 'data3'
-                  ? ['survey-3', 150, 140, 110, 155, 130, 115]
-                  : values;
-              }),
-            },
-          };
+        () => ({
+          data: LINE_CHART_DATA,
+        }),
+        () => {
+          setTimeout(() => {
+            this.element.loadData({
+              json: {
+                x: [
+                  '2013-01-01',
+                  '2013-01-02',
+                  '2013-01-03',
+                  '2013-01-04',
+                  '2013-01-05',
+                  '2013-01-06',
+                ],
+                total: [130, 240, 200, 500, 250, 350],
+                survey1: [60, 120, 40, 50, 100, 120],
+                survey2: [70, 120, 160, 450, 150, 230],
+              },
+            });
+            //this.element.loadData({
+            //  x: {
+            //    categories: ['A', 'B', 'C', 'D', 'E'],
+            //  },
+            //});
+            //console.log(BillboardChart.getInstances());
+          }, 1000);
         },
-        //() => {
-        //  setTimeout(() => {
-        //    this.element.unloadData({
-        //      ids: "data1",
-        //    });
-        //  }, 1000);
-        //}
       );
     }, 1000);
   }
