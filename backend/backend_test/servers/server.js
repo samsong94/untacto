@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 const app = express();
 const bodyParser = require('body-parser');
-const port =process.env.PORT || 3101;
+const port =process.env.PORT || 8080;
 const cookieParser = require('cookie-parser');
 
 const route = require('../routes/index');
@@ -25,7 +25,7 @@ app.use('/api/auth/logout', logoutRouter);
 app.use('/api/auth/check', checkRouter);
 app.use('/api/surveys',createSurveyRouter);
 app.use('/api/surveys?', showSurveyListRouter);
-app.use('/api/answers/:id',detailRouter);
+app.use('/api/surveys/:id',detailRouter);
 
 app.listen(port, ()=>{
     console.log(`express is running on ${port}`);
