@@ -4,11 +4,14 @@ const router = express.Router();
 const mysql = require('mysql');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const url = require('url');
 
 router.use(cookieParser());
 
 router.get('/', function(req, res, next){
-	var companyId = req.cookies.companyId;
+	var companyId = res.locals.query.companyId; //get query from middleware
+
+	//connect DB
 	var connection = mysql.createConnection({
 			host: 'localhost',
 			post: 3306,
@@ -18,9 +21,10 @@ router.get('/', function(req, res, next){
 	});
 	connection.connect();
 
+	//sql query
 	var sql_count = 'select count(*) as cnt from survey where userId=\'' + companyId + '\''; 
 	var sql_list = 'select * from survey where userId=\'' + companyId + '\'';
-	var sql_company = 'select * from user where userId=\'' + companyId + '\'';
+	var sql_company = 'select userId, userName from user where userId=\'' + companyId + '\'';
 	var sql_kiosk = 'select * from kiosk';
 	var sql_kiosk_count = 'select count(*) as k_cnt from kiosk';
 
@@ -28,7 +32,7 @@ router.get('/', function(req, res, next){
 	var k_cnt;
 	connection.query(sql_kiosk_count, function(err_k_cnt, rows_k_cnt, fields_k_cnt){
 		if(!err_k_cnt){
-			console.log('count kiosk list');
+			//console.log('count kiosk list');
 			k_cnt = rows_k_cnt[0]['k_cnt'];
 		} else {
 			throw err_k_cnt;
@@ -38,7 +42,7 @@ router.get('/', function(req, res, next){
 	var kiosk = new Array();
 	connection.query(sql_kiosk, function(err_kiosk, rows_kiosk, fields_kiosk){
 		if(!err_kiosk){
-			console.log('get kiosk list');
+			//console.log('get kiosk list');
 			for(var i=0; i<k_cnt; i++){
 				kiosk.push(rows_kiosk[i]);
 			}
@@ -50,7 +54,7 @@ router.get('/', function(req, res, next){
 	var count_survey;
 	connection.query(sql_count, function(err_count, rows_count, fields_count){
 		if(!err_count){
-			console.log('count survey list');
+			//console.log('count survey list');
 			count_survey = rows_count[0]['cnt'];
 		} else {
 			throw err_count;
@@ -60,14 +64,13 @@ router.get('/', function(req, res, next){
 	var company_information = new Object();
 	connection.query(sql_company, function(err_company, rows_company, fields_company){
 		if(!err_company){
-			console.log('get information about a company');
+			//console.log('get information about a company');
 			//for converting from 'user*' to 'company*'
 			company_information = rows_company[0];
 			company_information.companyId = company_information.userId;
 			company_information.companyName = company_information.userName; 
 			delete company_information.userId;
 			delete company_information.userName;
-
 		} else {
 			throw err_company;
 		}
@@ -75,23 +78,25 @@ router.get('/', function(req, res, next){
 	//set state in surveys 
 	connection.query(sql_list, function(err_list, rows_list, fields_list){
 		if(!err_list){
-			console.log('set state in surveys');
+			//console.log('set state in surveys');
 
 			var companyObj = new Object();
 			var survey_list = new Array();
 			for(var i=0; i<count_survey; i++){
 				var kioskId = rows_list[i].kioskId;
+				var description = rows_list[i].description_survey;
 				delete rows_list[i].companyId;
 				delete rows_list[i].userId;
 				delete rows_list[i].kioskId;
-				rows_list[i].company = JSON.stringify(company_information);
-				rows_list[i].companyId = companyId;
+				delete rows_list[i].description_survey;
+				rows_list[i].user = JSON.stringify(company_information);
 				rows_list[i].kiosk = JSON.stringify(kiosk[kioskId]);
+				rows_list[i].description = description;
 				survey_list.push(rows_list[i]);
 			}
 			companyObj.surveyList = survey_list;
 			console.log(companyObj);
-			res.json(companyObj);
+			res.json(survey_list);
 		} else {
 			throw err_list;
 		}
