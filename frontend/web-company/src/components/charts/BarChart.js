@@ -1,5 +1,5 @@
 // external dependencies
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 //import PropTypes from "prop-types";
 import BillboardChart from 'react-billboardjs';
 import 'react-billboardjs/lib/billboard.css';

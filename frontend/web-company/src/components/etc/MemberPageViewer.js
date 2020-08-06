@@ -42,7 +42,7 @@ const HelpViewerBlock = styled(Main)`
     top: 50%;
     left: 75%;
     width: 100%;
-    heigth: 100%;
+    height: 100%;
     object-fit: cover;
     transform: translate(-50%, -50%);
   }
@@ -108,7 +108,7 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
             <div class="flipper">
               <div class="front">
                 <div className="box">
-                  <img className="profile" src="imgs/psw.jpg" />
+                  <img className="profile" src="imgs/psw.jpg" alt="profile" />
                 </div>
               </div>
               <div class="back">
@@ -130,7 +130,7 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
             <div class="flipper">
               <div class="front">
                 <div className="box">
-                  <img className="profile" src="imgs/sjh.jpg" />
+                  <img className="profile" src="imgs/sjh.jpg" alt="profile" />
                 </div>
               </div>
               <div class="back">
@@ -152,7 +152,7 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
             <div class="flipper">
               <div class="front">
                 <div className="box">
-                  <img className="profile" src="imgs/lsj.jpg" />
+                  <img className="profile" src="imgs/lsj.jpg" alt="profile" />
                 </div>
               </div>
               <div class="back">
@@ -174,7 +174,7 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
             <div class="flipper">
               <div class="front">
                 <div className="box">
-                  <img className="profile" src="imgs/cyb.jpg" />
+                  <img className="profile" src="imgs/cyb.jpg" alt="profile" />
                 </div>
               </div>
               <div class="back">
@@ -196,7 +196,7 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
             <div class="flipper">
               <div class="front">
                 <div className="box">
-                  <img className="profile" src="imgs/hsm.jpg" />
+                  <img className="profile" src="imgs/hsm.jpg" alt="profile" />
                 </div>
               </div>
               <div class="back">

@@ -1,5 +1,5 @@
 // external dependencies
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 import BillboardChart from 'react-billboardjs';
 import 'react-billboardjs/lib/billboard.css';
 
@@ -22,4 +22,3 @@ const LineChart = ({ data }) => {
 };
 
 export default LineChart;
-

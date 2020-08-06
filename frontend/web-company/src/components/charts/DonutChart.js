@@ -1,5 +1,5 @@
 // external dependencies
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 import BillboardChart from 'react-billboardjs';
 import 'react-billboardjs/lib/billboard.css';
 
@@ -10,7 +10,6 @@ const SIZE = {
 const STYLE = {
   display: 'inline-block',
 };
-
 
 const DonutChart = ({ data }) => {
   // const displayName = 'areaRangeChart';
