@@ -21,11 +21,12 @@ router.get('/',function(req,res,next){
 	var sql3 = "select userName from user where userId = "+companyId+";";
 	var sql4 = "select location from kiosk where kioskId = ";
 	//answer sql
-	var send_message="error";
+	var answer;
 	connection.query(sql1,function(err,rows,fields){
 			if(!err){
 				console.log("answer select success");
-				send_message="answer: "+rows[0]['cnt']+",";
+				answer = rows[0]['cnt'];
+				send_message="{answer: "+rows[0]['cnt']+",";
 			}
 			else{
 				console.log("answer select error");
@@ -33,31 +34,51 @@ router.get('/',function(req,res,next){
 			}
 	});
 	//survey sql
+	var title;
+	var kioskId;
+	var description;
+	var createdAt;
+	var beginsAt;
+	var expiresAt;
+	var location;
 	connection.query(sql2,function(err,rows,fields){
 			if(!err){
 				console.log("survey select success");
-				var title = rows[0]['title'];
-				var kioskId = rows[0]['kioskId'];
-				var description_survey = rows[0]['description_survey'];
-				var createdAt = rows[0]['createdAt'];
-				var beginsAt = rows[0]['beginsAt'];
-				var expiresAt = rows[0]['expiresAt'];
+				title = rows[0]['title'];
+				kioskId = rows[0]['kioskId'];
+				description = rows[0]['description_survey'];
+				createdAt = rows[0]['createdAt'];
+				beginsAt = rows[0]['beginsAt'];
+				expiresAt = rows[0]['expiresAt'];
 				sql4+=kioskId+";";
 				//kiosk sql
 				connection.query(sql4,function(err2,rows2,fields2){
 					if(!err2){
 						console.log("kiosk select success");
-						var location_kiosk = rows2[0]['location'];
-						send_message+="kiosk:{kioskId: "+kioskId+",location: "+location_kiosk+"}";
-						console.log(send_message);
-						res.json(send_message);
+						location = rows2[0]['location'];
+						res.json({
+							title:title,
+							answer: answer,
+							kiosk:{
+								kioskId: kioskId,
+								location: location
+							},
+							user:{
+								companyName: companyName,
+								userId: companyId
+							},
+							createdAt: createdAt,
+							expiresAt: expiresAt,
+							description: description,
+							beginsAt: beginsAt
+
+						});
 					}
 					else{
 						console.log("kiosk select error");
 						console.log(err2);
 					}
 				});
-				send_message+="title: "+title+",createdAt: "+createdAt+",expiresAt: "+expiresAt+",description: "+description_survey+",beginsAt: "+beginsAt+",";
 			}
 			else{
 				console.log("survey select error");
@@ -65,11 +86,11 @@ router.get('/',function(req,res,next){
 			}
 	});
 	//user sql
+	var companyName
 	connection.query(sql3,function(err,rows,fields){
 			connection.end();
 			if(!err){
-				var companyName = rows[0]['userName'];
-				send_message+="user:{companyName: "+companyName+",userId: "+companyId+"},";
+				companyName = rows[0]['userName'];
 			}
 			else{
 				console.log("user select error");
