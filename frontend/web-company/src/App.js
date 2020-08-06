@@ -9,6 +9,7 @@ import WritePage from './pages/WritePage';
 import MemberPage from './pages/MemberPage';
 import HelpPage from './pages/HelpPage';
 import CustomerHomePage from './pages/CustomerHomePage';
+import CustomerLoginPage from './pages/CustomerLoginPage';
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
       <Route component={LoginPage} path={'/login'} />
       <Route component={MemberPage} path={'/member'} exact />
       <Route component={HelpPage} path={'/help'} exact />
-      <Route component={CustomerHomePage} path={'/customer'} exact />
+      <Route component={CustomerLoginPage} path={'/customerlogin'} />
+      <Route component={CustomerHomePage} path={'/customer/:customerId'} />
     </>
   );
 }

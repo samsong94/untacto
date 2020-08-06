@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import Button from './Button';
 import palette from '../../lib/styles/palette';
@@ -17,6 +17,11 @@ const MobileHeaderBlock = styled.div`
   @media (max-width: 768px) {
     display: block;
   }
+  ${(props) =>
+    props.isCustomer &&
+    css`
+      display: block;
+    `}
 `;
 
 const Wrapper = styled.div`
@@ -79,11 +84,13 @@ const Menus = styled.div`
 
 const MobileHeader = ({ user, onLogout, match }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const isCustomer = match.path.split('/')[1] === 'customer';
+  const isCustomer =
+    match.path.split('/')[1] === 'customer' ||
+    match.path.split('/')[1] === 'customerlogin';
   console.log(isCustomer);
   return (
     <>
-      <MobileHeaderBlock>
+      <MobileHeaderBlock isCustomer={isCustomer}>
         {isCustomer && (
           <Wrapper>
             <div className="logo-customer">UNTACTO</div>
