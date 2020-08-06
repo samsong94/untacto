@@ -8,7 +8,7 @@ import SurveyPage from './pages/SurveyPage';
 import WritePage from './pages/WritePage';
 import MemberPage from './pages/MemberPage';
 import HelpPage from './pages/HelpPage';
-import CustomerHomePage from './pages/CustomerHomePage';
+import CustomerInfoPage from './pages/CustomerInfoPage';
 import CustomerLoginPage from './pages/CustomerLoginPage';
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
       <Route component={MemberPage} path={'/member'} exact />
       <Route component={HelpPage} path={'/help'} exact />
       <Route component={CustomerLoginPage} path={'/customerlogin'} />
-      <Route component={CustomerHomePage} path={'/customer/:customerId'} />
+      <Route component={CustomerInfoPage} path={'/customer/:customerId'} />
     </>
   );
 }
