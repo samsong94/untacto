@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
-import AreaRangeChart from '../charts/AreaRangeChart';
 import DonutChart from '../charts/DonutChart';
 import BarChart from '../charts/BarChart';
+import AreaRangeChartContainer from '../../containers/charts/AreaRangeChartContainer';
 
 const DashboardViewerBlock = styled(Main)`
   display: grid;
@@ -62,7 +62,7 @@ const DashboardViewer = ({ surveysAnswers, error, loading }) => {
         <>
           <h2>설문 현황</h2>
           <DashboardItem className="one">
-            <AreaRangeChart />
+            <AreaRangeChartContainer />
           </DashboardItem>
           <DashboardItem className="two">
             <DonutChart />
