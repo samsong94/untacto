@@ -49,8 +49,8 @@ export function* customerAuthSaga() {
 const initialState = {
   customerLogin: {
     phoneNumber: '',
-    gender: 'male',
-    age: '20',
+    gender: '',
+    age: '',
   },
   customerAuth: null,
   customerAuthError: null,

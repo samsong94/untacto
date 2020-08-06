@@ -1,11 +1,15 @@
 import React from 'react';
 import MobileHeader from '../components/common/MobileHeader';
+import CustomerLoginForm from '../containers/customer/CustomerLoginForm';
+import CustomerAuthTemplate from '../components/customer/CustomerAuthTemplate';
 
 const CustomerLoginPage = () => {
   return (
     <>
       <MobileHeader />
-      <h1>Customer Login Page</h1>
+      <CustomerAuthTemplate>
+        <CustomerLoginForm />
+      </CustomerAuthTemplate>
     </>
   );
 };
