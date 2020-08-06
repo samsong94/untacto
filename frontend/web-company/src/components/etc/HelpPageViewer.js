@@ -19,7 +19,7 @@ const HelpViewerBlock = styled(Main)`
     margin: 0;
   }
 
-  .accordion a {
+  .accordion div {
     position: relative;
     display: -webkit-box;
     display: -webkit-flex;
@@ -38,24 +38,26 @@ const HelpViewerBlock = styled(Main)`
     border-bottom: 1px solid #e5e5e5;
   }
 
-  .accordion a:hover,
-  .accordion a:hover::after {
+  .accordion div:hover,
+  .accordion div:hover::after {
     cursor: pointer;
     color: ${palette.indigo[5]};
   }
 
-  .accordion a:hover::after {
+  .accordion div:hover::after {
     border: 1px solid ${palette.indigo[5]};
   }
 
-  .accordion a.active {
+  .accordion div.active {
     color: ${palette.indigo[5]};
     border-bottom: 1px solid ${palette.indigo[5]};
   }
 
-  .accordion a::after {
+  .accordion div::after {
     font-family: 'Ionicons';
-    content: '\f218';
+     {
+      /*content: '\f218';*/
+    }
     position: absolute;
     float: right;
     right: 1rem;
@@ -71,11 +73,37 @@ const HelpViewerBlock = styled(Main)`
     text-align: center;
   }
 
-  .accordion a.active::after {
+  .accordion div.active::after {
     font-family: 'Ionicons';
     content: '\f209';
     color: #ff5353;
     border: 1px solid #ff5353;
+  }
+
+  .accordion .content {
+    opacity: 0;
+    padding: 0 1rem;
+    max-height: 0;
+    border-bottom: 1px solid #e5e5e5;
+    overflow: hidden;
+    clear: both;
+    -webkit-transition: all 0.2s ease 0.15s;
+    -o-transition: all 0.2s ease 0.15s;
+    transition: all 0.2s ease 0.15s;
+  }
+
+  .accordion .content p {
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .accordion .content.active {
+    opacity: 1;
+    padding: 1rem;
+    max-height: 100%;
+    -webkit-transition: all 0.35s ease 0.15s;
+    -o-transition: all 0.35s ease 0.15s;
+    transition: all 0.35s ease 0.15s;
   }
 
   @media (max-width: 1024px) {
@@ -113,7 +141,7 @@ const HelpViewerBlock = styled(Main)`
 */
 
 //javascript 파일 내용인데 적용이 안되는거 같아요,,
-const items = document.querySelectorAll('.accordion a');
+const items = document.querySelectorAll('.accordion div');
 
 function toggleAccordion() {
   this.classList.toggle('active');

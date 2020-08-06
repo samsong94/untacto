@@ -15,57 +15,7 @@ const HelpViewerBlock = styled(Main)`
   }
 
   .trash {
-    padding: 2rem;
-  }
-  .t1 {
-    padding: 1.2rem;
-    .front {
-      background: url('https://user-images.githubusercontent.com/48918003/89265525-981d6a80-d66f-11ea-8d52-9f000338642c.jpg')
-        no-repeat;
-      background-size: 100% 100%;
-    }
-    .back {
-    }
-  }
-  .t2 {
-    padding: 1.2rem;
-    .front {
-      background: url('https://user-images.githubusercontent.com/48918003/89265586-af5c5800-d66f-11ea-86e0-fad5b630cedc.jpg')
-        no-repeat;
-      background-size: 100% 100%;
-    }
-    .back {
-    }
-  }
-  .t3 {
-    padding: 1.2rem;
-    .front {
-      background: url('https://user-images.githubusercontent.com/48918003/89265636-c1d69180-d66f-11ea-84d0-4726787309a7.jpg')
-        no-repeat;
-      background-size: 100% 100%;
-    }
-    .back {
-    }
-  }
-  .t4 {
-    padding: 1.2rem;
-    .front {
-      background: url('https://user-images.githubusercontent.com/48918003/89261383-ec711c00-d668-11ea-957c-dea3a5670f71.jpg')
-        no-repeat;
-      background-size: 100% 100%;
-    }
-    .back {
-    }
-  }
-  .t5 {
-    padding: 1.2rem;
-    .front {
-      background: url('https://user-images.githubusercontent.com/48918003/89260562-7c15cb00-d667-11ea-92bf-af8f5858395b.jpg')
-        no-repeat;
-      background-size: 100% 100%;
-    }
-    .back {
-    }
+    padding: 1rem;
   }
 
   .flip-container {
@@ -79,7 +29,6 @@ const HelpViewerBlock = styled(Main)`
     /* for firefox 31 */
     transform: rotateY(0deg);
     background-size: 100% 100%;
-    border-radius: 70%;
   }
   /* back, initially hidden pane */
   .back {
@@ -87,12 +36,14 @@ const HelpViewerBlock = styled(Main)`
     transform: rotateY(180deg);
     background: ${palette.indigo[5]} no-repeat;
     background-size: 100% 100%;
-    border-radius: 70%;
   }
   .back_box {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 75%;
+    width: 100%;
+    heigth: 100%;
+    object-fit: cover;
     transform: translate(-50%, -50%);
   }
 
@@ -105,8 +56,9 @@ const HelpViewerBlock = styled(Main)`
   .flip-container,
   .front,
   .back {
-    width: 250px;
-    height: 350px;
+    width: 200px;
+    height: 200px;
+    border-radius: 30%;
     /*border:1px solid lightgray;*/
   }
   /* flip speed goes here */
@@ -122,6 +74,21 @@ const HelpViewerBlock = styled(Main)`
     position: absolute;
     backface-visibility: hidden;
   }
+
+  .box {
+    background: white;
+    width: 200px;
+    height: 200px;
+    border-radius: 30%;
+    overflow: hidden;
+    border: 0.1px dashed ${palette.gray[5]};
+  }
+  .profile {
+    margin-top: 0px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 //내용은 나중에 바꿉시다..
@@ -131,69 +98,114 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
       <HelpViewerBlock>
         <h2>Member</h2>
         <div className="trash"></div>
-        <div className="t1" style={{ display: 'inline-block' }}>
+
+        <div class="t1" style={{ margin: '20px', display: 'inline-block' }}>
           <div
-            className="flip-container"
+            class="flip-container"
             ontouchstart="this.classList.toggle('hover');"
+            style={{ display: 'inline-block' }}
           >
-            <div className="flipper">
-              <div className="front"></div>
-              <div className="back">
-                <div className="back_box">박성우</div>
+            <div class="flipper">
+              <div class="front">
+                <div className="box">
+                  <img className="profile" src="imgs/psw.jpg" />
+                </div>
+              </div>
+              <div class="back">
+                <div className="back_box">Backend</div>
               </div>
             </div>
           </div>
+          <div className="trash">
+            <text>팀장 박성우</text>
+          </div>
         </div>
-        <div className="t2" style={{ display: 'inline-block' }}>
+
+        <div class="t1" style={{ margin: '20px', display: 'inline-block' }}>
           <div
-            className="flip-container"
+            class="flip-container"
             ontouchstart="this.classList.toggle('hover');"
+            style={{ display: 'inline-block' }}
           >
-            <div className="flipper">
-              <div className="front"></div>
-              <div className="back">
-                <div className="back_box">송재훈</div>
+            <div class="flipper">
+              <div class="front">
+                <div className="box">
+                  <img className="profile" src="imgs/sjh.jpg" />
+                </div>
+              </div>
+              <div class="back">
+                <div className="back_box">Backend</div>
               </div>
             </div>
           </div>
+          <div className="trash">
+            <text>팀원 송재훈</text>
+          </div>
         </div>
-        <div className="t3" style={{ display: 'inline-block' }}>
+
+        <div class="t1" style={{ margin: '20px', display: 'inline-block' }}>
           <div
-            className="flip-container"
+            class="flip-container"
             ontouchstart="this.classList.toggle('hover');"
+            style={{ display: 'inline-block' }}
           >
-            <div className="flipper">
-              <div className="front"></div>
-              <div className="back">
-                <div className="back_box">이승진</div>
+            <div class="flipper">
+              <div class="front">
+                <div className="box">
+                  <img className="profile" src="imgs/lsj.jpg" />
+                </div>
+              </div>
+              <div class="back">
+                <div className="back_box">Embedded</div>
               </div>
             </div>
           </div>
+          <div className="trash">
+            <text>팀원 이승진</text>
+          </div>
         </div>
-        <div className="t4" style={{ display: 'inline-block' }}>
+
+        <div class="t1" style={{ margin: '20px', display: 'inline-block' }}>
           <div
-            className="flip-container"
+            class="flip-container"
             ontouchstart="this.classList.toggle('hover');"
+            style={{ display: 'inline-block' }}
           >
-            <div className="flipper">
-              <div className="front"></div>
-              <div className="back">
-                <div className="back_box">차영부</div>
+            <div class="flipper">
+              <div class="front">
+                <div className="box">
+                  <img className="profile" src="imgs/cyb.jpg" />
+                </div>
+              </div>
+              <div class="back">
+                <div className="back_box">Frontend</div>
               </div>
             </div>
           </div>
+          <div className="trash">
+            <text>팀원 차영부</text>
+          </div>
         </div>
-        <div className="t5" style={{ display: 'inline-block' }}>
+
+        <div class="t1" style={{ margin: '20px', display: 'inline-block' }}>
           <div
-            className="flip-container"
+            class="flip-container"
             ontouchstart="this.classList.toggle('hover');"
+            style={{ display: 'inline-block' }}
           >
-            <div className="flipper">
-              <div className="front"></div>
-              <div className="back">
-                <div className="back_box">하승민</div>
+            <div class="flipper">
+              <div class="front">
+                <div className="box">
+                  <img className="profile" src="imgs/hsm.jpg" />
+                </div>
+              </div>
+              <div class="back">
+                <div className="back_box">Frontend</div>
               </div>
             </div>
+          </div>
+          <div className="trash">
+            <text>팀원 하승민</text>
           </div>
         </div>
       </HelpViewerBlock>
