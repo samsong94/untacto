@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import BillboardChart from 'react-billboardjs';
 import 'react-billboardjs/lib/billboard.css';
 
@@ -9,21 +9,8 @@ const STYLE = {
   display: 'inline-block',
 };
 
-class DonutChart extends PureComponent {
-  getRef = (ChartInstance) => {
-    this.chartInstance = ChartInstance;
-  };
-  render() {
-    return (
-      <BillboardChart
-        size={SIZE}
-        style={STYLE}
-        data={this.props.data}
-        isPure
-        ref={this.getRef}
-      />
-    );
-  }
-}
+const DonutChart = ({ data }) => {
+  return <BillboardChart data={data} size={SIZE} style={STYLE} />;
+};
 
 export default DonutChart;
