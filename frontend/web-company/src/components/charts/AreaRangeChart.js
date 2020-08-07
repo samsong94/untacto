@@ -1,9 +1,7 @@
-// external dependencies
-import React, { useEffect } from 'react';
+import React, { PureComponent } from 'react';
 import BillboardChart from 'react-billboardjs';
 import 'react-billboardjs/lib/billboard.css';
 
-//0~1 사이의 범위
 const SIZE = {
   height: 400,
 };
@@ -16,18 +14,21 @@ const CHART_AXIS = {
   },
 };
 
-const AreaRangeChart = ({ data }) => {
-  // const displayName = 'areaRangeChart';
-  useEffect(() => {});
-  return (
-    <BillboardChart
-      axis={CHART_AXIS}
-      size={SIZE}
-      data={data}
-      isPure
-      // ref={this.getRef}
-    />
-  );
-};
+class AreaRangeChart extends PureComponent {
+  getRef = (ChartInstance) => {
+    this.chartInstance = ChartInstance;
+  };
+  render() {
+    return (
+      <BillboardChart
+        axis={CHART_AXIS}
+        size={SIZE}
+        data={this.props.data}
+        isPure
+        ref={this.getRef}
+      />
+    );
+  }
+}
 
 export default AreaRangeChart;
