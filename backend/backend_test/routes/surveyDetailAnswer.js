@@ -14,13 +14,16 @@ router.get('/',function(req,res,next){
 		database: 'project1'
 	});
 	connection.connect();
-	var sql = "select emotions,timeIndex,customerId from answer where userId = "+ userId + " and surveyId = "+ surveyId +" order by timeIndex asc;";
+	var sql_all = "select emotions,timeIndex,customerId from answer where userId = "+ userId + " and surveyId = "+ surveyId +" order by timeIndex asc;";
 	var sql1 = "select COUNT(*) as cnt from answer where userId = " + userId+" and surveyId= " + surveyId+";";
 	var sql2 = "select COUNT(distinct customerId) as max from answer where userId = "+ userId+" and surveyId= " + surveyId+";";
 	var sql3 = "select MAX(timeIndex) as max from user where userId= "+userId+" and surveyId= " +surveyId+";";
 	var sql4 = "select distinct customerId from answer where userId= "+userId+" and surveyId= "+surveyId+";";
 	var sql5 = "select customerId from customer where gender = 'male' and (";
 	var sql6 = "select customerId from customer where gender = 'female' and (";
+	var sql7 = "select customerId from customer where age >= 30 and (";
+	var sql8 = "select customerId from customer where age < 30 and (";
+	var sql_chart = "select emotions,timeIndex,customerId from answer where userId= "+userId+" and surveyId = "+surveyId+" and (";
 
 	var anger = new Array();
 	var contempt = new Array();
@@ -30,7 +33,6 @@ router.get('/',function(req,res,next){
 	var neutral = new Array();
 	var sadness = new Array();
 	var surprise = new Array();
-	var customers = new Array();
 	var customer_female = new Array();
 	var customer_male = new Array();
 	var customer_young = new Array();
@@ -60,22 +62,92 @@ router.get('/',function(req,res,next){
 					customers.push(rows[i]['customerId']);
 					sql5+=" customerId = "+rows[i]['customerId'];
 					sql6+=" customerId = "+rows[i]['customerId'];
+					sql7+=" customerId = "+rows[i]['customerId'];
+					sql8+=" customerId = "+rows[i]['customerId'];
 					if(i!=customer_cnt-1){
 						sql5+=" or";
 						sql6+=" or";
+						sql7+=" or";
+						sql8+=" or";
 					}
 				}
 				sql5+=");";
 				sql6+=");";
+				sql7+=");";
+				sql8+=");";
 
 				//male chart
 				connection.query(sql5,function(err2,rows2,fields2){
-						if(!err){
-							
+						if(!err2){
+							var i = 0;
+							var sql_male = sql_chart;
+							while(rows[i]!=undefined){
+								customer_male.push(rows[i]['customerId'];
+								sql_male+=" customerId = "+rows[i]['customerId'];
+								i++;
+								if(rows[i]!=undefined){
+									sql_male+=" or";
+								}
+							}
+							sql_male+=") order by timeIndex asc;";
+							connection.query(sql_male,function(err3,rows,fields3){
+									if(!err3){
+										
+									}
+									else{
+									}
+							});
+
 						}
 						else{
+							console.log("male select error");
+							console.log(err2);
 						}
-				}
+				});
+
+				//female chart
+				connection.query(sql6,function(err2,rows2,fields2){
+						if(!err2){
+							var i =0;
+							while(rows[i]!=undefined){
+								customer_female.push(rows[i]['customerId'];
+								i++;
+							}
+						}
+						else{
+							console.log("female select error");
+							console.log(err2);
+						}
+				});
+				//old chart
+				connection.query(sql7,function(err2,rows2,fields2){
+						if(!err2){
+							var i =0;
+							while(rows[i]!=undefined){
+								customer_old.push(rows[i]['customerId'];
+								i++;
+							}
+						}
+						else{
+							console.log("old select error");
+							console.log(err2);
+						}
+				});
+				//young chart
+				connection.query(sql8,function(err2,rows2,fields2){
+						if(!err2){
+							var i =0;
+							while(rows[i]!=undefined){
+								customer_young.push(rows[i]['customerId']);
+								i++;
+							}
+						}
+						else{
+							console.log("young select error");
+							console.log(err2);
+						}
+				});
+
 			}
 	});
 	connection.query(sql,function(err,rows,fields){
