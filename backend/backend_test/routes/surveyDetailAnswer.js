@@ -119,7 +119,6 @@ router.get('/', function (req, res, next) {
 								var sum_neutral = 0;
 								var sum_sadness = 0;
 								var sum_surprise = 0;
-								console.log(i);
 								for (var j = 0; j < max; j++) {
 									sum_anger += emotions[i].anger;
 									sum_contempt += emotions[i].contempt;
@@ -140,7 +139,6 @@ router.get('/', function (req, res, next) {
 								neutral.push(sum_neutral / max);
 								sadness.push(sum_sadness / max);
 								surprise.push(sum_surprise / max);
-								console.log(anger);
 								i++;
 							}
 							male = {
@@ -153,6 +151,8 @@ router.get('/', function (req, res, next) {
 								sadness: sadness,
 								surprise: surprise
 							};
+							if(male==undefined)
+								male=null;
 						}
 						else {
 							console.log("select male error");
@@ -231,7 +231,6 @@ router.get('/', function (req, res, next) {
 								neutral.push(sum_neutral / max);
 								sadness.push(sum_sadness / max);
 								surprise.push(sum_surprise / max);
-								console.log(anger);
 								i++;
 							}
 							female = {
@@ -244,6 +243,8 @@ router.get('/', function (req, res, next) {
 								sadness: sadness,
 								surprise: surprise
 							};
+							if(female==undefined)
+								female=null;
 						}
 						else {
 							console.log("select female error");
@@ -332,6 +333,8 @@ router.get('/', function (req, res, next) {
 								sadness: sadness,
 								surprise: surprise
 							};
+							if(old==undefined)
+								old=null;
 						}
 						else {
 							console.log("select old error");
@@ -420,6 +423,8 @@ router.get('/', function (req, res, next) {
 								sadness: sadness,
 								surprise: surprise
 							};
+							if(young==undefined)
+								young=null;
 							res.json({
 								total: total,
 								young: young,
@@ -491,6 +496,8 @@ router.get('/', function (req, res, next) {
 				sadness: sadness,
 				surprise: surprise
 			};
+			if(total==undefined)
+				total=null;
 		}
 		else {
 			console.log("select emotion error");
