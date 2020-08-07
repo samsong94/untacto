@@ -34,17 +34,18 @@ const HelpViewerBlock = styled(Main)`
   .back {
     position: relative;
     transform: rotateY(180deg);
-    background: ${palette.indigo[5]} no-repeat;
+    background: white no-repeat;
     background-size: 100% 100%;
   }
   .back_box {
     position: absolute;
     top: 50%;
-    left: 75%;
+    left: 50%;
     width: 100%;
     height: 100%;
     object-fit: cover;
     transform: translate(-50%, -50%);
+    /*filter: blur(1px);*/
   }
 
   /* flip the pane when hovered */
@@ -75,7 +76,8 @@ const HelpViewerBlock = styled(Main)`
     backface-visibility: hidden;
   }
 
-  .box {
+  .box,
+  .back_box {
     background: white;
     width: 200px;
     height: 200px;
@@ -88,6 +90,27 @@ const HelpViewerBlock = styled(Main)`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .wrap {
+    margin-top: 0%;
+  }
+  .memberName {
+    width: 100%;
+    margin: 0 auto;
+    padding: 10% 10%;
+    font-size: 3em;
+    color: ${palette.gray[7]};
+    text-align: justfy;
+    text-weight: bold;
+  }
+  .partName {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0% 12%;
+    font-size: 1em;
+    color: ${palette.gray[7]};
+    text-align: justfy;
   }
 `;
 
@@ -112,15 +135,19 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
                 </div>
               </div>
               <div class="back">
-                <div className="back_box">Backend</div>
+                <div className="back_box">
+                  <img className="profile" src="imgs/Temp1.png" alt="profile" />
+                </div>
               </div>
             </div>
           </div>
-          <div className="trash">
-            <text>팀장 박성우</text>
+          <div className="trash"></div>
+          <hr></hr>
+          <div className="wrap">
+            <p className="memberName">박성우</p>
+            <p className="partName">Leader-Backend</p>
           </div>
         </div>
-
         <div class="t1" style={{ margin: '20px', display: 'inline-block' }}>
           <div
             class="flip-container"
@@ -134,12 +161,17 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
                 </div>
               </div>
               <div class="back">
-                <div className="back_box">Backend</div>
+                <div className="back_box">
+                  <img className="profile" src="imgs/Temp2.png" alt="profile" />
+                </div>
               </div>
             </div>
           </div>
-          <div className="trash">
-            <text>팀원 송재훈</text>
+          <div className="trash"></div>
+          <hr></hr>
+          <div className="wrap">
+            <p className="memberName">송재훈</p>
+            <p className="partName">Member-Backend</p>
           </div>
         </div>
 
@@ -156,12 +188,17 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
                 </div>
               </div>
               <div class="back">
-                <div className="back_box">Embedded</div>
+                <div className="back_box">
+                  <img className="profile" src="imgs/Temp3.png" alt="profile" />
+                </div>
               </div>
             </div>
           </div>
-          <div className="trash">
-            <text>팀원 이승진</text>
+          <div className="trash"></div>
+          <hr></hr>
+          <div className="wrap">
+            <p className="memberName">이승진</p>
+            <p className="partName">Member-Embedded</p>
           </div>
         </div>
 
@@ -178,12 +215,17 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
                 </div>
               </div>
               <div class="back">
-                <div className="back_box">Frontend</div>
+                <div className="back_box">
+                  <img className="profile" src="imgs/Temp4.png" alt="profile" />
+                </div>
               </div>
             </div>
           </div>
-          <div className="trash">
-            <text>팀원 차영부</text>
+          <div className="trash"></div>
+          <hr></hr>
+          <div className="wrap">
+            <p className="memberName">차영부</p>
+            <p className="partName">Member-Frontend</p>
           </div>
         </div>
 
@@ -200,12 +242,17 @@ const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
                 </div>
               </div>
               <div class="back">
-                <div className="back_box">Frontend</div>
+                <div className="back_box">
+                  <img className="profile" src="imgs/Temp5.png" alt="profile" />
+                </div>
               </div>
             </div>
           </div>
-          <div className="trash">
-            <text>팀원 하승민</text>
+          <div className="trash"></div>
+          <hr></hr>
+          <div className="wrap">
+            <p className="memberName">하승민</p>
+            <p className="partName">Member-Frontend</p>
           </div>
         </div>
       </HelpViewerBlock>
