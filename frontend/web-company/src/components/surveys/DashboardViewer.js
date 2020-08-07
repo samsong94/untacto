@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
-import AreaRangeChartContainer from '../../containers/charts/AreaRangeChartContainer';
-import BarChartContainer from '../../containers/charts/BarChartContainer';
-import DonutChartContainer from '../../containers/charts/DonutChartContainer';
+import AreaRangeChart from '../charts/AreaRangeChart';
+import BarChart from '../charts/BarChart';
+import DonutChart from '../charts/DonutChart';
 
 const DashboardViewerBlock = styled(Main)`
   display: grid;
@@ -51,27 +51,50 @@ const DashboardItem = styled.div`
   background: ${palette.indigo[1]};
 `;
 
-// 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
 const DashboardViewer = ({ surveysAnswers, error, loading }) => {
-  if (error) {
-    return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
-  }
+  // if (error) {
+  //   return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+  // }
+
+  const bySurveyData = {
+    x: 'x',
+    columns: surveysAnswers.bySurvey,
+    types: {
+      total: 'area',
+      survey1: 'area',
+      survey2: 'area',
+    },
+  };
+
+  const byAgeData = {
+    json: surveysAnswers.byAge,
+    type: 'pie',
+  };
+
+  const byGenderData = {
+    columns: surveysAnswers.byGender,
+    data: { groups: [['man', 'waman']] },
+    types: 'bar',
+    labels: {
+      colors: 'white',
+      centered: true,
+    },
+  };
+
   return (
     <DashboardViewerBlock>
-      {!loading && surveysAnswers && (
-        <>
-          <h2>설문 현황</h2>
-          <DashboardItem className="one">
-            <AreaRangeChartContainer jsonData={surveysAnswers.bySurvey} />
-          </DashboardItem>
-          <DashboardItem className="two">
-            <DonutChartContainer jsonData={surveysAnswers.byGender} />
-          </DashboardItem>
-          <DashboardItem className="three">
-            <BarChartContainer jsonData={surveysAnswers.byAge} />
-          </DashboardItem>
-        </>
-      )}
+      <>
+        <h2>설문 현황</h2>
+        <DashboardItem className="one">
+          <AreaRangeChart data={bySurveyData} />
+        </DashboardItem>
+        <DashboardItem className="two">
+          <DonutChart data={byAgeData} />
+        </DashboardItem>
+        <DashboardItem className="three">
+          <BarChart data={byGenderData} />
+        </DashboardItem>
+      </>
     </DashboardViewerBlock>
   );
 };

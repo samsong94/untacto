@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import BillboardChart from 'react-billboardjs';
 import 'react-billboardjs/lib/billboard.css';
 
@@ -7,26 +7,23 @@ const SIZE = {
 };
 const CHART_AXIS = {
   x: {
-    categories: ['A', 'B', 'C', 'D', 'E'],
+    categories: ['A', 'B', 'C', 'D', 'F'],
     type: 'category',
   },
 };
+const DOM_PROPS = {
+  'data-type': 'bar',
+};
 
-class BarChart extends PureComponent {
-  getRef = (ChartInstance) => {
-    this.chartInstance = ChartInstance;
-  };
-  render() {
-    return (
-      <BillboardChart
-        axis={CHART_AXIS}
-        size={SIZE}
-        data={this.props.data}
-        isPure
-        ref={this.getRef}
-      />
-    );
-  }
-}
+const BarChart = ({ data }) => {
+  return (
+    <BillboardChart
+      data={data}
+      size={SIZE}
+      axis={CHART_AXIS}
+      domProps={DOM_PROPS}
+    />
+  );
+};
 
 export default BarChart;

@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
-import LineChartContainer from '../../containers/charts/LineChartContainer';
+import LineChart from '../../components/charts/LineChart';
+import surveysAnswers from '../../modules/surveysAnswers';
 
 const AnalysisViewerBlock = styled(Main)`
   display: grid;
@@ -71,31 +72,51 @@ const AnalysisItem = styled.div`
 
 // 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
 const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
-  if (error) {
-    return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
-  }
+  // if (error) {
+  //   return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
+  // }
+
+  const totalData = {
+    columns: surveyAnswer.total,
+    type: 'line',
+  };
+  const youngData = {
+    columns: surveyAnswer.young,
+    type: 'line',
+  };
+  const oldData = {
+    columns: surveyAnswer.old,
+    type: 'line',
+  };
+  const maleData = {
+    columns: surveyAnswer.male,
+    type: 'line',
+  };
+  const femaleData = {
+    columns: surveyAnswer.female,
+    type: 'line',
+  };
+
   return (
     <AnalysisViewerBlock>
-      {!loading && surveyAnswer && (
-        <>
-          <h2>설문 분석</h2>
-          <AnalysisItem className="one">
-            <LineChartContainer jsonData={surveyAnswer.total} />
-          </AnalysisItem>
-          <AnalysisItem className="two">
-            <LineChartContainer jsonData={surveyAnswer.young} />
-          </AnalysisItem>
-          <AnalysisItem className="three">
-            <LineChartContainer jsonData={surveyAnswer.old} />
-          </AnalysisItem>
-          <AnalysisItem className="four">
-            <LineChartContainer jsonData={surveyAnswer.male} />
-          </AnalysisItem>
-          <AnalysisItem className="five">
-            <LineChartContainer jsonData={surveyAnswer.female} />
-          </AnalysisItem>
-        </>
-      )}
+      <>
+        <h2>설문 분석</h2>
+        <AnalysisItem className="one">
+          <LineChart data={totalData} />
+        </AnalysisItem>
+        <AnalysisItem className="two">
+          <LineChart data={youngData} />
+        </AnalysisItem>
+        <AnalysisItem className="three">
+          <LineChart data={oldData} />
+        </AnalysisItem>
+        <AnalysisItem className="four">
+          <LineChart data={maleData} />
+        </AnalysisItem>
+        <AnalysisItem className="five">
+          <LineChart data={femaleData} />
+        </AnalysisItem>
+      </>
     </AnalysisViewerBlock>
   );
 };

@@ -30,8 +30,9 @@ export function* surveysAnswersSaga() {
 // initial state
 const initialState = {
   surveysAnswers: {
-    bySurvey: {
-      x: [
+    bySurvey: [
+      [
+        'x',
         '2013-01-01',
         '2013-01-02',
         '2013-01-03',
@@ -39,18 +40,14 @@ const initialState = {
         '2013-01-05',
         '2013-01-06',
       ],
-      total: [130, 240, 200, 500, 250, 350],
-      survey1: [60, 120, 40, 50, 100, 120],
-      survey2: [70, 120, 160, 450, 150, 230],
-    },
-    byGender: {
-      man: [130, 90, 40, 200, 100],
-      woman: [100, 110, 60, 200, 50],
-      x: {
-        categories: ['A', 'B', 'C', 'D', 'E'],
-        type: 'category',
-      },
-    },
+      ['total', 130, 240, 200, 500, 250, 350],
+      ['survey1', 60, 120, 40, 50, 100, 120],
+      ['survey2', 70, 120, 160, 450, 150, 230],
+    ],
+    byGender: [
+      ['man', 130, 90, 40, 200, 100],
+      ['woman', 100, 110, 60, 200, 50],
+    ],
     byAge: {
       '~20': [2, 3, 1],
       '20~29': [1, 5, 5],

@@ -58,19 +58,19 @@ const AnalysisContent = styled.div`
 `;
 
 const SurveyViewer = ({ survey, error, loading }) => {
-  if (error) {
-    if (error.response && error.response.status === 404) {
-      return <SurveyViewerBlock>존재하지 않는 설문입니다.</SurveyViewerBlock>;
-    }
-    return <SurveyViewerBlock>오류가 발생했습니다.</SurveyViewerBlock>;
-  }
-  if (loading || !survey) {
-    return null;
-  }
-  const { title, user, createdAt, kiosk, description } = survey;
+  // if (error) {
+  //   if (error.response && error.response.status === 404) {
+  //     return <SurveyViewerBlock>존재하지 않는 설문입니다.</SurveyViewerBlock>;
+  //   }
+  //   return <SurveyViewerBlock>오류가 발생했습니다.</SurveyViewerBlock>;
+  // }
+  // if (loading || !survey) {
+  //   return null;
+  // }
+  // const { title, user, createdAt, kiosk, description } = survey;
   return (
     <SurveyViewerBlock>
-      <SurveyHead>
+      {/* <SurveyHead>
         <h1>{title}</h1>
         <Subinfo>
           <span>
@@ -83,7 +83,7 @@ const SurveyViewer = ({ survey, error, loading }) => {
       <SurveyContent>
         <h2>description</h2>
         <p>{description}</p>
-      </SurveyContent>
+      </SurveyContent> */}
       <AnalysisContent>
         <AnalysisViewerContainer />
       </AnalysisContent>

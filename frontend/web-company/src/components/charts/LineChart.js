@@ -1,25 +1,13 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import BillboardChart from 'react-billboardjs';
 import 'react-billboardjs/lib/billboard.css';
 
-const SIZE = {
-  height: 400,
+const SUBCHART = {
+  show: false,
 };
 
-class LineChart extends PureComponent {
-  getRef = (ChartInstance) => {
-    this.chartInstance = ChartInstance;
-  };
-  render() {
-    return (
-      <BillboardChart
-        size={SIZE}
-        data={this.props.data}
-        isPure
-        ref={this.getRef}
-      />
-    );
-  }
-}
+const LineChart = ({ data }) => {
+  return <BillboardChart data={data} subchart={SUBCHART} />;
+};
 
 export default LineChart;
