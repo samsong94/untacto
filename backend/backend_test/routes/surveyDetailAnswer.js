@@ -39,7 +39,7 @@ router.get('/', function (req, res, next) {
 	var customer_old = new Array();
 	var cnt;
 	var customer_cnt;
-	var all, male, female, young, old;
+	var total, male, female, young, old;
 	connection.query(sql1, function (err, rows, fields) {
 		if (!err) {
 			cnt = rows[0]['cnt'];
@@ -58,7 +58,6 @@ router.get('/', function (req, res, next) {
 	connection.query(sql4, function (err, rows, fields) {
 		if (!err) {
 			for (var i = 0; i < customer_cnt; i++) {
-				customers.push(rows[i]['customerId']);
 				sql5 += " customerId = " + rows[i]['customerId'];
 				sql6 += " customerId = " + rows[i]['customerId'];
 				sql7 += " customerId = " + rows[i]['customerId'];
@@ -80,17 +79,18 @@ router.get('/', function (req, res, next) {
 				if (!err2) {
 					var i = 0;
 					var sql_male = sql_chart;
-					while (rows[i] != undefined) {
-						customer_male.push(rows[i]['customerId']);
-						sql_male += " customerId = " + rows[i]['customerId'];
+					while (rows2[i] != undefined) {
+						customer_male.push(rows2[i]['customerId']);
+						sql_male += " customerId = " + rows2[i]['customerId'];
 						i++;
-						if (rows[i] != undefined) {
+						if (rows2[i] != undefined) {
 							sql_male += " or";
 						}
 					}
 					var max = i;
+					console.log("max: "+max);
 					sql_male += ") order by timeIndex asc;";
-					connection.query(sql_male, function (err3, rows, fields3) {
+					connection.query(sql_male, function (err3, rows3, fields3) {
 						if (!err3) {
 							anger = new Array();
 							contempt = new Array();
@@ -103,14 +103,14 @@ router.get('/', function (req, res, next) {
 							console.log("select male success");
 							var emotions = new Array();
 							var i = 0;
-							while (customer_female[i] != undefined) {
-								var emotion = JSON.parse(rows[i]['emotions']);
+							while (rows3[i] != undefined) {
+								var emotion = JSON.parse(rows3[i]['emotions']);
 								emotions.push(emotion);
 								i++;
 							}
 							i = 0;
 							//male's emotion sum during 15sec. This is for firstChart
-							while (customer_male[i] != undefined) {
+							while (rows3[i] != undefined) {
 								var sum_anger = 0;
 								var sum_contempt = 0;
 								var sum_disgust = 0;
@@ -119,6 +119,7 @@ router.get('/', function (req, res, next) {
 								var sum_neutral = 0;
 								var sum_sadness = 0;
 								var sum_surprise = 0;
+								console.log(i);
 								for (var j = 0; j < max; j++) {
 									sum_anger += emotions[i].anger;
 									sum_contempt += emotions[i].contempt;
@@ -128,7 +129,7 @@ router.get('/', function (req, res, next) {
 									sum_neutral += emotions[i].neutral;
 									sum_sadness += emotions[i].sadness;
 									sum_surprise += emotions[i].surprise;
-									if (j != max - 1)
+									if (j < max - 1)
 										i++;
 								}
 								anger.push(sum_anger / max);
@@ -171,17 +172,17 @@ router.get('/', function (req, res, next) {
 				if (!err2) {
 					var i = 0;
 					var sql_female = sql_chart;
-					while (rows[i] != undefined) {
-						customer_female.push(rows[i]['customerId']);
-						sql_female += " customerId = " + rows[i]['customerId'];
+					while (rows2[i] != undefined) {
+						customer_female.push(rows2[i]['customerId']);
+						sql_female += " customerId = " + rows2[i]['customerId'];
 						i++
-						if (rows[i] != undefined) {
+						if (rows2[i] != undefined) {
 							sql_female += " or";
 						}
 					}
 					var max = i;
 					sql_female += ") order by timeIndex asc;";
-					connection.query(sql_female, function (err3, rows, fields3) {
+					connection.query(sql_female, function (err3, rows3, fields3) {
 						if (!err3) {
 							anger = new Array();
 							contempt = new Array();
@@ -194,14 +195,14 @@ router.get('/', function (req, res, next) {
 							console.log("select female success");
 							var emotions = new Array();
 							var i = 0;
-							while (customer_female[i] != undefined) {
-								var emotion = JSON.parse(rows[i]['emotions']);
+							while (rows3[i] != undefined) {
+								var emotion = JSON.parse(rows3[i]['emotions']);
 								emotions.push(emotion);
 								i++;
 							}
 							i = 0;
 							//male's emotion sum during 15sec. This is for firstChart
-							while (customer_female[i] != undefined) {
+							while (rows3[i] != undefined) {
 								var sum_anger = 0;
 								var sum_contempt = 0;
 								var sum_disgust = 0;
@@ -219,7 +220,7 @@ router.get('/', function (req, res, next) {
 									sum_neutral += emotions[i].neutral;
 									sum_sadness += emotions[i].sadness;
 									sum_surprise += emotions[i].surprise;
-									if (j != max - 1)
+									if (j < max - 1)
 										i++;
 								}
 								anger.push(sum_anger / max);
@@ -260,17 +261,17 @@ router.get('/', function (req, res, next) {
 				if (!err2) {
 					var i = 0;
 					var sql_old = sql_chart;
-					while (rows[i] != undefined) {
-						customer_old.push(rows[i]['customerId']);
-						sql_old += " customerId = " + rows[i]['customerId'];
+					while (rows2[i] != undefined) {
+						customer_old.push(rows2[i]['customerId']);
+						sql_old += " customerId = " + rows2[i]['customerId'];
 						i++
-						if (rows[i] != undefined) {
+						if (rows2[i] != undefined) {
 							sql_old += " or";
 						}
 					}
 					var max = i;
 					sql_old += ") order by timeIndex asc;";
-					connection.query(sql_old, function (err3, rows, fields3) {
+					connection.query(sql_old, function (err3, rows3, fields3) {
 						if (!err3) {
 							anger = new Array();
 							contempt = new Array();
@@ -283,14 +284,14 @@ router.get('/', function (req, res, next) {
 							console.log("select old success");
 							var emotions = new Array();
 							var i = 0;
-							while (customer_old[i] != undefined) {
-								var emotion = JSON.parse(rows[i]['emotions']);
+							while (rows3[i] != undefined) {
+								var emotion = JSON.parse(rows3[i]['emotions']);
 								emotions.push(emotion);
 								i++;
 							}
 							i = 0;
 							//male's emotion sum during 15sec. This is for firstChart
-							while (customer_old[i] != undefined) {
+							while (rows3[i] != undefined) {
 								var sum_anger = 0;
 								var sum_contempt = 0;
 								var sum_disgust = 0;
@@ -308,7 +309,7 @@ router.get('/', function (req, res, next) {
 									sum_neutral += emotions[i].neutral;
 									sum_sadness += emotions[i].sadness;
 									sum_surprise += emotions[i].surprise;
-									if (j != max - 1)
+									if (j < max - 1)
 										i++;
 								}
 								anger.push(sum_anger / max);
@@ -319,7 +320,6 @@ router.get('/', function (req, res, next) {
 								neutral.push(sum_neutral / max);
 								sadness.push(sum_sadness / max);
 								surprise.push(sum_surprise / max);
-								console.log(anger);
 								i++;
 							}
 							old = {
@@ -349,17 +349,17 @@ router.get('/', function (req, res, next) {
 				if (!err2) {
 					var i = 0;
 					var sql_young = sql_chart;
-					while (rows[i] != undefined) {
-						customer_young.push(rows[i]['customerId']);
-						sql_young += " customerId = " + rows[i]['customerId'];
+					while (rows2[i] != undefined) {
+						customer_young.push(rows2[i]['customerId']);
+						sql_young += " customerId = " + rows2[i]['customerId'];
 						i++
-						if (rows[i] != undefined) {
+						if (rows2[i] != undefined) {
 							sql_young += " or";
 						}
 					}
 					var max = i;
 					sql_young += ") order by timeIndex asc;";
-					connection.query(sql_young, function (err3, rows, fields3) {
+					connection.query(sql_young, function (err3, rows3, fields3) {
 						if (!err3) {
 							anger = new Array();
 							contempt = new Array();
@@ -372,14 +372,14 @@ router.get('/', function (req, res, next) {
 							console.log("select young success");
 							var emotions = new Array();
 							var i = 0;
-							while (customer_young[i] != undefined) {
-								var emotion = JSON.parse(rows[i]['emotions']);
+							while (rows3[i] != undefined) {
+								var emotion = JSON.parse(rows3[i]['emotions']);
 								emotions.push(emotion);
 								i++;
 							}
 							i = 0;
 							//male's emotion sum during 15sec. This is for firstChart
-							while (customer_young[i] != undefined) {
+							while (rows3[i] != undefined) {
 								var sum_anger = 0;
 								var sum_contempt = 0;
 								var sum_disgust = 0;
@@ -397,7 +397,7 @@ router.get('/', function (req, res, next) {
 									sum_neutral += emotions[i].neutral;
 									sum_sadness += emotions[i].sadness;
 									sum_surprise += emotions[i].surprise;
-									if (j != max - 1)
+									if (j < max - 1)
 										i++;
 								}
 								anger.push(sum_anger / max);
@@ -408,7 +408,6 @@ router.get('/', function (req, res, next) {
 								neutral.push(sum_neutral / max);
 								sadness.push(sum_sadness / max);
 								surprise.push(sum_surprise / max);
-								console.log(anger);
 								i++;
 							}
 							young = {
@@ -422,7 +421,7 @@ router.get('/', function (req, res, next) {
 								surprise: surprise
 							};
 							res.json({
-								all: all,
+								total: total,
 								young: young,
 								old: old,
 								male: male,
@@ -443,7 +442,7 @@ router.get('/', function (req, res, next) {
 
 		}
 	});
-	connection.query(sql, function (err, rows, fields) {
+	connection.query(sql_all, function (err, rows, fields) {
 		if (!err) {
 			console.log("select emotion success");
 			var emotions = new Array();
@@ -481,9 +480,8 @@ router.get('/', function (req, res, next) {
 				neutral.push(sum_neutral / customer_cnt);
 				sadness.push(sum_sadness / customer_cnt);
 				surprise.push(sum_surprise / customer_cnt);
-				console.log(anger);
 			}
-			all = {
+			total = {
 				anger: anger,
 				contempt: contempt,
 				disgust: disgust,
