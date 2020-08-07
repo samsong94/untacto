@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
-import DonutChart from '../charts/DonutChart';
-import BarChart from '../charts/BarChart';
+import DonutChartContainer from '../../containers/charts/DonutChartContainer';
+import BarChartContainer from '../../containers/charts/BarChartContainer';
 import AreaRangeChartContainer from '../../containers/charts/AreaRangeChartContainer';
 
 const DashboardViewerBlock = styled(Main)`
@@ -65,10 +65,10 @@ const DashboardViewer = ({ surveysAnswers, error, loading }) => {
             <AreaRangeChartContainer />
           </DashboardItem>
           <DashboardItem className="two">
-            <DonutChart />
+            <DonutChartContainer />
           </DashboardItem>
           <DashboardItem className="three">
-            <BarChart />
+            <BarChartContainer />
           </DashboardItem>
         </>
       )}

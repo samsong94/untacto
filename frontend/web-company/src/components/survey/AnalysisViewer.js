@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
-import LineChart from '../charts/LineChart';
+import LineChartContainer from '../../containers/charts/LineChartContainer';
 
 const AnalysisViewerBlock = styled(Main)`
   display: grid;
@@ -80,19 +80,19 @@ const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
         <>
           <h2>설문 분석</h2>
           <AnalysisItem className="one">
-            <LineChart />
+            <LineChartContainer />
           </AnalysisItem>
           <AnalysisItem className="two">
-            <LineChart />
+            <LineChartContainer />
           </AnalysisItem>
           <AnalysisItem className="three">
-            <LineChart />
+            <LineChartContainer />
           </AnalysisItem>
           <AnalysisItem className="four">
-            <LineChart />
+            <LineChartContainer />
           </AnalysisItem>
           <AnalysisItem className="five">
-            <LineChart />
+            <LineChartContainer />
           </AnalysisItem>
         </>
       )}
