@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
-import DonutChartContainer from '../../containers/charts/DonutChartContainer';
-import BarChartContainer from '../../containers/charts/BarChartContainer';
 import AreaRangeChartContainer from '../../containers/charts/AreaRangeChartContainer';
+import BarChartContainer from '../../containers/charts/BarChartContainer';
+import DonutChartContainer from '../../containers/charts/DonutChartContainer';
 
 const DashboardViewerBlock = styled(Main)`
   display: grid;
@@ -62,13 +62,13 @@ const DashboardViewer = ({ surveysAnswers, error, loading }) => {
         <>
           <h2>설문 현황</h2>
           <DashboardItem className="one">
-            <AreaRangeChartContainer />
+            <AreaRangeChartContainer jsonData={surveysAnswers.bySurvey} />
           </DashboardItem>
           <DashboardItem className="two">
-            <DonutChartContainer />
+            <DonutChartContainer jsonData={surveysAnswers.byGender} />
           </DashboardItem>
           <DashboardItem className="three">
-            <BarChartContainer />
+            <BarChartContainer jsonData={surveysAnswers.byAge} />
           </DashboardItem>
         </>
       )}

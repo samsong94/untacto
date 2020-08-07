@@ -80,19 +80,19 @@ const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
         <>
           <h2>설문 분석</h2>
           <AnalysisItem className="one">
-            <LineChartContainer />
+            <LineChartContainer jsonData={surveyAnswer.total} />
           </AnalysisItem>
           <AnalysisItem className="two">
-            <LineChartContainer />
+            <LineChartContainer jsonData={surveyAnswer.young} />
           </AnalysisItem>
           <AnalysisItem className="three">
-            <LineChartContainer />
+            <LineChartContainer jsonData={surveyAnswer.old} />
           </AnalysisItem>
           <AnalysisItem className="four">
-            <LineChartContainer />
+            <LineChartContainer jsonData={surveyAnswer.male} />
           </AnalysisItem>
           <AnalysisItem className="five">
-            <LineChartContainer />
+            <LineChartContainer jsonData={surveyAnswer.female} />
           </AnalysisItem>
         </>
       )}

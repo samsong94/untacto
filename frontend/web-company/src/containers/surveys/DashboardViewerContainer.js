@@ -15,12 +15,10 @@ const DashboardViewerContainer = ({ history }) => {
     }),
   );
   useEffect(() => {
-    console.log('user :', user);
     if (!user) {
       history.push('/login');
     } else {
       const { companyId } = user;
-      console.log('companyId: ', companyId);
       dispatch(readSurveysAnswers({ companyId }));
     }
   }, [history, user, dispatch]);
