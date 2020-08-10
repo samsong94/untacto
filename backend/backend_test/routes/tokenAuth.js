@@ -29,4 +29,28 @@ const verifyToken = (req,res,next) =>{
 	}
 };
 
+const verifyTokenCustomer = (req,res,next) =>{
+	try{
+		const customerToken = req.cookies.customer;
+		const decoded = jwt.verify(customerToken,secret);
+		console.log(decoded);
+
+		if(decoded){
+			console.log("success token");
+			res.locals.customerId = decoded.id;
+			next();
+		}
+		else{
+			console.log("unauthorized token");
+			res.status(401).json({error: 'unauthorized'});
+		}
+	}
+	catch(err){
+		console.log(err);
+		console.log("token expired");
+		res.status(401).json({error: 'token expired'});
+	}
+};
+
 exports.verifyToken = verifyToken;
+exports.verifyTokenCustomer = verifyTokenCustomer;
