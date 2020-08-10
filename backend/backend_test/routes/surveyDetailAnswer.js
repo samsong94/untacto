@@ -40,6 +40,11 @@ router.get('/', function (req, res, next) {
 	var cnt;
 	var customer_cnt;
 	var total, male, female, young, old;
+	total = new Array();
+	male = new Array();
+	female =new Array();
+	young = new Array();
+	old = new Array();
 	connection.query(sql1, function (err, rows, fields) {
 		if (!err) {
 			cnt = rows[0]['cnt'];
@@ -93,13 +98,21 @@ router.get('/', function (req, res, next) {
 					connection.query(sql_male, function (err3, rows3, fields3) {
 						if (!err3) {
 							anger = new Array();
+							anger.push('anger');
 							contempt = new Array();
+							contempt.push('contempt');
 							disgust = new Array();
+							disgust.push('disgust');
 							fear = new Array();
+							fear.push('fear');
 							happiness = new Array();
+							happiness.push('happiness');
 							neutral = new Array();
+							neutral.push('neutral');
 							sadness = new Array();
+							sadness.push('sadness');
 							surprise = new Array();
+							surprise.push('surprise');
 							console.log("select male success");
 							var emotions = new Array();
 							var i = 0;
@@ -119,7 +132,6 @@ router.get('/', function (req, res, next) {
 								var sum_neutral = 0;
 								var sum_sadness = 0;
 								var sum_surprise = 0;
-								console.log(i);
 								for (var j = 0; j < max; j++) {
 									sum_anger += emotions[i].anger;
 									sum_contempt += emotions[i].contempt;
@@ -140,9 +152,9 @@ router.get('/', function (req, res, next) {
 								neutral.push(sum_neutral / max);
 								sadness.push(sum_sadness / max);
 								surprise.push(sum_surprise / max);
-								console.log(anger);
 								i++;
 							}
+							/*
 							male = {
 								anger: anger,
 								contempt: contempt,
@@ -152,10 +164,19 @@ router.get('/', function (req, res, next) {
 								neutral: neutral,
 								sadness: sadness,
 								surprise: surprise
-							};
+							};*/
+							male.push(anger);
+							male.push(contempt);
+							male.push(disgust);
+							male.push(fear);
+							male.push(happiness);
+							male.push(neutral);
+							male.push(sadness);
+							male.push(surprise);
 						}
 						else {
 							console.log("select male error");
+							male=null;
 							console.log(err3);
 						}
 					});
@@ -201,7 +222,7 @@ router.get('/', function (req, res, next) {
 								i++;
 							}
 							i = 0;
-							//male's emotion sum during 15sec. This is for firstChart
+							//female's emotion sum during 15sec. This is for firstChart
 							while (rows3[i] != undefined) {
 								var sum_anger = 0;
 								var sum_contempt = 0;
@@ -231,7 +252,6 @@ router.get('/', function (req, res, next) {
 								neutral.push(sum_neutral / max);
 								sadness.push(sum_sadness / max);
 								surprise.push(sum_surprise / max);
-								console.log(anger);
 								i++;
 							}
 							female = {
@@ -247,6 +267,7 @@ router.get('/', function (req, res, next) {
 						}
 						else {
 							console.log("select female error");
+							female=null;
 							console.log(err3);
 						}
 					});
@@ -335,6 +356,7 @@ router.get('/', function (req, res, next) {
 						}
 						else {
 							console.log("select old error");
+							old=null;
 							console.log(err3);
 						}
 					});
@@ -420,18 +442,19 @@ router.get('/', function (req, res, next) {
 								sadness: sadness,
 								surprise: surprise
 							};
-							res.json({
-								total: total,
-								young: young,
-								old: old,
-								male: male,
-								female: female
-							});
 						}
 						else {
 							console.log("select young error");
+							young = null;
 							console.log(err3);
 						}
+						res.json({
+							total:total,
+							young: young,
+							old: old,
+							male: male,
+							female: female
+						});
 					});
 				}
 				else {
@@ -491,6 +514,8 @@ router.get('/', function (req, res, next) {
 				sadness: sadness,
 				surprise: surprise
 			};
+			if(total==undefined)
+				total=null;
 		}
 		else {
 			console.log("select emotion error");
