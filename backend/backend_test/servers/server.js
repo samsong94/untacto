@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 const app = express();
 const bodyParser = require('body-parser');
-const port =process.env.PORT || 8080;
+const port =process.env.PORT || 3101;
 const cookieParser = require('cookie-parser');
 
 const route = require('../routes/index');
@@ -14,6 +14,7 @@ const logoutRouter = require('../routes/logout');
 const checkRouter = require('../routes/check');
 const detailRouter = require('../routes/beforeSurveyDetail');
 const showSurveyListRouter = require('../routes/beforeShowSurveyList');
+const dashboardAnswerRouter = require('../routes/beforeDashboardAnswer');
 const surveyDetailAnswerRouter = require('../routes/beforeSurveyDetailAnswer');
 const customerLoginRouter = require('../routes/customerLogin');
 const customerLogoutRouter = require('../routes/customerLogout');
@@ -21,7 +22,6 @@ const customerCheckRouter = require('../routes/customerCheck');
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-
 
 app.use('/api/auth/signup', signUpRouter);
 app.use('/api/auth/login', loginRouter);
@@ -31,9 +31,10 @@ app.use('/api/surveys',createSurveyRouter);
 app.use('/api/customer/logout',customerLogoutRouter);
 app.use('/api/customer/login',customerLoginRouter);
 app.use('/api/customer/check',customerCheckRouter);
-app.use('/api/surveys?',function(req,res,next){res.locals.query = req.query; next(); }, showSurveyListRouter);
+app.use('/api/surveys?',function(req,res,next){res.locals.query = req.query; next();}, showSurveyListRouter);
 app.use('/api/surveys/:id',function(req,res,next){res.locals.id=req.params.id; next();},detailRouter);
 app.use('/api/answers/:id', function(req,res,next){res.locals.id=req.params.id; next();},surveyDetailAnswerRouter);
+app.use('/api/answers?', function(req,res,next){res.locals.query = req.query; next();}, dashboardAnswerRouter);
 
 app.listen(port, ()=>{
     console.log(`express is running on ${port}`);
