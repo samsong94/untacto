@@ -42,7 +42,7 @@ router.get('/', function (req, res, next) {
 	var total, male, female, young, old;
 	total = new Array();
 	male = new Array();
-	female =new Array();
+	female = new Array();
 	young = new Array();
 	old = new Array();
 	connection.query(sql1, function (err, rows, fields) {
@@ -93,26 +93,26 @@ router.get('/', function (req, res, next) {
 						}
 					}
 					var max = i;
-					console.log("max: "+max);
+					console.log("max: " + max);
 					sql_male += ") order by timeIndex asc;";
 					connection.query(sql_male, function (err3, rows3, fields3) {
+						anger = new Array();
+						anger.push('anger');
+						contempt = new Array();
+						contempt.push('contempt');
+						disgust = new Array();
+						disgust.push('disgust');
+						fear = new Array();
+						fear.push('fear');
+						happiness = new Array();
+						happiness.push('happiness');
+						neutral = new Array();
+						neutral.push('neutral');
+						sadness = new Array();
+						sadness.push('sadness');
+						surprise = new Array();
+						surprise.push('surprise');
 						if (!err3) {
-							anger = new Array();
-							anger.push('anger');
-							contempt = new Array();
-							contempt.push('contempt');
-							disgust = new Array();
-							disgust.push('disgust');
-							fear = new Array();
-							fear.push('fear');
-							happiness = new Array();
-							happiness.push('happiness');
-							neutral = new Array();
-							neutral.push('neutral');
-							sadness = new Array();
-							sadness.push('sadness');
-							surprise = new Array();
-							surprise.push('surprise');
 							console.log("select male success");
 							var emotions = new Array();
 							var i = 0;
@@ -165,20 +165,30 @@ router.get('/', function (req, res, next) {
 								sadness: sadness,
 								surprise: surprise
 							};*/
-							male.push(anger);
-							male.push(contempt);
-							male.push(disgust);
-							male.push(fear);
-							male.push(happiness);
-							male.push(neutral);
-							male.push(sadness);
-							male.push(surprise);
+
 						}
 						else {
 							console.log("select male error");
-							male=null;
+							for (var i = 0; i < 15; i++) {
+								anger.push(0);
+								contempt.push(0);
+								disgust.push(0);
+								fear.push(0);
+								happiness.push(0);
+								neutral.push(0);
+								sadness.push(0);
+								surprise.push(0);
+							}
 							console.log(err3);
 						}
+						male.push(anger);
+						male.push(contempt);
+						male.push(disgust);
+						male.push(fear);
+						male.push(happiness);
+						male.push(neutral);
+						male.push(sadness);
+						male.push(surprise);
 					});
 
 				}
@@ -204,15 +214,24 @@ router.get('/', function (req, res, next) {
 					var max = i;
 					sql_female += ") order by timeIndex asc;";
 					connection.query(sql_female, function (err3, rows3, fields3) {
+						anger = new Array();
+						anger.push('anger');
+						contempt = new Array();
+						contempt.push('contempt');
+						disgust = new Array();
+						disgust.push('disgust');
+						fear = new Array();
+						fear.push('fear');
+						happiness = new Array();
+						happiness.push('happiness');
+						neutral = new Array();
+						neutral.push('neutral');
+						sadness = new Array();
+						sadness.push('sadness');
+						surprise = new Array();
+						surprise.push('surprise');
 						if (!err3) {
-							anger = new Array();
-							contempt = new Array();
-							disgust = new Array();
-							fear = new Array();
-							happiness = new Array();
-							neutral = new Array();
-							sadness = new Array();
-							surprise = new Array();
+
 							console.log("select female success");
 							var emotions = new Array();
 							var i = 0;
@@ -254,7 +273,7 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
-							female = {
+							/*female = {
 								anger: anger,
 								contempt: contempt,
 								disgust: disgust,
@@ -263,13 +282,31 @@ router.get('/', function (req, res, next) {
 								neutral: neutral,
 								sadness: sadness,
 								surprise: surprise
-							};
+							};*/
+
 						}
 						else {
 							console.log("select female error");
-							female=null;
+							for (var i = 0; i < 15; i++) {
+								anger.push(0);
+								contempt.push(0);
+								disgust.push(0);
+								fear.push(0);
+								happiness.push(0);
+								neutral.push(0);
+								sadness.push(0);
+								surprise.push(0);
+							}
 							console.log(err3);
 						}
+						female.push(anger);
+						female.push(contempt);
+						female.push(disgust);
+						female.push(fear);
+						female.push(happiness);
+						female.push(neutral);
+						female.push(sadness);
+						female.push(surprise);
 					});
 				}
 				else {
@@ -293,16 +330,25 @@ router.get('/', function (req, res, next) {
 					var max = i;
 					sql_old += ") order by timeIndex asc;";
 					connection.query(sql_old, function (err3, rows3, fields3) {
+						anger = new Array();
+						anger.push('anger');
+						contempt = new Array();
+						contempt.push('contempt');
+						disgust = new Array();
+						disgust.push('disgust');
+						fear = new Array();
+						fear.push('fear');
+						happiness = new Array();
+						happiness.push('happiness');
+						neutral = new Array();
+						neutral.push('neutral');
+						sadness = new Array();
+						sadness.push('sadness');
+						surprise = new Array();
+						surprise.push('surprise');
+						console.log("select old success");
 						if (!err3) {
-							anger = new Array();
-							contempt = new Array();
-							disgust = new Array();
-							fear = new Array();
-							happiness = new Array();
-							neutral = new Array();
-							sadness = new Array();
-							surprise = new Array();
-							console.log("select old success");
+
 							var emotions = new Array();
 							var i = 0;
 							while (rows3[i] != undefined) {
@@ -343,7 +389,7 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
-							old = {
+							/*old = {
 								anger: anger,
 								contempt: contempt,
 								disgust: disgust,
@@ -352,13 +398,31 @@ router.get('/', function (req, res, next) {
 								neutral: neutral,
 								sadness: sadness,
 								surprise: surprise
-							};
+							};*/
+
 						}
 						else {
 							console.log("select old error");
-							old=null;
+							for (var i = 0; i < 15; i++) {
+								anger.push(0);
+								contempt.push(0);
+								disgust.push(0);
+								fear.push(0);
+								happiness.push(0);
+								neutral.push(0);
+								sadness.push(0);
+								surprise.push(0);
+							}
 							console.log(err3);
 						}
+						old.push(anger);
+						old.push(contempt);
+						old.push(disgust);
+						old.push(fear);
+						old.push(happiness);
+						old.push(neutral);
+						old.push(sadness);
+						old.push(surprise);
 					});
 				}
 				else {
@@ -382,15 +446,24 @@ router.get('/', function (req, res, next) {
 					var max = i;
 					sql_young += ") order by timeIndex asc;";
 					connection.query(sql_young, function (err3, rows3, fields3) {
+						anger = new Array();
+						anger.push('anger');
+						contempt = new Array();
+						contempt.push('contempt');
+						disgust = new Array();
+						disgust.push('disgust');
+						fear = new Array();
+						fear.push('fear');
+						happiness = new Array();
+						happiness.push('happiness');
+						neutral = new Array();
+						neutral.push('neutral');
+						sadness = new Array();
+						sadness.push('sadness');
+						surprise = new Array();
+						surprise.push('surprise');
 						if (!err3) {
-							anger = new Array();
-							contempt = new Array();
-							disgust = new Array();
-							fear = new Array();
-							happiness = new Array();
-							neutral = new Array();
-							sadness = new Array();
-							surprise = new Array();
+
 							console.log("select young success");
 							var emotions = new Array();
 							var i = 0;
@@ -432,7 +505,7 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
-							young = {
+							/*young = {
 								anger: anger,
 								contempt: contempt,
 								disgust: disgust,
@@ -441,15 +514,32 @@ router.get('/', function (req, res, next) {
 								neutral: neutral,
 								sadness: sadness,
 								surprise: surprise
-							};
+							};*/
 						}
 						else {
 							console.log("select young error");
-							young = null;
+							for (var i = 0; i < 15; i++) {
+								anger.push(0);
+								contempt.push(0);
+								disgust.push(0);
+								fear.push(0);
+								happiness.push(0);
+								neutral.push(0);
+								sadness.push(0);
+								surprise.push(0);
+							}
 							console.log(err3);
 						}
+						young.push(anger);
+						young.push(contempt);
+						young.push(disgust);
+						young.push(fear);
+						young.push(happiness);
+						young.push(neutral);
+						young.push(sadness);
+						young.push(surprise);
 						res.json({
-							total:total,
+							total: total,
 							young: young,
 							old: old,
 							male: male,
@@ -466,8 +556,25 @@ router.get('/', function (req, res, next) {
 		}
 	});
 	connection.query(sql_all, function (err, rows, fields) {
+
+		anger.push('anger');
+
+		contempt.push('contempt');
+
+		disgust.push('disgust');
+
+		fear.push('fear');
+
+		happiness.push('happiness');
+
+		neutral.push('neutral');
+
+		sadness.push('sadness');
+
+		surprise.push('surprise');
 		if (!err) {
-			console.log("select emotion success");
+			console.log("select total success");
+
 			var emotions = new Array();
 			for (var i = 0; i < cnt; i++) {
 				var emotion = JSON.parse(rows[i]['emotions']);
@@ -504,6 +611,7 @@ router.get('/', function (req, res, next) {
 				sadness.push(sum_sadness / customer_cnt);
 				surprise.push(sum_surprise / customer_cnt);
 			}
+			/*
 			total = {
 				anger: anger,
 				contempt: contempt,
@@ -514,13 +622,30 @@ router.get('/', function (req, res, next) {
 				sadness: sadness,
 				surprise: surprise
 			};
-			if(total==undefined)
-				total=null;
+			*/
 		}
 		else {
-			console.log("select emotion error");
+			console.log("select total error");
+			for (var i = 0; i < 15; i++) {
+				anger.push(0);
+				contempt.push(0);
+				disgust.push(0);
+				fear.push(0);
+				happiness.push(0);
+				neutral.push(0);
+				sadness.push(0);
+				surprise.push(0);
+			}
 			console.log(err);
 		}
+		total.push(anger);
+		total.push(contempt);
+		total.push(disgust);
+		total.push(fear);
+		total.push(happiness);
+		total.push(neutral);
+		total.push(sadness);
+		total.push(surprise);
 	});
 });
 
