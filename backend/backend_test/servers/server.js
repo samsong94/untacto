@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 const app = express();
 const bodyParser = require('body-parser');
-const port =process.env.PORT || 3101;
+const port =process.env.PORT || 8080;
 const cookieParser = require('cookie-parser');
 
 const route = require('../routes/index');
