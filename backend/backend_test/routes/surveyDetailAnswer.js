@@ -154,18 +154,6 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
-							/*
-							male = {
-								anger: anger,
-								contempt: contempt,
-								disgust: disgust,
-								fear: fear,
-								happiness: happiness,
-								neutral: neutral,
-								sadness: sadness,
-								surprise: surprise
-							};*/
-
 						}
 						else {
 							console.log("select male error");
@@ -273,16 +261,6 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
-							/*female = {
-								anger: anger,
-								contempt: contempt,
-								disgust: disgust,
-								fear: fear,
-								happiness: happiness,
-								neutral: neutral,
-								sadness: sadness,
-								surprise: surprise
-							};*/
 
 						}
 						else {
@@ -389,16 +367,6 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
-							/*old = {
-								anger: anger,
-								contempt: contempt,
-								disgust: disgust,
-								fear: fear,
-								happiness: happiness,
-								neutral: neutral,
-								sadness: sadness,
-								surprise: surprise
-							};*/
 
 						}
 						else {
@@ -505,16 +473,6 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
-							/*young = {
-								anger: anger,
-								contempt: contempt,
-								disgust: disgust,
-								fear: fear,
-								happiness: happiness,
-								neutral: neutral,
-								sadness: sadness,
-								surprise: surprise
-							};*/
 						}
 						else {
 							console.log("select young error");
@@ -611,18 +569,6 @@ router.get('/', function (req, res, next) {
 				sadness.push(sum_sadness / customer_cnt);
 				surprise.push(sum_surprise / customer_cnt);
 			}
-			/*
-			total = {
-				anger: anger,
-				contempt: contempt,
-				disgust: disgust,
-				fear: fear,
-				happiness: happiness,
-				neutral: neutral,
-				sadness: sadness,
-				surprise: surprise
-			};
-			*/
 		}
 		else {
 			console.log("select total error");
