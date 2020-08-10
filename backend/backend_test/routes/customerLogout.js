@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var cookieParser = require('cookie-parser');
 
-router.user(cookieParser());
+router.use(cookieParser());
 
 router.post('/', function(req,res,next){
 		console.log('logout: ' + req.cookies.customer + '.');
