@@ -19,7 +19,7 @@ router.post('/',function(req,res,next){
 		});
 		connection.connect();
 
-		var sql = 'select * from customer where phoneNum = "'+phoneNumber+'" and gender = "'+gender+'" and age = '+age';';
+		var sql = 'select * from customer where phoneNum = "'+phoneNumber+'" and gender = "'+gender+'" and age = '+age+';';
 		connection.query(sql, function(err,rows,fields){
 				if(!err){
 					console.log("customer login");
