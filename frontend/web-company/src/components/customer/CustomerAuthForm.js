@@ -127,7 +127,7 @@ const CustomerAuthForm = ({ form, onChange, onSubmit, error }) => {
         <StyledInput
           autoComplete="phoneNumber"
           name="phoneNumber"
-          placeholder="적립할 번호를 입력하세요"
+          placeholder="' - ' 을  제외한 번호를 입력하세요"
           onChange={onChangeInput}
           value={keyboardInput}
         />
