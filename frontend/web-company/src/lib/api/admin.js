@@ -36,10 +36,7 @@ export const adminDeleteUser = (companyId) =>
 export const adminDeleteCustomer = (customerId) =>
   client.delete(`/api/admin/customers/${customerId}`);
 
-export const adminAddKiosk = ({ kioskId, location }) =>
-  client.post('/api/admin/kiosks', { kioskId, location });
-
-export const adminDeleteKiosk = (kioskId) =>
-  client.delete(`/api/admin/kiosks/${kioskId}`);
+export const adminAddKiosk = ({ location }) =>
+  client.post('/api/admin/kiosks', { location });
 
 */
