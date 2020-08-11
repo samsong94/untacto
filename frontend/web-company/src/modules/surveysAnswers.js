@@ -44,10 +44,13 @@ const initialState = {
       ['survey1', 60, 120, 40, 50, 100, 120],
       ['survey2', 70, 120, 160, 450, 150, 230],
     ],
-    byGender: [
-      ['man', 130, 90, 40, 200, 100],
-      ['woman', 100, 110, 60, 200, 50],
-    ],
+    byGender: {
+      data: [
+        ['man', 130, 90, 40, 200, 100],
+        ['woman', 100, 110, 60, 200, 50],
+      ],
+      categories: ['survey1', 'survey2', 'survey3', 'survey4', 'survey5'],
+    },
     byAge: {
       '~20': [2, 3, 1],
       '20~29': [1, 5, 5],

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
 import LineChart from '../../components/charts/LineChart';
-import surveysAnswers from '../../modules/surveysAnswers';
 
 const AnalysisViewerBlock = styled(Main)`
   display: grid;
