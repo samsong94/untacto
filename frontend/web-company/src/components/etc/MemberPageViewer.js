@@ -102,7 +102,7 @@ const HelpViewerBlock = styled(Main)`
     font-size: 3em;
     color: ${palette.gray[7]};
     text-align: justfy;
-    text-weight: bold;
+    font-weight: bold;
   }
   .partName {
     width: 100%;
