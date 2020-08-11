@@ -3,8 +3,8 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const router = express.Router();
 const adminListKioskRouter = require('./adminListKiosk');
-const {	verifyToken	} = require('./tokenAuth');
+const {	verifyTokenAdmin	} = require('./tokenAuth');
 
 router.use(cookieParser());
-router.get('/',verifyToken, adminListKioskRouter);
+router.get('/',verifyTokenAdmin, adminListKioskRouter);
 module.exports = router;
