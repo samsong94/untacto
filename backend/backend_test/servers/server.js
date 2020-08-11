@@ -23,7 +23,7 @@ const adminListCustomerRouter = require('../routes/beforeAdminListCustomer');
 const adminListKioskRouter = require('../routes/beforeAdminListKiosk');
 const adminListSurveyRouter = require('../routes/beforeAdminListSurvey');
 const adminAddKioskRouter = require('../routes/beforeAdminAddKiosk');
-const adminDeleteCustomerRouter = require('../routes/beforeAdminDeleteCustomerRouter');
+const adminDeleteCustomerRouter = require('../routes/beforeAdminDeleteCustomer');
 
 app.use(bodyParser.json());
 app.use(cookieParser());

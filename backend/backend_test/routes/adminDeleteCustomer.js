@@ -27,18 +27,20 @@ router.delete('/', function(req, res, next){
 	connection.query(sql_answer,function(err){
 			if(!err){
 				console.log("delete answer success");
+				
+				connection.query(sql_customer,function(err){
+					if(!err){
+						console.log("delete customer success");
+						res.json({result:"ok"});
+					}
+					else{
+						console.log("delete customer error");
+						res.json({error:err});
+					}
+				});
 			}
 			else{
 				console.log("delete answer error");
-				res.json({error:err});
-			}
-	});
-	connection.query(sql_customer,function(err){
-			if(!err){
-				console.log("delete customer success");
-			}
-			else{
-				console.log("delete customer error");
 				res.json({error:err});
 			}
 	});
