@@ -24,6 +24,7 @@ const adminListCustomerRouter = require('../routes/beforeAdminListCustomer');
 const adminListKioskRouter = require('../routes/beforeAdminListKiosk');
 const adminListSurveyRouter = require('../routes/beforeAdminListSurvey');
 const adminAddKioskRouter = require('../routes/beforeAdminAddKiosk');
+const adminDeleteCustomerRouter = require('../routes/beforeAdminDeleteCustomer');
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -40,6 +41,7 @@ app.use('/api/admin/users',adminListUserRouter);
 app.use('/api/admin/kiosks',adminListKioskRouter);
 app.use('/api/admin/customers',adminListCustomerRouter);
 app.use('/api/admin/kiosks',adminAddKioskRouter);
+app.use('/api/admin/customers/:id',function(req,res,next){res.locals.id=req.params.id; next();},adminDeleteCustomerRouter);
 app.use('/api/admin/surveys?',function(req,res,next){res.locals.query = req.query; next();},adminListSurveyRouter);
 app.use('/api/surveys?',function(req,res,next){res.locals.query = req.query; next(); }, showSurveyListRouter);
 app.use('/api/surveys/:id',function(req,res,next){res.locals.id=req.params.id; next();},detailRouter);
