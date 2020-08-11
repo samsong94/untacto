@@ -98,18 +98,18 @@ const CustomerAuthForm = ({ form, onChange, onSubmit, error }) => {
     );
   };
   const onChangeKeyboard = (input) => {
-    console.log('Input changed', input);
+    // console.log('Input changed', input);
     setKeyboardInput(input);
     dispatch(
       changeField({
         form: 'customerLogin',
         key: 'phoneNumber',
-        value: keyboardInput,
+        value: input,
       }),
     );
   };
   const onKeyPress = (button) => {
-    console.log('Button pressed', button);
+    // console.log('Button pressed', button);
     if (button === '{shift}' || button === '{lock}') handleShift();
   };
   const handleShift = () => {
