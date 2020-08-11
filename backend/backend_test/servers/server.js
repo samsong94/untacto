@@ -18,6 +18,7 @@ const surveyDetailAnswerRouter = require('../routes/beforeSurveyDetailAnswer');
 const customerLoginRouter = require('../routes/customerLogin');
 const customerLogoutRouter = require('../routes/customerLogout');
 const customerCheckRouter = require('../routes/customerCheck');
+const adminListUserRouter = require('../routes/beforeAdminListUser');
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -31,6 +32,7 @@ app.use('/api/surveys',createSurveyRouter);
 app.use('/api/customer/logout',customerLogoutRouter);
 app.use('/api/customer/login',customerLoginRouter);
 app.use('/api/customer/check',customerCheckRouter);
+app.use('/api/admin/users',adminListUserRouter);
 app.use('/api/surveys?',function(req,res,next){res.locals.query = req.query; next(); }, showSurveyListRouter);
 app.use('/api/surveys/:id',function(req,res,next){res.locals.id=req.params.id; next();},detailRouter);
 app.use('/api/answers/:id', function(req,res,next){res.locals.id=req.params.id; next();},surveyDetailAnswerRouter);
