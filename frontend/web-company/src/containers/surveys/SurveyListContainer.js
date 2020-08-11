@@ -15,12 +15,12 @@ const SurveyListContainer = ({ match, history }) => {
     }),
   );
   useEffect(() => {
-    console.log('user :', user);
+    // console.log('user :', user);
     if (!user) {
       history.push('/login');
     } else {
       const { companyId } = user;
-      console.log('companyId: ', companyId);
+      // console.log('companyId: ', companyId);
       dispatch(listSurveys({ companyId }));
     }
   }, [history, user, dispatch]);

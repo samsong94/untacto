@@ -9,14 +9,9 @@ const LIST_ADMIN_SURVEYS_SUCCESS = 'adminSurveys/LIST_ADMIN_SURVEYS_SUCCESS';
 const LIST_ADMIN_SURVEYS_FAILURE = 'adminSurveys/LIST_ADMIN_SURVEYS_FAILURE';
 
 // action creator
-export const listAdminSurveys = createAction(
-  LIST_ADMIN_SURVEYS,
-  ({ page, companyId, kioskId }) => ({
-    page,
-    companyId,
-    kioskId,
-  }),
-);
+export const listAdminSurveys = createAction(LIST_ADMIN_SURVEYS);
+
+// 필터를 통한 리스팅도 추가해야함
 
 // saga
 const listAdminSurveysSaga = createRequestSaga(
