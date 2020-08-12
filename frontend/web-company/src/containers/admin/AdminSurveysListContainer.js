@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import AdminSurveysList from '../../components/admin/AdminSurveysList';
 import { useDispatch, useSelector } from 'react-redux';
 import { listAdminSurveys } from '../../modules/adminSurveys';
+import { adminDeleteSurvey } from '../../lib/api/admin';
+import { withRouter } from 'react-router-dom';
 
-const AdminSurveysListContainer = () => {
+const AdminSurveysListContainer = ({ history }) => {
   const dispatch = useDispatch();
   const { adminSurveys, error, loading } = useSelector(
     ({ adminSurveys, loading }) => ({
@@ -16,13 +18,24 @@ const AdminSurveysListContainer = () => {
     dispatch(listAdminSurveys());
   }, [dispatch]);
 
+  const onRemove = async (surveyId) => {
+    // console.log(surveyId);
+    try {
+      await adminDeleteSurvey(surveyId);
+      history.push('/admin/survey');
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <AdminSurveysList
       loading={loading}
       error={error}
       adminSurveys={adminSurveys}
+      onRemove={onRemove}
     />
   );
 };
 
-export default AdminSurveysListContainer;
+export default withRouter(AdminSurveysListContainer);

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
-import Button from '../common/Button';
 
 const AdminKioskListBlock = styled.div`
   background: ${palette.gray[2]};
@@ -39,9 +38,6 @@ const AdminKioskItemBlock = styled.div`
     margin-top: 2rem;
   }
 `;
-const ButtonWithMarginTop = styled(Button)`
-  margin-top: 1rem;
-`;
 
 const AdminKioskItem = ({ adminKiosk }) => {
   const { kioskId, location } = adminKiosk;
@@ -50,7 +46,6 @@ const AdminKioskItem = ({ adminKiosk }) => {
       <h2>
         #{kioskId} {location}
       </h2>
-      <ButtonWithMarginTop fullWidth>삭제</ButtonWithMarginTop>
     </AdminKioskItemBlock>
   );
 };
