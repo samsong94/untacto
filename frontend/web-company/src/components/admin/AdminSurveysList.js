@@ -86,6 +86,9 @@ const AdminSurveysList = ({ loading, error, adminSurveys }) => {
   // if (error) {
   //   return <AdminSurveyListBlock>에러가 발생했습니다</AdminSurveyListBlock>;
   // }
+  if (loading) {
+    return <AdminSurveyListBlock>loading...</AdminSurveyListBlock>;
+  }
   return (
     <AdminSurveyListBlock>
       {!loading &&

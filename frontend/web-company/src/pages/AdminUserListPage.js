@@ -8,7 +8,7 @@ const AdminUserListPage = () => {
     <>
       <AdminHeader />
       <AdminListTemplate>
-        <h1>회사 목록</h1>;
+        <h1>회사 목록</h1>
         <AdminUsersListContainer />
       </AdminListTemplate>
     </>
