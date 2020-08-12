@@ -43,7 +43,7 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
 
-const AdminUserItem = ({ adminUser }) => {
+const AdminUserItem = ({ adminUser, onRemoveClick }) => {
   const { userId, email, userName, createdAt } = adminUser;
   return (
     <AdminUserItemBlock>
@@ -60,23 +60,32 @@ const AdminUserItem = ({ adminUser }) => {
           등록일: <b>{new Date(createdAt).toLocaleDateString()}</b>
         </span>
       </div>
-      <ButtonWithMarginTop fullWidth>삭제</ButtonWithMarginTop>
+      <ButtonWithMarginTop fullWidth onClick={() => onRemoveClick(userId)}>
+        삭제
+      </ButtonWithMarginTop>
     </AdminUserItemBlock>
   );
 };
 
-const AdminUsersList = ({ loading, error, adminUsers }) => {
+const AdminUsersList = ({ loading, error, adminUsers, onRemove }) => {
   // if (error) {
   //   return <AdminUserListBlock>에러가 발생했습니다</AdminUserListBlock>;
   // }
   if (loading) {
     return <AdminUserListBlock>loading...</AdminUserListBlock>;
   }
+  const onRemoveClick = (userId) => {
+    onRemove(userId);
+  };
   return (
     <AdminUserListBlock>
       {!loading &&
         adminUsers?.map((adminUser) => (
-          <AdminUserItem adminUser={adminUser} key={adminUser.userId} />
+          <AdminUserItem
+            adminUser={adminUser}
+            key={adminUser.userId}
+            onRemoveClick={onRemoveClick}
+          />
         ))}
     </AdminUserListBlock>
   );

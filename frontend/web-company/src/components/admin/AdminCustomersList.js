@@ -43,7 +43,7 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
 
-const AdminCustomerItem = ({ adminCustomer }) => {
+const AdminCustomerItem = ({ adminCustomer, onRemoveClick }) => {
   const { customerId, point, age, gender, phoneNum, createdAt } = adminCustomer;
   return (
     <AdminCustomerItemBlock>
@@ -66,18 +66,23 @@ const AdminCustomerItem = ({ adminCustomer }) => {
           등록일: <b>{new Date(createdAt).toLocaleDateString()}</b>
         </span>
       </div>
-      <ButtonWithMarginTop fullWidth>삭제</ButtonWithMarginTop>
+      <ButtonWithMarginTop fullWidth onClick={() => onRemoveClick(customerId)}>
+        삭제
+      </ButtonWithMarginTop>
     </AdminCustomerItemBlock>
   );
 };
 
-const AdminCustomersList = ({ loading, error, adminCustomers }) => {
+const AdminCustomersList = ({ loading, error, adminCustomers, onRemove }) => {
   // if (error) {
   //   return <AdminCustomerListBlock>에러가 발생했습니다</AdminCustomerListBlock>;
   // }
   if (loading) {
     return <AdminCustomerListBlock>loading...</AdminCustomerListBlock>;
   }
+  const onRemoveClick = (customerId) => {
+    onRemove(customerId);
+  };
   return (
     <AdminCustomerListBlock>
       {!loading &&
@@ -85,6 +90,7 @@ const AdminCustomersList = ({ loading, error, adminCustomers }) => {
           <AdminCustomerItem
             adminCustomer={adminCustomer}
             key={adminCustomer.customerId}
+            onRemoveClick={onRemoveClick}
           />
         ))}
     </AdminCustomerListBlock>

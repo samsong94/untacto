@@ -43,7 +43,7 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
 
-const AdminSurveyItem = ({ adminSurvey }) => {
+const AdminSurveyItem = ({ adminSurvey, onRemoveClick }) => {
   const {
     surveyId,
     user,
@@ -77,18 +77,23 @@ const AdminSurveyItem = ({ adminSurvey }) => {
           만료일: <b>{new Date(expiresAt).toLocaleDateString()}</b>
         </span>
       </div>
-      <ButtonWithMarginTop fullWidth>삭제</ButtonWithMarginTop>
+      <ButtonWithMarginTop fullWidth onClick={() => onRemoveClick(surveyId)}>
+        삭제
+      </ButtonWithMarginTop>
     </AdminSurveyItemBlock>
   );
 };
 
-const AdminSurveysList = ({ loading, error, adminSurveys }) => {
+const AdminSurveysList = ({ loading, error, adminSurveys, onRemove }) => {
   // if (error) {
   //   return <AdminSurveyListBlock>에러가 발생했습니다</AdminSurveyListBlock>;
   // }
   if (loading) {
     return <AdminSurveyListBlock>loading...</AdminSurveyListBlock>;
   }
+  const onRemoveClick = (surveyId) => {
+    onRemove(surveyId);
+  };
   return (
     <AdminSurveyListBlock>
       {!loading &&
@@ -96,6 +101,7 @@ const AdminSurveysList = ({ loading, error, adminSurveys }) => {
           <AdminSurveyItem
             adminSurvey={adminSurvey}
             key={adminSurvey.surveyId}
+            onRemoveClick={onRemoveClick}
           />
         ))}
     </AdminSurveyListBlock>

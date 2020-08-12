@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import AdminUsersList from '../../components/admin/AdminUsersList';
 import { useDispatch, useSelector } from 'react-redux';
 import { listAdminUsers } from '../../modules/adminUsers';
+import { adminDeleteUser } from '../../lib/api/admin';
+import { withRouter } from 'react-router-dom';
 
-const AdminUsersListContainer = () => {
+const AdminUsersListContainer = ({ history }) => {
   const dispatch = useDispatch();
   const { adminUsers, error, loading } = useSelector(
     ({ adminUsers, loading }) => ({
@@ -15,9 +17,24 @@ const AdminUsersListContainer = () => {
   useEffect(() => {
     dispatch(listAdminUsers());
   }, [dispatch]);
+  const onRemove = async (userId) => {
+    // console.log(userId);
+    try {
+      await adminDeleteUser(userId);
+      history.push('/admin/user');
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <AdminUsersList loading={loading} error={error} adminUsers={adminUsers} />
+    <AdminUsersList
+      loading={loading}
+      error={error}
+      adminUsers={adminUsers}
+      onRemove={onRemove}
+    />
   );
 };
 
-export default AdminUsersListContainer;
+export default withRouter(AdminUsersListContainer);
