@@ -1,13 +1,17 @@
 import React from 'react';
 import AdminListTemplate from '../components/admin/AdminListTemplate';
 import AdminUsersListContainer from '../containers/admin/AdminUsersListContainer';
+import AdminHeader from '../components/admin/AdminHeader';
 
 const AdminUserListPage = () => {
   return (
-    <AdminListTemplate>
-      <h1>AdminUserListPage</h1>;
-      <AdminUsersListContainer />
-    </AdminListTemplate>
+    <>
+      <AdminHeader />
+      <AdminListTemplate>
+        <h1>회사 목록</h1>
+        <AdminUsersListContainer />
+      </AdminListTemplate>
+    </>
   );
 };
 
