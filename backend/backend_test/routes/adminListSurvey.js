@@ -102,7 +102,7 @@ router.get('/', function(req, res, next){
 									surveyId:surveyId[j],
 									user:user,
 									kiosk:kiosk,
-									title:title,
+									title:title[j],
 									createdAt:createdAt[j],
 									expiresAt:expiresAt[j],
 									beginsAt:beginsAt[j]
