@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import palette from '../../lib/styles/palette';
 
 const AdminListTemplateBlock = styled.div`
   position: absolute;
   left: 0;
-  top: 0;
+  top: 4rem;
   bottom: 0;
   right: 0;
-  background: ${palette.indigo[1]};
+  margin: 2rem;
 `;
 
 const AdminListTemplate = ({ children }) => {

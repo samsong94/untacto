@@ -1,15 +1,7 @@
-import qs from 'qs';
 import client from './client';
 
 // surveys
-export const adminListSurveys = ({ page, companyId, kioskId }) => {
-  const queryString = qs.stringify({
-    page,
-    companyId,
-    kioskId,
-  });
-  client.get(`/api/admin/surveys?${queryString}`);
-};
+export const adminListSurveys = () => client.get('/api/admin/surveys');
 
 // users(companies)
 export const adminListUsers = () => client.get('/api/admin/users');
