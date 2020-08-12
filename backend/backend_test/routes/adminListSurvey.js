@@ -24,8 +24,10 @@ router.get('/', function(req, res, next){
 		var sql_user = "select * from user where userId = ";
 		var sql_kiosk = "select * from kiosk where kioskId = ";
 		var survey_list = new Array();
-		var page_count = page*10;
-		var next_count = (page+1)*10;
+		if(page==undefined)
+			page=1;
+		var page_count = (page-1)*10;
+		var next_count = page*10;
 		if(userId!=undefined&&kioskId!=undefined){
 			sql+=" where userId = "+userId+" and kioskId = "+kioskId+";";
 		}
@@ -44,6 +46,7 @@ router.get('/', function(req, res, next){
 		var beginsAt = new Array();
 		connection.query(sql,function(err,rows,fields){
 			if(!err){
+				console.log("survey select success");
 				var i =0;
 				while(rows[i]!=undefined){
 					if(i>=page_count&&i<next_count){
@@ -57,7 +60,12 @@ router.get('/', function(req, res, next){
 					}
 					i++;
 				}
+				var len = surveyId.length;
+				if(len==0)
+					res.json(survey_list);
+				var end = i;
 				i = 0;
+				var j=0;
 				while(userId[i]!=undefined){
 					var user, kiosk;
 					sql_user_tmp=sql_user+userId[i];
@@ -65,11 +73,12 @@ router.get('/', function(req, res, next){
 					connection.query(sql_user_tmp,function(err2,rows2,fields2){
 							if(!err2){
 								console.log("user select success");
+								var userId_local = rows2[0]['userId'];
 								var userName = rows2[0]['userName'];
 								var email = rows2[0]['email'];
-								var createdAt_user = rows2[i]['createdAt'];
+								var createdAt_user = rows2[0]['createdAt'];
 								user = {
-									userId: userId,
+									userId: userId_local,
 									userName: userName,
 									email: email,
 									createdAt: createdAt_user
@@ -83,23 +92,26 @@ router.get('/', function(req, res, next){
 					connection.query(sql_kiosk_tmp,function(err2,rows2,fields2){
 							if(!err2){
 								console.log("kiosk select success");
+								var kioskId_local = rows2[0]['kioskId'];
 								var location = rows2[0]['location'];
 								kiosk = {
-									kioskId: kioskId,
+									kioskId: kioskId_local,
 									location: location
 								};
 								var survey = {
-									surveyId:surveyId,
+									surveyId:surveyId[j],
 									user:user,
 									kiosk:kiosk,
 									title:title,
-									createdAt:createdAt,
-									expiresAt:expiresAt,
-									beginsAt:beginsAt
+									createdAt:createdAt[j],
+									expiresAt:expiresAt[j],
+									beginsAt:beginsAt[j]
 								};
+								j++;
 								survey_list.push(survey);
-								console.log(survey_list);
-								if(userId[i+1]==undefined){
+								if(j>=end){
+									console.log("end");
+									connection.end();
 									res.json(survey_list);
 								}
 							}
