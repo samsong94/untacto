@@ -75,7 +75,7 @@ const DashboardViewer = ({ surveysAnswers, error, loading }) => {
     columns: surveysAnswers.byGender.data,
     categories: surveysAnswers.byGender.categories,
     data: { groups: [['man', 'waman']] },
-    types: 'bar',
+    type: 'bar',
     labels: {
       colors: 'white',
       centered: true,
