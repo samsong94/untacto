@@ -10,7 +10,7 @@ const STYLE = {
 };
 
 const DonutChart = ({ data }) => {
-  return <BillboardChart data={data} size={SIZE} style={STYLE} />;
+  return data && <BillboardChart data={data} size={SIZE} style={STYLE} />;
 };
 
 export default DonutChart;

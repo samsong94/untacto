@@ -17,12 +17,14 @@ const DOM_PROPS = {
 
 const BarChart = ({ data }) => {
   return (
-    <BillboardChart
-      data={data}
-      size={SIZE}
-      axis={CHART_AXIS}
-      domProps={DOM_PROPS}
-    />
+    data && (
+      <BillboardChart
+        data={data}
+        size={SIZE}
+        axis={CHART_AXIS}
+        domProps={DOM_PROPS}
+      />
+    )
   );
 };
 

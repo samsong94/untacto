@@ -7,7 +7,7 @@ const SUBCHART = {
 };
 
 const LineChart = ({ data }) => {
-  return <BillboardChart data={data} subchart={SUBCHART} />;
+  return data && <BillboardChart data={data} subchart={SUBCHART} />;
 };
 
 export default LineChart;

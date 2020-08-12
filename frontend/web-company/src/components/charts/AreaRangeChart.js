@@ -15,7 +15,7 @@ const CHART_AXIS = {
 };
 
 const AreaRangeChart = ({ data }) => {
-  return <BillboardChart data={data} size={SIZE} axis={CHART_AXIS} />;
+  return data && <BillboardChart data={data} size={SIZE} axis={CHART_AXIS} />;
 };
 
 export default AreaRangeChart;
