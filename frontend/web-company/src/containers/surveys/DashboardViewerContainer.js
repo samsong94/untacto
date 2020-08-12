@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import DashboardViewer from '../../components/surveys/DashboardViewer';
-import { readSurveysAnswers } from '../../modules/surveysAnswers';
+import {
+  readSurveysAnswers,
+  unloadSurveysAnswers,
+} from '../../modules/surveysAnswers';
 import { withRouter } from 'react-router-dom';
 
 const DashboardViewerContainer = ({ history }) => {
@@ -21,6 +24,9 @@ const DashboardViewerContainer = ({ history }) => {
       const { companyId } = user;
       dispatch(readSurveysAnswers({ companyId }));
     }
+    return () => {
+      dispatch(unloadSurveysAnswers());
+    };
   }, [history, user, dispatch]);
 
   if (user) {

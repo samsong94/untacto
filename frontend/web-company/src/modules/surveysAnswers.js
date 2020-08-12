@@ -9,6 +9,7 @@ const READ_SURVEYS_ANSWERS_SUCCESS =
   'surveysAnswers/READ_SURVEYS_ANSWERS_SUCCESS';
 const READ_SURVEYS_ANSWERS_FAILURE =
   'surveysAnswers/READ_SURVEYS_ANSWERS_FAILURE';
+const UNLOAD_SURVEYS_ANSWERS = 'surveysAnswers/UNLOAD_SURVEYS_ANSWERS';
 
 // action creator
 export const readSurveysAnswers = createAction(
@@ -17,6 +18,7 @@ export const readSurveysAnswers = createAction(
     companyId,
   }),
 );
+export const unloadSurveysAnswers = createAction(UNLOAD_SURVEYS_ANSWERS);
 
 // saga
 const readSurveysAnswersSaga = createRequestSaga(
@@ -75,6 +77,7 @@ const surveysAnswers = handleActions(
       ...state,
       error,
     }),
+    [UNLOAD_SURVEYS_ANSWERS]: () => initialState,
   },
   initialState,
 );
