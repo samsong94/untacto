@@ -34,10 +34,11 @@ router.get('/', function(req, res, next){
 /***********************************************
 *					variables
 ***********************************************/
+	var check_err = false;
 	var x = new Array();
 	var begins_date = new Date();
 	var expires_date = new Date();
-	
+
 	var bySurvey = new Array();
 
 	var byGender = new Array();
@@ -121,38 +122,45 @@ router.get('/', function(req, res, next){
 			
 			//-------------------------------------------------
 			//set duration of chart
-
-			x.push('x');
+			
+			
+			if(result_duration[0] == null)
+				check_err = true;
 
 			//set begins_date, expires_date
-			begins_date = moment(result_duration[0]['beginsAt']).format('YYYY-MM-DD');
-			expires_date = moment(result_duration[0]['expiresAt']).format('YYYY-MM-DD');
-			
-			//set duration
-			for(var i=1; i<count_survey; i++){
-				tmp_begins = moment(result_duration[i]['beginsAt']).format('YYYY-MM-DD');
-				tmp_expires = moment(result_duration[i]['expiresAt']).format('YYYY-MM-DD');
-				if(begins_date > tmp_begins)
-					begins_date = tmp_begins;
-				if(expires_date < tmp_expires)
-					expires_date = tmp_expires;
+			if(!check_err){
+				x.push('x');
+				begins_date = moment(result_duration[0]['beginsAt']).format('YYYY-MM-DD');
+				expires_date = moment(result_duration[0]['expiresAt']).format('YYYY-MM-DD');
+				
+				//set duration
+				for(var i=1; i<count_survey; i++){
+					tmp_begins = moment(result_duration[i]['beginsAt']).format('YYYY-MM-DD');
+					tmp_expires = moment(result_duration[i]['expiresAt']).format('YYYY-MM-DD');
+					if(begins_date > tmp_begins)
+						begins_date = tmp_begins;
+					if(expires_date < tmp_expires)
+						expires_date = tmp_expires;
+				}
+				duration = (moment(expires_date) - moment(begins_date)) / (1000 * 24 * 60 * 60);
+	
+				//set days into 'x'
+				var date = moment(begins_date);
+				for(var i=0; i<=duration; i++){
+					date = moment(date).format('YYYY-MM-DD');
+					x.push(date);
+					date = moment(date).add(1, 'days');
+				}
+				bySurvey.push(x);
 			}
-			duration = (moment(expires_date) - moment(begins_date)) / (1000 * 24 * 60 * 60);
-
-			//set days into 'x'
-			var date = moment(begins_date);
-			for(var i=0; i<=duration; i++){
-				date = moment(date).format('YYYY-MM-DD');
-				x.push(date);
-				date = moment(date).add(1, 'days');
-			}
-			bySurvey.push(x);
 
 			//-------------------------------------------------
 			//set bySurvey
 			
 			//set survey title
-			bySurvey.push(new Array('total'));
+			if(!check_err)
+				bySurvey.push(new Array('total'));
+
 			for(var idx=0; idx<count_survey; idx++){
 				bySurvey.push(new Array(result_list[idx]['title']));
 			}
@@ -182,7 +190,8 @@ router.get('/', function(req, res, next){
 								sum += obj[idx]['cnt'];
 							}
 						}
-						bySurvey[1].push(sum);
+						if(result_duration[0] != null)
+							bySurvey[1].push(sum);
 					} else {
 						throw err_answer;
 					}
@@ -194,17 +203,19 @@ router.get('/', function(req, res, next){
 
 			//init data
 			group_categories = new Array(count_survey);
-			group_man[0] = 'man';
-			group_woman[0] = 'woman';
-			for(var i=0; i<count_survey; i++){
-				group_age_1[i] = 0;
-				group_age_2[i] = 0;
-				group_age_3[i] = 0;
-				group_age_4[i] = 0;
-				group_age_5[i] = 0;
-				group_age_6[i] = 0;
-				group_man[i+1] = 0;
-				group_woman[i+1] = 0;
+			if(!check_err){
+				group_man[0] = 'man';
+				group_woman[0] = 'woman';
+				for(var i=0; i<count_survey; i++){
+					group_age_1[i] = 0;
+					group_age_2[i] = 0;
+					group_age_3[i] = 0;
+					group_age_4[i] = 0;
+					group_age_5[i] = 0;
+					group_age_6[i] = 0;
+					group_man[i+1] = 0;
+					group_woman[i+1] = 0;
+				}	
 			}
 			
 			//select surveyId, customerId, age, gender
@@ -254,23 +265,31 @@ router.get('/', function(req, res, next){
 			// send result
 			connection.query(sql_list, function(err2, rows2, fields2){
 				if(!err2) {
-					byAge = {
-						'~20': group_age_1,
-						'20~29': group_age_2,
-						'30~39': group_age_3,
-						'40~49': group_age_4,
-						'50~59': group_age_5,
-						'60~': group_age_6,
-					};
-					byGender = {
-						data: [group_man, group_woman],
-						categories: group_categories,
-					};
-					res.json({
-						bySurvey: bySurvey,
-						byGender: byGender,
-						byAge: byAge
-					});
+					if(!check_err){
+						byAge = {
+							'~20': group_age_1,
+							'20~29': group_age_2,
+							'30~39': group_age_3,
+							'40~49': group_age_4,
+							'50~59': group_age_5,
+							'60~': group_age_6,
+						};
+						byGender = {
+							data: [group_man, group_woman],
+							categories: group_categories,
+						};
+						res.json({
+							bySurvey: bySurvey,
+							byGender: byGender,
+							byAge: byAge
+						});
+					} else {
+						res.json({
+							bySurvey: null,
+							byGender: null,
+							byAge: null
+						});
+					}
 				} else {
 					throw err2;
 				}

@@ -9,7 +9,7 @@ const url = require('url');
 router.use(cookieParser());
 
 router.get('/', function(req, res, next){
-	var companyId = res.locals.query.companyId; //get query from middleware
+	var companyId = res.locals.userId;
 
 	//connect DB
 	var connection = mysql.createConnection({
@@ -80,7 +80,6 @@ router.get('/', function(req, res, next){
 		if(!err_list){
 			//console.log('set state in surveys');
 
-			var companyObj = new Object();
 			var survey_list = new Array();
 			for(var i=0; i<count_survey; i++){
 				var kioskId = rows_list[i].kioskId;
@@ -94,9 +93,10 @@ router.get('/', function(req, res, next){
 				rows_list[i].description = description;
 				survey_list.push(rows_list[i]);
 			}
-			companyObj.surveyList = survey_list;
-			console.log(companyObj);
-			res.json(survey_list);
+			if(survey_list.length)
+				res.json(survey_list);
+			else
+				res.json(null);
 		} else {
 			throw err_list;
 		}
