@@ -19,11 +19,7 @@ router.get('/', verifyToken, function (req, res, err) {
 	if(user == null){
 		res.send('');
 	} else {
-	res.json({
-			'user': user,
-			'companyName': companyName,
-			'companyId': companyId,
-		});
+	res.json(user);
 	}
 });
 
