@@ -52,9 +52,9 @@ const DashboardItem = styled.div`
 `;
 
 const DashboardViewer = ({ surveysAnswers, error, loading }) => {
-  // if (error) {
-  //   return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
-  // }
+  if (error) {
+    return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+  }
 
   const bySurveyData = {
     x: 'x',
@@ -87,13 +87,17 @@ const DashboardViewer = ({ surveysAnswers, error, loading }) => {
       <>
         <h2>설문 현황</h2>
         <DashboardItem className="one">
-          <AreaRangeChart data={bySurveyData} />
+          {!loading && surveysAnswers.bySurvey && (
+            <AreaRangeChart data={bySurveyData} />
+          )}
         </DashboardItem>
         <DashboardItem className="two">
-          <DonutChart data={byAgeData} />
+          {!loading && surveysAnswers.byAge && <DonutChart data={byAgeData} />}
         </DashboardItem>
         <DashboardItem className="three">
-          <BarChart data={byGenderData} />
+          {!loading && surveysAnswers.byGender && (
+            <BarChart data={byGenderData} />
+          )}
         </DashboardItem>
       </>
     </DashboardViewerBlock>

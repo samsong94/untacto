@@ -87,7 +87,6 @@ const MobileHeader = ({ user, onLogout, match }) => {
   const isCustomer =
     match.path.split('/')[1] === 'customer' ||
     match.path.split('/')[1] === 'customerlogin';
-  console.log(isCustomer);
   return (
     <>
       <MobileHeaderBlock isCustomer={isCustomer}>

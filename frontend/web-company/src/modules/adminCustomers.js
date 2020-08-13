@@ -24,49 +24,49 @@ export function* adminCustomersSaga() {
 
 // initial state
 const initialState = {
-  adminCustomers: [
-    {
-      customerId: 1,
-      point: 100,
-      age: 27,
-      gender: 'male',
-      phoneNum: '01012341234',
-      createdAt: '2020-08-03T04:16:38.000Z',
-    },
-    {
-      customerId: 2,
-      point: 100,
-      age: 27,
-      gender: 'male',
-      phoneNum: '01012341234',
-      createdAt: '2020-08-03T04:16:38.000Z',
-    },
-    {
-      customerId: 3,
-      point: 100,
-      age: 27,
-      gender: 'male',
-      phoneNum: '01012341234',
-      createdAt: '2020-08-03T04:16:38.000Z',
-    },
-    {
-      customerId: 4,
-      point: 100,
-      age: 27,
-      gender: 'male',
-      phoneNum: '01012341234',
-      createdAt: '2020-08-03T04:16:38.000Z',
-    },
-    {
-      customerId: 5,
-      point: 100,
-      age: 27,
-      gender: 'male',
-      phoneNum: '01012341234',
-      createdAt: '2020-08-03T04:16:38.000Z',
-    },
-  ],
-  // adminCustomers: null,
+  // adminCustomers: [
+  //   {
+  //     customerId: 1,
+  //     point: 100,
+  //     age: 27,
+  //     gender: 'male',
+  //     phoneNum: '01012341234',
+  //     createdAt: '2020-08-03T04:16:38.000Z',
+  //   },
+  //   {
+  //     customerId: 2,
+  //     point: 100,
+  //     age: 27,
+  //     gender: 'male',
+  //     phoneNum: '01012341234',
+  //     createdAt: '2020-08-03T04:16:38.000Z',
+  //   },
+  //   {
+  //     customerId: 3,
+  //     point: 100,
+  //     age: 27,
+  //     gender: 'male',
+  //     phoneNum: '01012341234',
+  //     createdAt: '2020-08-03T04:16:38.000Z',
+  //   },
+  //   {
+  //     customerId: 4,
+  //     point: 100,
+  //     age: 27,
+  //     gender: 'male',
+  //     phoneNum: '01012341234',
+  //     createdAt: '2020-08-03T04:16:38.000Z',
+  //   },
+  //   {
+  //     customerId: 5,
+  //     point: 100,
+  //     age: 27,
+  //     gender: 'male',
+  //     phoneNum: '01012341234',
+  //     createdAt: '2020-08-03T04:16:38.000Z',
+  //   },
+  // ],
+  adminCustomers: null,
   error: null,
 };
 

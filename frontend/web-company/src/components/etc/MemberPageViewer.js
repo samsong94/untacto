@@ -114,7 +114,6 @@ const HelpViewerBlock = styled(Main)`
   }
 `;
 
-//내용은 나중에 바꿉시다..
 const MeberPageViewer = ({ surveysAnswers, error, loading }) => {
   return (
     <>
