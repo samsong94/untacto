@@ -52,6 +52,27 @@ const Kiosk = styled.div`
   }
 `;
 
+const EmptyBlock = styled(SurveyItemBlock)`
+  background: ${palette.indigo[1]};
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledLink = styled(Link)`
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  background: ${palette.gray[7]};
+  color: white;
+  padding: 0.25rem 1rem;
+  border: none;
+  border-radius: 15px;
+`;
+
 const SurveyItem = ({ survey }) => {
   const {
     createdAt,
@@ -86,60 +107,20 @@ const SurveyItem = ({ survey }) => {
   );
 };
 
-// const SurveyList = ({ surveys, loading, error }) => {
-//   if (error) {
-//     return <SurveyListBlock>에러가 발생했습니다</SurveyListBlock>;
-//   }
-
-const SurveyList = () => {
-  const loading = false;
-  const surveys = [
-    {
-      surveyId: 1,
-      title: '예시 설문',
-      user: {
-        companyName: 'kenny company',
-        userId: 1,
-      },
-      createdAt: '2020-07-30',
-      kiosk: {
-        kioskId: 1,
-        location: '역삼',
-      },
-      description: '이런저런 설문입니다',
-      answers: [],
-    },
-    {
-      surveyId: 2,
-      title: '예시 설문',
-      user: {
-        companyName: 'kenny company',
-        userId: 1,
-      },
-      createdAt: '2020-07-30',
-      kiosk: {
-        kioskId: 1,
-        location: '역삼',
-      },
-      description: '이런저런 설문입니다',
-      answers: [],
-    },
-    {
-      surveyId: 3,
-      title: '예시 설문',
-      user: {
-        companyName: 'kenny company',
-        userId: 1,
-      },
-      createdAt: '2020-07-30',
-      kiosk: {
-        kioskId: 1,
-        location: '역삼',
-      },
-      description: '이런저런 설문입니다',
-      answers: [],
-    },
-  ];
+const SurveyList = ({ surveys, loading, error }) => {
+  if (error) {
+    return <SurveyListBlock>에러가 발생했습니다</SurveyListBlock>;
+  }
+  if (!surveys) {
+    return (
+      <SurveyListBlock>
+        <EmptyBlock>
+          <div>등록한 설문이 없습니다</div>
+          <StyledLink to="/write">설문 생성하기</StyledLink>
+        </EmptyBlock>
+      </SurveyListBlock>
+    );
+  }
   return (
     <SurveyListBlock>
       {!loading && surveys && (

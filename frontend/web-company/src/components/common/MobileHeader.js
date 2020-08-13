@@ -69,7 +69,9 @@ const Menus = styled.div`
 
 const MobileHeader = ({ user, onLogout }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
-
+  const isCustomer =
+    match.path.split('/')[1] === 'customer' ||
+    match.path.split('/')[1] === 'customerlogin';
   return (
     <>
       <MobileHeaderBlock>

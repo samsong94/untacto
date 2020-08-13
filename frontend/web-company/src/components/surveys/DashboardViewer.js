@@ -27,6 +27,12 @@ const DashboardViewerBlock = styled(Main)`
     grid-column: 2 / 3;
     grid-row: 3 / 4;
   }
+  .empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+  }
 
   @media (max-width: 1024px) {
     grid-template-rows: 50px 400px 400px 400px;
@@ -53,21 +59,62 @@ const DashboardItem = styled.div`
 
 // 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
 const DashboardViewer = ({ surveysAnswers, error, loading }) => {
-  return (
-    <>
+  if (error) {
+    return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+  }
+  if (!surveysAnswers?.bySurvey) {
+    return (
       <DashboardViewerBlock>
-        <h2>설문 현황</h2>
-        <DashboardItem className="one">
-          <AreaRangeChart />
-        </DashboardItem>
-        <DashboardItem className="two">
-          <DonutChart />
-        </DashboardItem>
-        <DashboardItem className="three">
-          <BarChart />
+        <DashboardItem className="one empty">
+          아직 데이터가 없습니다
         </DashboardItem>
       </DashboardViewerBlock>
-    </>
+    );
+  }
+
+  const bySurveyData = {
+    x: 'x',
+    columns: surveysAnswers?.bySurvey,
+    types: {
+      total: 'area',
+      survey1: 'area',
+      survey2: 'area',
+    },
+  };
+
+  const byAgeData = {
+    json: surveysAnswers?.byAge,
+    type: 'pie',
+  };
+
+  const byGenderData = {
+    columns: surveysAnswers?.byGender?.data,
+    categories: surveysAnswers?.byGender?.categories,
+    data: { groups: [['man', 'waman']] },
+    type: 'bar',
+    labels: {
+      colors: 'white',
+      centered: true,
+    },
+  };
+
+  return (
+    <DashboardViewerBlock>
+      <h2>설문 현황</h2>
+      <DashboardItem className="one">
+        {!loading && surveysAnswers?.bySurvey && (
+          <AreaRangeChart data={bySurveyData} />
+        )}
+      </DashboardItem>
+      <DashboardItem className="two">
+        {!loading && surveysAnswers?.byAge && <DonutChart data={byAgeData} />}
+      </DashboardItem>
+      <DashboardItem className="three">
+        {!loading && surveysAnswers?.byGender && (
+          <BarChart data={byGenderData} />
+        )}
+      </DashboardItem>
+    </DashboardViewerBlock>
   );
 };
 
