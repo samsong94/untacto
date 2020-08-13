@@ -10,7 +10,6 @@ router.use(cookieParser());
 
 router.delete('/', function(req, res, next){
 	var surveyId = res.locals.surveyId;
-	var companyId = res.locals.companyId;
 
 	//connect DB
 	var connection = mysql.createConnection({
@@ -23,7 +22,7 @@ router.delete('/', function(req, res, next){
 	connection.connect();
 	
 	//sql query
-	var sql_survey = 'delete from survey where surveyId = '+surveyId+' and userId = ' + companyId + ';';
+	var sql_survey = 'delete from survey where surveyId = '+surveyId+';';
 	connection.query(sql_survey,function(err){
 		if(!err){
 			console.log("delete survey success");
@@ -31,6 +30,7 @@ router.delete('/', function(req, res, next){
 		}
 		else{
 			console.log("delete survey error");
+			console.log(err);
 			res.json({error:err});
 		}
 	});
