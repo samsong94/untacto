@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 const app = express();
 const bodyParser = require('body-parser');
-const port =process.env.PORT || 8080;
+const port =process.env.PORT || 7070;
 const cookieParser = require('cookie-parser');
 
 const route = require('../routes/index');
@@ -45,7 +45,7 @@ app.use('/api/admin/users',adminListUserRouter);
 app.use('/api/admin/kiosks',adminListKioskRouter);
 app.use('/api/admin/customers',adminListCustomerRouter);
 app.use('/api/admin/kiosks',adminAddKioskRouter);
-app.use('/api/download/:filepath',function(req,res,next){res.locals.filepath=req.params.filepath;next();},downloadFileRouter);
+app.use('/api/download/:id',function(req,res,next){res.locals.id=req.params.id;next();},downloadFileRouter);
 app.use('/api/admin/customers/:id',function(req,res,next){res.locals.id=req.params.id; next();},adminDeleteCustomerRouter);
 app.use('/api/admin/surveys?',function(req,res,next){res.locals.query = req.query; next();},adminListSurveyRouter);
 app.use('/api/admin/surveys/addEventListener:surveyId',function(req,res,next){res.locals.surveyId=req.params.surveyId; next();},adminReadSurveyRouter);
