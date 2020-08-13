@@ -48,9 +48,9 @@ router.post('/',function(req,res,next){
 				}
 				else{
 					console.log("customer signUp");
-					connection.query('select MAX(customerId) as max from customer', function(err,rows){
+					connection.query('select MAX(customerId) as cid from customer', function(err,rows){
 							if(!err){
-								var customerId = rows[0]['max']+1;
+								var customerId = rows[0]['cid']+1;
 								var sql2 = 'insert into customer (customerId,point,age,gender,phoneNum) values('+customerId+',0,'+age+',"'+gender+'","'+phoneNumber+'";';
 								connection.query(sql2,function(err){
 									if(!err){
