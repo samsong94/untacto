@@ -49,14 +49,16 @@ const CustomerInfoViewer = ({ customer }) => {
   )}`;
   return (
     <CustomerInfoViewerBlock>
-      <CustomerInfoContent>
-        <h1>{newPhoneNumber}</h1>
-        <h2>
-          <i className="fas fa-coins  icon-point"></i>
-          {point} 포인트
-        </h2>
-        <StyledButton>포인트 사용</StyledButton>
-      </CustomerInfoContent>
+      {customer && (
+        <CustomerInfoContent>
+          <h1>{newPhoneNumber}</h1>
+          <h2>
+            <i className="fas fa-coins  icon-point"></i>
+            {point} 포인트
+          </h2>
+          <StyledButton>포인트 사용</StyledButton>
+        </CustomerInfoContent>
+      )}
     </CustomerInfoViewerBlock>
   );
 };

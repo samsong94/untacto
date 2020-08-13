@@ -71,9 +71,9 @@ const AnalysisItem = styled.div`
 
 // 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
 const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
-  // if (error) {
-  //   return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
-  // }
+  if (error) {
+    return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
+  }
 
   const totalData = {
     columns: surveyAnswer.total,
@@ -101,19 +101,19 @@ const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
       <>
         <h2>설문 분석</h2>
         <AnalysisItem className="one">
-          <LineChart data={totalData} />
+          {!loading && surveyAnswer.total && <LineChart data={totalData} />}
         </AnalysisItem>
         <AnalysisItem className="two">
-          <LineChart data={youngData} />
+          {!loading && surveyAnswer.young && <LineChart data={youngData} />}
         </AnalysisItem>
         <AnalysisItem className="three">
-          <LineChart data={oldData} />
+          {!loading && surveyAnswer.old && <LineChart data={oldData} />}
         </AnalysisItem>
         <AnalysisItem className="four">
-          <LineChart data={maleData} />
+          {!loading && surveyAnswer.male && <LineChart data={maleData} />}
         </AnalysisItem>
         <AnalysisItem className="five">
-          <LineChart data={femaleData} />
+          {!loading && surveyAnswer.female && <LineChart data={femaleData} />}
         </AnalysisItem>
       </>
     </AnalysisViewerBlock>
