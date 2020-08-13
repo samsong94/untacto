@@ -35,7 +35,7 @@ router.post('/',upload.single('video'), function(req,res,next) {
 		console.log(expiresAt);
 		let file = req.file;
 		var userId = res.locals.userId;
-		var video_name = file.originalname;
+		var video = file.originalname;
 		var videoPath = path.join(__dirname+'/../'+file.path);
 		var connection = mysql.createConnection({
 			host: 'localhost',
@@ -49,7 +49,7 @@ router.post('/',upload.single('video'), function(req,res,next) {
 		connection.query(sql,function(err,rows,fields){
 			if(!err){
 			var num = rows[0]['num'] + 1;
-			sql = 'insert into survey (surveyId,userId,title,kioskId,videoPath,description_survey,beginsAt,expiresAt,videoName) values('+num+','+userId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'","'+beginsAt+'","'+expiresAt+'","'+video_name+'");';
+			sql = 'insert into survey (surveyId,userId,title,kioskId,videoPath,description_survey,beginsAt,expiresAt,video) values('+num+','+userId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'","'+beginsAt+'","'+expiresAt+'","'+video_name+'");';
 			console.log(sql);
 			connection.query(sql,function(err){
 				connection.end();

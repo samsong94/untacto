@@ -17,7 +17,7 @@ router.get('/',function(req,res,next){
 	});
 	connection.connect();
 	var sql1 = "select COUNT(*) as cnt from answer where surveyId="+surveyId+" and userId="+companyId+";";
-	var sql2 = "select title, kioskId, description_survey, createdAt, beginsAt,expiresAt,videoPath,videoName from survey where surveyId = "+surveyId+" and userId = "+companyId+";";
+	var sql2 = "select title, kioskId, description_survey, createdAt, beginsAt,expiresAt,videoPath,video from survey where surveyId = "+surveyId+" and userId = "+companyId+";";
 	var sql3 = "select userName from user where userId = "+companyId+";";
 	var sql4 = "select location from kiosk where kioskId = ";
 	//answer sql
@@ -41,7 +41,7 @@ router.get('/',function(req,res,next){
 	var beginsAt;
 	var expiresAt;
 	var location;
-	var videoName;
+	var video;
 	var videoPath;
 	connection.query(sql2,function(err,rows,fields){
 			if(!err){
@@ -52,7 +52,7 @@ router.get('/',function(req,res,next){
 				createdAt = rows[0]['createdAt'];
 				beginsAt = rows[0]['beginsAt'];
 				expiresAt = rows[0]['expiresAt'];
-				videoName = rows[0]['videoName'];
+				video = rows[0]['video'];
 				videoPath = rows[0]['videoPath'];
 				sql4+=kioskId+";";
 				//kiosk sql
@@ -75,7 +75,7 @@ router.get('/',function(req,res,next){
 							expiresAt: expiresAt,
 							description: description,
 							beginsAt: beginsAt,
-							video: videoName,
+							video: video,
 							videoPath: videoPath
 
 						});
