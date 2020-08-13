@@ -154,29 +154,20 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
+							male.push(anger);
+							male.push(contempt);
+							male.push(disgust);
+							male.push(fear);
+							male.push(happiness);
+							male.push(neutral);
+							male.push(sadness);
+							male.push(surprise);
 						}
 						else {
 							console.log("select male error");
-							for (var i = 0; i < 15; i++) {
-								anger.push(0);
-								contempt.push(0);
-								disgust.push(0);
-								fear.push(0);
-								happiness.push(0);
-								neutral.push(0);
-								sadness.push(0);
-								surprise.push(0);
-							}
+							male = null;
 							console.log(err3);
 						}
-						male.push(anger);
-						male.push(contempt);
-						male.push(disgust);
-						male.push(fear);
-						male.push(happiness);
-						male.push(neutral);
-						male.push(sadness);
-						male.push(surprise);
 					});
 
 				}
@@ -261,30 +252,21 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
-
+							female.push(anger);
+							female.push(contempt);
+							female.push(disgust);
+							female.push(fear);
+							female.push(happiness);
+							female.push(neutral);
+							female.push(sadness);
+							female.push(surprise);
+	
 						}
 						else {
 							console.log("select female error");
-							for (var i = 0; i < 15; i++) {
-								anger.push(0);
-								contempt.push(0);
-								disgust.push(0);
-								fear.push(0);
-								happiness.push(0);
-								neutral.push(0);
-								sadness.push(0);
-								surprise.push(0);
-							}
+							female = null;
 							console.log(err3);
 						}
-						female.push(anger);
-						female.push(contempt);
-						female.push(disgust);
-						female.push(fear);
-						female.push(happiness);
-						female.push(neutral);
-						female.push(sadness);
-						female.push(surprise);
 					});
 				}
 				else {
@@ -367,30 +349,21 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
+							old.push(anger);
+							old.push(contempt);
+							old.push(disgust);
+							old.push(fear);
+							old.push(happiness);
+							old.push(neutral);
+							old.push(sadness);
+							old.push(surprise);
 
 						}
 						else {
 							console.log("select old error");
-							for (var i = 0; i < 15; i++) {
-								anger.push(0);
-								contempt.push(0);
-								disgust.push(0);
-								fear.push(0);
-								happiness.push(0);
-								neutral.push(0);
-								sadness.push(0);
-								surprise.push(0);
-							}
+							old = null;
 							console.log(err3);
 						}
-						old.push(anger);
-						old.push(contempt);
-						old.push(disgust);
-						old.push(fear);
-						old.push(happiness);
-						old.push(neutral);
-						old.push(sadness);
-						old.push(surprise);
 					});
 				}
 				else {
@@ -473,29 +446,20 @@ router.get('/', function (req, res, next) {
 								surprise.push(sum_surprise / max);
 								i++;
 							}
+							young.push(anger);
+							young.push(contempt);
+							young.push(disgust);
+							young.push(fear);
+							young.push(happiness);
+							young.push(neutral);
+							young.push(sadness);
+							young.push(surprise);
 						}
 						else {
 							console.log("select young error");
-							for (var i = 0; i < 15; i++) {
-								anger.push(0);
-								contempt.push(0);
-								disgust.push(0);
-								fear.push(0);
-								happiness.push(0);
-								neutral.push(0);
-								sadness.push(0);
-								surprise.push(0);
-							}
+							young = null;
 							console.log(err3);
 						}
-						young.push(anger);
-						young.push(contempt);
-						young.push(disgust);
-						young.push(fear);
-						young.push(happiness);
-						young.push(neutral);
-						young.push(sadness);
-						young.push(surprise);
 						res.json({
 							total: total,
 							young: young,
@@ -569,29 +533,20 @@ router.get('/', function (req, res, next) {
 				sadness.push(sum_sadness / customer_cnt);
 				surprise.push(sum_surprise / customer_cnt);
 			}
+			total.push(anger);
+			total.push(contempt);
+			total.push(disgust);
+			total.push(fear);
+			total.push(happiness);
+			total.push(neutral);
+			total.push(sadness);
+			total.push(surprise);
 		}
 		else {
 			console.log("select total error");
-			for (var i = 0; i < 15; i++) {
-				anger.push(0);
-				contempt.push(0);
-				disgust.push(0);
-				fear.push(0);
-				happiness.push(0);
-				neutral.push(0);
-				sadness.push(0);
-				surprise.push(0);
-			}
+			total = null;
 			console.log(err);
 		}
-		total.push(anger);
-		total.push(contempt);
-		total.push(disgust);
-		total.push(fear);
-		total.push(happiness);
-		total.push(neutral);
-		total.push(sadness);
-		total.push(surprise);
 	});
 });
 
