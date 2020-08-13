@@ -76,12 +76,14 @@ const StyledLink = styled(Link)`
 const SurveyItem = ({ survey }) => {
   const {
     createdAt,
+    expiresAt,
+    beginsAt,
     user,
     kiosk,
     title,
     description,
     video,
-    answers,
+    videoPath,
     surveyId,
   } = survey;
   return (
@@ -97,12 +99,17 @@ const SurveyItem = ({ survey }) => {
         </span>
         <span>{new Date(createdAt).toLocaleDateString()}</span>
       </SubInfo>
+      <SubInfo>
+        <span>
+          기간: {new Date(beginsAt).toLocaleDateString()} ~{' '}
+          {new Date(expiresAt).toLocaleDateString()}
+        </span>
+      </SubInfo>
       <Kiosk>{kiosk.location}</Kiosk>
       <p>
         {description.length < 200 ? description : description.slice(0, 200)}
       </p>
       <p>{video}</p>
-      <p>{answers}</p>
     </SurveyItemBlock>
   );
 };

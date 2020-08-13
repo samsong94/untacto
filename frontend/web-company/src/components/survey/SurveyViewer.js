@@ -98,6 +98,8 @@ const SurveyViewer = ({ survey, error, loading }) => {
     title,
     user,
     createdAt,
+    beginsAt,
+    expiresAt,
     kiosk,
     description,
     video,
@@ -112,6 +114,12 @@ const SurveyViewer = ({ survey, error, loading }) => {
             <b>{user.companyName}</b>
           </span>
           <span>{new Date(createdAt).toLocaleDateString()}</span>
+        </Subinfo>
+        <Subinfo>
+          <span>
+            기간: {new Date(beginsAt).toLocaleDateString()} ~{' '}
+            {new Date(expiresAt).toLocaleDateString()}
+          </span>
         </Subinfo>
         <Kiosk>위치: {kiosk.location}</Kiosk>
       </SurveyHead>
