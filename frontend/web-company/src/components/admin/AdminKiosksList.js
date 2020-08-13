@@ -38,6 +38,13 @@ const AdminKioskItemBlock = styled.div`
     margin-top: 2rem;
   }
 `;
+const InfoBlock = styled(AdminKioskListBlock)`
+  font-size: 1.25rem;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const AdminKioskItem = ({ adminKiosk }) => {
   const { kioskId, location } = adminKiosk;
@@ -51,11 +58,16 @@ const AdminKioskItem = ({ adminKiosk }) => {
 };
 
 const AdminKiosksList = ({ loading, error, adminKiosks }) => {
-  // if (error) {
-  //   return <AdminKioskListBlock>에러가 발생했습니다</AdminKioskListBlock>;
-  // }
+  if (error) {
+    if (error.response.status === 403) {
+      return <InfoBlock>접근권한이 없습니다</InfoBlock>;
+    } else {
+      return <InfoBlock>에러가 발생했습니다</InfoBlock>;
+    }
+  }
+  // console.log(error?.response.status);
   if (loading) {
-    return <AdminKioskListBlock>loading...</AdminKioskListBlock>;
+    return <InfoBlock>loading...</InfoBlock>;
   }
   return (
     <AdminKioskListBlock>
