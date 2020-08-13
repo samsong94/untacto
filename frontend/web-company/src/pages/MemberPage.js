@@ -1,7 +1,7 @@
 import React from 'react';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import MobileHeaderContainer from '../containers/common/MobileHeaderContainer';
-import Main from '../components/common/Main';
+import MemberPageViewer from '../components/etc/MemberPageViewer';
 import Sidebar from '../components/common/Sidebar';
 
 const MemberPage = () => {
@@ -10,7 +10,7 @@ const MemberPage = () => {
       <HeaderContainer />
       <MobileHeaderContainer />
       <Sidebar />
-      <Main>Member</Main>
+      <MemberPageViewer />
     </>
   );
 };

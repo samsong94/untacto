@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
 import AreaRangeChart from '../charts/AreaRangeChart';
-import DonutChart from '../charts/DonutChart';
 import BarChart from '../charts/BarChart';
+import DonutChart from '../charts/DonutChart';
 
 const DashboardViewerBlock = styled(Main)`
   display: grid;
@@ -51,23 +51,52 @@ const DashboardItem = styled.div`
   background: ${palette.indigo[1]};
 `;
 
-// 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
 const DashboardViewer = ({ surveysAnswers, error, loading }) => {
+  // if (error) {
+  //   return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+  // }
+
+  const bySurveyData = {
+    x: 'x',
+    columns: surveysAnswers.bySurvey,
+    types: {
+      total: 'area',
+      survey1: 'area',
+      survey2: 'area',
+    },
+  };
+
+  const byAgeData = {
+    json: surveysAnswers.byAge,
+    type: 'pie',
+  };
+
+  const byGenderData = {
+    columns: surveysAnswers.byGender.data,
+    categories: surveysAnswers.byGender.categories,
+    data: { groups: [['man', 'waman']] },
+    type: 'bar',
+    labels: {
+      colors: 'white',
+      centered: true,
+    },
+  };
+
   return (
-    <>
-      <DashboardViewerBlock>
+    <DashboardViewerBlock>
+      <>
         <h2>설문 현황</h2>
         <DashboardItem className="one">
-          <AreaRangeChart />
+          <AreaRangeChart data={bySurveyData} />
         </DashboardItem>
         <DashboardItem className="two">
-          <DonutChart />
+          <DonutChart data={byAgeData} />
         </DashboardItem>
         <DashboardItem className="three">
-          <BarChart />
+          <BarChart data={byGenderData} />
         </DashboardItem>
-      </DashboardViewerBlock>
-    </>
+      </>
+    </DashboardViewerBlock>
   );
 };
 

@@ -67,6 +67,7 @@ class camera(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication([])
+    app.setStyleSheet("background-color:black;")  
     window = camera()
     window.show()
     app.exec()

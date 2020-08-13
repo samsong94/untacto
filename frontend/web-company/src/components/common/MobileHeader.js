@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled, { css } from 'styled-components';
+import { Link, withRouter } from 'react-router-dom';
 import Button from './Button';
 import palette from '../../lib/styles/palette';
 
@@ -17,6 +17,11 @@ const MobileHeaderBlock = styled.div`
   @media (max-width: 768px) {
     display: block;
   }
+  ${(props) =>
+    props.isCustomer &&
+    css`
+      display: block;
+    `}
 `;
 
 const Wrapper = styled.div`
@@ -34,6 +39,16 @@ const Wrapper = styled.div`
     font-family: 'Gugi', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
       'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
       'Helvetica Neue', sans-serif;
+  }
+  .logo-customer {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-family: 'Gugi', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+      'Helvetica Neue', sans-serif;
+    width: 100%;
+    text-align: center;
   }
   .right {
     display: flex;
@@ -67,34 +82,44 @@ const Menus = styled.div`
     sans-serif;
 `;
 
-const MobileHeader = ({ user, onLogout }) => {
+const MobileHeader = ({ user, onLogout, match }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
-
+  const isCustomer =
+    match.path.split('/')[1] === 'customer' ||
+    match.path.split('/')[1] === 'customerlogin';
+  console.log(isCustomer);
   return (
     <>
-      <MobileHeaderBlock>
-        <Wrapper>
-          <span
-            className="menu-btn"
-            onClick={() => {
-              setIsNavOpen(!isNavOpen);
-            }}
-          >
-            <i className="fas fa-bars fa-2x"></i>
-          </span>
-          <Link to="/" className="logo">
-            UNTACTO
-          </Link>
-          {user ? (
-            <div className="right">
-              <Button onClick={onLogout}>로그아웃</Button>
-            </div>
-          ) : (
-            <div className="right">
-              <Button to="/login">로그인</Button>
-            </div>
-          )}
-        </Wrapper>
+      <MobileHeaderBlock isCustomer={isCustomer}>
+        {isCustomer && (
+          <Wrapper>
+            <div className="logo-customer">UNTACTO</div>
+          </Wrapper>
+        )}
+        {!isCustomer && (
+          <Wrapper>
+            <span
+              className="menu-btn"
+              onClick={() => {
+                setIsNavOpen(!isNavOpen);
+              }}
+            >
+              <i className="fas fa-bars fa-2x"></i>
+            </span>
+            <Link to="/" className="logo">
+              UNTACTO
+            </Link>
+            {user ? (
+              <div className="right">
+                <Button onClick={onLogout}>로그아웃</Button>
+              </div>
+            ) : (
+              <div className="right">
+                <Button to="/login">로그인</Button>
+              </div>
+            )}
+          </Wrapper>
+        )}
         {isNavOpen && (
           <Menus>
             <div className="menu-item">
@@ -115,4 +140,4 @@ const MobileHeader = ({ user, onLogout }) => {
   );
 };
 
-export default MobileHeader;
+export default withRouter(MobileHeader);

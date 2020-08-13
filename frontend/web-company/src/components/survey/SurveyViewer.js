@@ -57,33 +57,16 @@ const AnalysisContent = styled.div`
   }
 `;
 
-// const SurveyViewer = ({ survey, error, loading }) => {
-// if (error) {
-//   if (error.response && error.response.status === 404) {
-//     return <SurveyViewerBlock>존재하지 않는 설문입니다.</SurveyViewerBlock>;
-//   }
-//   return <SurveyViewerBlock>오류가 발생했습니다.</SurveyViewerBlock>;
-// }
-// if (loading || !survey) {
-//   return null;
-// }
-
-const SurveyViewer = () => {
-  const survey = {
-    title: '예시 설문',
-    user: {
-      companyName: 'kenny company',
-      userId: 1,
-    },
-    createdAt: '2020-07-30',
-    kiosk: {
-      kioskId: 1,
-      location: '역삼',
-    },
-    description: '이런저런 설문입니다',
-    answers: [],
-  };
-
+const SurveyViewer = ({ survey, error, loading }) => {
+  if (error) {
+    if (error.response && error.response.status === 404) {
+      return <SurveyViewerBlock>존재하지 않는 설문입니다.</SurveyViewerBlock>;
+    }
+    return <SurveyViewerBlock>오류가 발생했습니다.</SurveyViewerBlock>;
+  }
+  if (loading || !survey) {
+    return null;
+  }
   const { title, user, createdAt, kiosk, description } = survey;
   return (
     <SurveyViewerBlock>

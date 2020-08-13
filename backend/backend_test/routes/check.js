@@ -10,17 +10,16 @@ var mysql = require('mysql');
 router.use(cookieParser());
 
 router.get('/', verifyToken, function (req, res, err) {
-	var user = req.cookies.user;
 	var companyName = req.cookies.companyName;
 	var companyId = req.cookies.companyId;
+	var user ={
+		companyName:companyName,
+		companyId:companyId
+	};
 	if(user == null){
 		res.send('');
 	} else {
-	res.json({
-			'user': user,
-			'companyName': companyName,
-			'companyId': companyId,
-		});
+	res.json(user);
 	}
 });
 
