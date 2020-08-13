@@ -44,7 +44,7 @@ router.post('/',upload.single('video'), function(req,res,next) {
 			database: 'project1'
 			});
 		connection.connect();
-		var sql = 'select COUNT(*) as num from survey where userId='+userId+';';
+		var sql = 'select max(surveyId) as num from survey;';
 		connection.query(sql,function(err,rows,fields){
 			if(!err){
 			var num = rows[0]['num'] + 1;
