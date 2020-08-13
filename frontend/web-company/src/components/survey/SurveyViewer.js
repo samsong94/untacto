@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ReactPlayer from 'react-player';
 import palette from '../../lib/styles/palette';
 import Main from '../common/Main';
 import AnalysisViewerContainer from '../../containers/survey/AnalysisViewerContainer';
@@ -38,13 +39,22 @@ const Kiosk = styled.div`
     color: ${palette.indigo[6]};
   }
 `;
+
+const SurveyContentBlock = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
 const SurveyContent = styled.div`
+  margin-bottom: 10rem;
   h2 {
     font-size: 1.3125rem;
   }
   p {
     font-size: 1rem;
     color: ${palette.gray[8]};
+  }
+  & + & {
+    margin-left: 10rem;
   }
 `;
 const AnalysisContent = styled.div`
@@ -67,7 +77,34 @@ const SurveyViewer = ({ survey, error, loading }) => {
   if (loading || !survey) {
     return null;
   }
-  const { title, user, createdAt, kiosk, description } = survey;
+  // const SurveyViewer = ({ error, loading }) => {
+  //   const survey = {
+  //     title: '예시',
+  //     user: {
+  //       companyId: 1,
+  //       companyName: '나나',
+  //     },
+  //     createdAt: '2020-09-01',
+  //     kiosk: {
+  //       kioskId: 1,
+  //       location: '홍대',
+  //     },
+  //     description:
+  //       '하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하',
+  //     video: '일로와이로 - 뚜뚜뚜',
+  //     videoPath: 'https://youtu.be/E6c8G3n5EiQ',
+  //   };
+  const {
+    title,
+    user,
+    createdAt,
+    beginsAt,
+    expiresAt,
+    kiosk,
+    description,
+    video,
+    videoPath,
+  } = survey;
   return (
     <SurveyViewerBlock>
       <SurveyHead>
@@ -78,12 +115,25 @@ const SurveyViewer = ({ survey, error, loading }) => {
           </span>
           <span>{new Date(createdAt).toLocaleDateString()}</span>
         </Subinfo>
+        <Subinfo>
+          <span>
+            기간: {new Date(beginsAt).toLocaleDateString()} ~{' '}
+            {new Date(expiresAt).toLocaleDateString()}
+          </span>
+        </Subinfo>
         <Kiosk>위치: {kiosk.location}</Kiosk>
       </SurveyHead>
-      <SurveyContent>
-        <h2>description</h2>
-        <p>{description}</p>
-      </SurveyContent>
+      <SurveyContentBlock>
+        <SurveyContent>
+          <h2>description</h2>
+          <p>{description}</p>
+        </SurveyContent>
+        <SurveyContent>
+          <h2>영상</h2>
+          <p>{video}</p>
+          <ReactPlayer url={videoPath} width="480px" height="270px" />
+        </SurveyContent>
+      </SurveyContentBlock>
       <AnalysisContent>
         <AnalysisViewerContainer />
       </AnalysisContent>

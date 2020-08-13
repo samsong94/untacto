@@ -5,6 +5,7 @@ import palette from '../../lib/styles/palette';
 import LineChart from '../../components/charts/LineChart';
 
 const AnalysisViewerBlock = styled(Main)`
+  top: 20rem;
   display: grid;
   grid-template-columns: repeat(2, 50%);
   grid-template-rows: 50px 400px 400px;
@@ -75,11 +76,10 @@ const AnalysisItem = styled.div`
   background: ${palette.indigo[1]};
 `;
 
-// 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
 const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
-  if (error) {
-    return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
-  }
+  // if (error) {
+  //   return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
+  // }
   if (!surveyAnswer?.total) {
     return (
       <AnalysisViewerBlock>

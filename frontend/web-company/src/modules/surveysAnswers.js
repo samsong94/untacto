@@ -62,7 +62,6 @@ const initialState = {
   //     '60~': [1, 2, 3],
   //   },
   // },
-  // surveysAnswers: null,
   surveysAnswers: {
     bySurvey: null,
     byGender: null,
