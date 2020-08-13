@@ -58,7 +58,7 @@ const DashboardViewer = ({ surveysAnswers, error, loading }) => {
 
   const bySurveyData = {
     x: 'x',
-    columns: surveysAnswers.bySurvey,
+    columns: surveysAnswers?.bySurvey,
     types: {
       total: 'area',
       survey1: 'area',
@@ -67,13 +67,13 @@ const DashboardViewer = ({ surveysAnswers, error, loading }) => {
   };
 
   const byAgeData = {
-    json: surveysAnswers.byAge,
+    json: surveysAnswers?.byAge,
     type: 'pie',
   };
 
   const byGenderData = {
-    columns: surveysAnswers.byGender.data,
-    categories: surveysAnswers.byGender.categories,
+    columns: surveysAnswers?.byGender.data,
+    categories: surveysAnswers?.byGender.categories,
     data: { groups: [['man', 'waman']] },
     type: 'bar',
     labels: {
@@ -87,15 +87,15 @@ const DashboardViewer = ({ surveysAnswers, error, loading }) => {
       <>
         <h2>설문 현황</h2>
         <DashboardItem className="one">
-          {!loading && surveysAnswers.bySurvey && (
+          {!loading && surveysAnswers?.bySurvey && (
             <AreaRangeChart data={bySurveyData} />
           )}
         </DashboardItem>
         <DashboardItem className="two">
-          {!loading && surveysAnswers.byAge && <DonutChart data={byAgeData} />}
+          {!loading && surveysAnswers?.byAge && <DonutChart data={byAgeData} />}
         </DashboardItem>
         <DashboardItem className="three">
-          {!loading && surveysAnswers.byGender && (
+          {!loading && surveysAnswers?.byGender && (
             <BarChart data={byGenderData} />
           )}
         </DashboardItem>
