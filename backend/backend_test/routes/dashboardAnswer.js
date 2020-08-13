@@ -12,7 +12,12 @@ moment.tz.setDefault('Asia/Seoul');
 router.use(cookieParser());
 
 router.get('/', function(req, res, next){
-	var companyId = res.locals.query.companyId; //get query from middleware
+	var companyId = res.locals.query.companyId; 
+
+	if(companyId == 'undefined')
+		companyId = res.locals.query.companyId;
+
+	console.log(companyId);
 
 	//connect DB
 	var connection = mysql.createConnection({
@@ -238,8 +243,7 @@ router.get('/', function(req, res, next){
 							group_man[surveyId+1] += 1;
 						} else {
 							group_woman[surveyId+1] += 1;
-						}
-						
+						}						
 					}
 				} else {
 					throw err_customerInfo;
