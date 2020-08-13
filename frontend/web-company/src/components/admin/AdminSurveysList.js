@@ -42,6 +42,13 @@ const AdminSurveyItemBlock = styled.div`
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
+const InfoBlock = styled(AdminSurveyListBlock)`
+  font-size: 1.25rem;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const AdminSurveyItem = ({ adminSurvey, onRemoveClick }) => {
   const {
@@ -85,11 +92,16 @@ const AdminSurveyItem = ({ adminSurvey, onRemoveClick }) => {
 };
 
 const AdminSurveysList = ({ loading, error, adminSurveys, onRemove }) => {
-  // if (error) {
-  //   return <AdminSurveyListBlock>에러가 발생했습니다</AdminSurveyListBlock>;
-  // }
+  if (error) {
+    if (error.response.status === 403) {
+      return <InfoBlock>접근권한이 없습니다</InfoBlock>;
+    } else {
+      return <InfoBlock>에러가 발생했습니다</InfoBlock>;
+    }
+  }
+  // console.log(error?.response.status);
   if (loading) {
-    return <AdminSurveyListBlock>loading...</AdminSurveyListBlock>;
+    return <InfoBlock>loading...</InfoBlock>;
   }
   const onRemoveClick = (surveyId) => {
     onRemove(surveyId);

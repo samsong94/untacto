@@ -42,6 +42,13 @@ const AdminUserItemBlock = styled.div`
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
+const InfoBlock = styled(AdminUserListBlock)`
+  font-size: 1.25rem;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const AdminUserItem = ({ adminUser, onRemoveClick }) => {
   const { userId, email, userName, createdAt } = adminUser;
@@ -68,11 +75,16 @@ const AdminUserItem = ({ adminUser, onRemoveClick }) => {
 };
 
 const AdminUsersList = ({ loading, error, adminUsers, onRemove }) => {
-  // if (error) {
-  //   return <AdminUserListBlock>에러가 발생했습니다</AdminUserListBlock>;
-  // }
+  if (error) {
+    if (error.response.status === 403) {
+      return <InfoBlock>접근권한이 없습니다</InfoBlock>;
+    } else {
+      return <InfoBlock>에러가 발생했습니다</InfoBlock>;
+    }
+  }
+  // console.log(error?.response.status);
   if (loading) {
-    return <AdminUserListBlock>loading...</AdminUserListBlock>;
+    return <InfoBlock>loading...</InfoBlock>;
   }
   const onRemoveClick = (userId) => {
     onRemove(userId);

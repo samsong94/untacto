@@ -42,6 +42,13 @@ const AdminCustomerItemBlock = styled.div`
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
+const InfoBlock = styled(AdminCustomerListBlock)`
+  font-size: 1.25rem;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const AdminCustomerItem = ({ adminCustomer, onRemoveClick }) => {
   const { customerId, point, age, gender, phoneNum, createdAt } = adminCustomer;
@@ -74,11 +81,16 @@ const AdminCustomerItem = ({ adminCustomer, onRemoveClick }) => {
 };
 
 const AdminCustomersList = ({ loading, error, adminCustomers, onRemove }) => {
-  // if (error) {
-  //   return <AdminCustomerListBlock>에러가 발생했습니다</AdminCustomerListBlock>;
-  // }
+  if (error) {
+    if (error.response.status === 403) {
+      return <InfoBlock>접근권한이 없습니다</InfoBlock>;
+    } else {
+      return <InfoBlock>에러가 발생했습니다</InfoBlock>;
+    }
+  }
+  // console.log(error?.response.status);
   if (loading) {
-    return <AdminCustomerListBlock>loading...</AdminCustomerListBlock>;
+    return <InfoBlock>loading...</InfoBlock>;
   }
   const onRemoveClick = (customerId) => {
     onRemove(customerId);
