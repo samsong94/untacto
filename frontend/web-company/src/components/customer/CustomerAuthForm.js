@@ -97,6 +97,7 @@ const CustomerAuthForm = ({ form, onChange, onSubmit, error }) => {
       }),
     );
   };
+
   const onChangeKeyboard = (input) => {
     // console.log('Input changed', input);
     setKeyboardInput(input);
@@ -128,6 +129,7 @@ const CustomerAuthForm = ({ form, onChange, onSubmit, error }) => {
           autoComplete="phoneNumber"
           name="phoneNumber"
           placeholder="' - ' 을  제외한 번호를 입력하세요"
+          readOnly
           onChange={onChangeInput}
           value={keyboardInput}
         />
