@@ -66,7 +66,7 @@ const verifyTokenAdmin = (req,res,next) =>{
 			}
 			else{
 				console.log("Not admin token");
-				res.status(401).json({error:'not admin token'});
+				res.status(403).json({error:'not admin token'});
 			}
 		}
 		else{
