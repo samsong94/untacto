@@ -27,6 +27,12 @@ const DashboardViewerBlock = styled(Main)`
     grid-column: 2 / 3;
     grid-row: 3 / 4;
   }
+  .empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+  }
 
   @media (max-width: 1024px) {
     grid-template-rows: 50px 400px 400px 400px;
@@ -54,6 +60,15 @@ const DashboardItem = styled.div`
 const DashboardViewer = ({ surveysAnswers, error, loading }) => {
   if (error) {
     return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+  }
+  if (!surveysAnswers?.bySurvey) {
+    return (
+      <DashboardViewerBlock>
+        <DashboardItem className="one empty">
+          아직 데이터가 없습니다
+        </DashboardItem>
+      </DashboardViewerBlock>
+    );
   }
 
   const bySurveyData = {
@@ -84,22 +99,20 @@ const DashboardViewer = ({ surveysAnswers, error, loading }) => {
 
   return (
     <DashboardViewerBlock>
-      <>
-        <h2>설문 현황</h2>
-        <DashboardItem className="one">
-          {!loading && surveysAnswers?.bySurvey && (
-            <AreaRangeChart data={bySurveyData} />
-          )}
-        </DashboardItem>
-        <DashboardItem className="two">
-          {!loading && surveysAnswers?.byAge && <DonutChart data={byAgeData} />}
-        </DashboardItem>
-        <DashboardItem className="three">
-          {!loading && surveysAnswers?.byGender && (
-            <BarChart data={byGenderData} />
-          )}
-        </DashboardItem>
-      </>
+      <h2>설문 현황</h2>
+      <DashboardItem className="one">
+        {!loading && surveysAnswers?.bySurvey && (
+          <AreaRangeChart data={bySurveyData} />
+        )}
+      </DashboardItem>
+      <DashboardItem className="two">
+        {!loading && surveysAnswers?.byAge && <DonutChart data={byAgeData} />}
+      </DashboardItem>
+      <DashboardItem className="three">
+        {!loading && surveysAnswers?.byGender && (
+          <BarChart data={byGenderData} />
+        )}
+      </DashboardItem>
     </DashboardViewerBlock>
   );
 };
