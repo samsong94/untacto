@@ -484,6 +484,27 @@ class VoteVideo(QWidget):
         self.playTimeLabel = QLabel("PlayTime", self)
         self.tempLabel = QLabel("Temp", self)
         self.humiLabel = QLabel("Humi", self)
+
+        emptybox1.setStyleSheet("background: url(untacto.png) no-repeat center;"
+                            "background-size: contain;")
+        self.nowTimeLabel.setStyleSheet("color: #212529;" 
+                            "font-weight:900;" 
+                            "font-size:1rem;" 
+                            "font-family: 'Nanum Gothic', sans-serif")
+        self.playTimeLabel.setStyleSheet("color: #212529;" 
+                            "font-weight:900;" 
+                            "font-size:1rem;" 
+                            "font-family: 'Nanum Gothic', sans-serif")
+
+        self.tempLabel.setStyleSheet("color: #212529;" 
+                            "font-weight:900;" 
+                            "font-size:1rem;" 
+                            "font-family: 'Nanum Gothic', sans-serif")                
+        self.humiLabel.setStyleSheet("color: #212529;" 
+                            "font-weight:900;" 
+                            "font-size:1rem;" 
+                            "font-family: 'Nanum Gothic', sans-serif")     
+
         top.addWidget(emptybox1)
         top.addWidget(self.nowTimeLabel)
         top.addWidget(self.playTimeLabel)

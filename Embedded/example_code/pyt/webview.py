@@ -15,6 +15,8 @@ class MyApp(QMainWindow) :
 
 
 app = QApplication([]) 
+app.setStyleSheet("background-color:black;")  
 win = MyApp() 
 win.showFullScreen() 
+win.setStyleSheet("background-color:white;")
 app.exec()

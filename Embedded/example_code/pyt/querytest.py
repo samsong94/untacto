@@ -62,7 +62,9 @@ class MyApp(QMainWindow):
         #print(json.dumps(response.json()))
         return json.dumps(response.json())
 
-app = QApplication([]) 
+app = QApplication([])     
+app.setStyleSheet("background-color:black;")  
 win = MyApp() 
 win.show() 
+win.setStyleSheet("background-color:white;")
 app.exec()
