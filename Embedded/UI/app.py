@@ -16,6 +16,8 @@ import os
 import subprocess
 
 
+import random
+
 from smbus2 import SMBus
 
 #image upload to firebase
@@ -201,7 +203,7 @@ class dataThread(QThread):
         self.addr = 0x08
         self.numb = 1
 
-        print("Sending Data : {}".format(self.numb))
+        #print("Sending Data : {}".format(self.numb))
         self.str_data = ""
         self.i2c.write_byte(self.addr, self.numb)
     def run(self):
@@ -216,8 +218,8 @@ class dataThread(QThread):
                 for i in range(0,30):
                     if b[i] != 0:
                         self.str_data = self.str_data+ chr(b[i])
-                print(b)
-                print(self.str_data)
+                #print(b)
+                #print(self.str_data)
                 self.printData(self.str_data)    
             QTest.qWait(100)
         
@@ -301,11 +303,11 @@ class cameraThread(QThread):
                 self.flag = True
             else :
                 self.flag = False
-            print("idx : %d, bef : %d"%(idx, bef))
-            print(self.flag)
+            #print("idx : %d, bef : %d"%(idx, bef))
+            #print(self.flag)
             self.printImage(self.img, int(idx/5), self.flag)
             now = time.localtime()
-            print ("%d, %d"%(self.sec, now.tm_sec))
+            #print ("%d, %d"%(self.sec, now.tm_sec))
             if self.sec != now.tm_sec :
                 idx = 0
                 self.sec = now.tm_sec
@@ -315,9 +317,10 @@ class cameraThread(QThread):
             QTest.qWait(10)
 
     def printImage(self, imgBGR, idx, flag):
+        global img_list
         now = time.localtime()
-        self.str_file = ("./img/%04d%02d%02d%02d%02d%02d%02d.jpg"%(now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec, idx))
-        print(self.str_file)
+        self.str_file = ("%04d%02d%02d%02d%02d%02d%02d.jpg"%(now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec, idx))
+        #print(self.str_file)
         imgRGB = cv2.cvtColor(imgBGR, cv2.COLOR_BGR2RGB)
         h, w, byte = imgRGB.shape
         img = QImage(imgRGB, w, h, byte * w, QImage.Format_RGB888)
@@ -325,8 +328,12 @@ class cameraThread(QThread):
         #img = cv2.rectangle(img, (100,60), (140,100),(0,0,255), 2)
 
         if flag == True :
-            pass
-            cv2.imwrite(self.str_file, imgRGB)
+            cv2.imwrite("./img/" + self.str_file, imgRGB)
+            if idx == 1 :
+                upload_file_path  = "./img/upload/" + self.str_file
+                cv2.imwrite(upload_file_path, imgRGB)
+                img_list.append(self.str_file)
+            
         self.mySignal.emit(img)
 
 
@@ -380,6 +387,9 @@ class timeWaitThread(QThread):
 
 #####################################################################################################
 
+#####################################################################################################
+########################################### Main Widgets ############################################
+#####################################################################################################
 
 class VideoPlayer(QWidget):
 
@@ -455,10 +465,7 @@ class VideoPlayer(QWidget):
     
     def setTime(self, str_time) :
         self.nowTimeLabel.setText("현재 시간  " + str_time)
-        # gtnData = str_data.split()
-        # self.playTimeLabel.setText(gtnData[0])
-        # self.tempLabel.setText(gtnData[1])
-        # self.humiLabel.setText(gtnData[2])
+
         
     def setData(self, str_data) :
         try:
@@ -467,7 +474,8 @@ class VideoPlayer(QWidget):
             self.tempLabel.setText("현재 온도  " + gtnData[1] + "°C")
             self.humiLabel.setText("현재 습도  " + gtnData[2] + "%")
         except:
-            print("RECEIVE DATA : {}".format(str_data))
+            pass
+            #print("RECEIVE DATA : {}".format(str_data))
 
 
     def playVideo(self):
@@ -475,6 +483,7 @@ class VideoPlayer(QWidget):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(fileName)))
         self.mediaPlayer.setVolume(50)
         self.mediaPlayer.play()
+        
 
     def play(self):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -902,11 +911,7 @@ def main():
     #win.show()
     app.exec()
     
- 
-    
-    # cam = camera()
-    # cam.show()
-    app.exec()
+
 
 if __name__ == "__main__":
     # execute only if run as a script

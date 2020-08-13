@@ -4,20 +4,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import SurveyList from '../../components/surveys/SurveyList';
 import { listSurveys } from '../../modules/surveys';
 
-const SurveyListContainer = ({ match }) => {
+const SurveyListContainer = ({ match, history }) => {
   const dispatch = useDispatch();
-  const { surveys, error, loading, companyId } = useSelector(
+  const { surveys, error, loading, user } = useSelector(
     ({ surveys, loading, user }) => ({
       surveys: surveys.surveys,
       error: surveys.error,
       loading: loading['surveys/LIST_SURVEYS'],
       user: user.user,
-      companyId: user.user.companyId,
     }),
   );
   useEffect(() => {
-    dispatch(listSurveys({ companyId }));
-  }, [dispatch, companyId]);
+    // console.log('user :', user);
+    if (!user) {
+      history.push('/login');
+    } else {
+      const { companyId } = user;
+      // console.log('companyId: ', companyId);
+      dispatch(listSurveys({ companyId }));
+    }
+  }, [history, user, dispatch]);
+
   return <SurveyList loading={loading} error={error} surveys={surveys} />;
 };
 

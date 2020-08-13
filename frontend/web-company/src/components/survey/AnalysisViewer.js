@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
-import LineChart from '../charts/LineChart';
+import LineChart from '../../components/charts/LineChart';
 
 const AnalysisViewerBlock = styled(Main)`
   display: grid;
@@ -112,8 +112,8 @@ const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
   };
 
   return (
-    <>
-      <AnalysisViewerBlock>
+    <AnalysisViewerBlock>
+      <>
         <h2>설문 분석</h2>
         <AnalysisItem className="one">
           {!loading && surveyAnswer?.total && <LineChart data={totalData} />}
@@ -130,8 +130,8 @@ const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
         <AnalysisItem className="five">
           {!loading && surveyAnswer?.female && <LineChart data={femaleData} />}
         </AnalysisItem>
-      </AnalysisViewerBlock>
-    </>
+      </>
+    </AnalysisViewerBlock>
   );
 };
 

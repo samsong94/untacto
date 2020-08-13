@@ -4,9 +4,10 @@ const router = express.Router();
 const mysql = require('mysql');
 const path = require('path');
 
-router.post('/',function(req,res,next){
+router.get('/',function(req,res,next){
 	var companyId = res.locals.userId;
-	var surveyId = req.params.id;
+	var surveyId = res.locals.id;
+	console.log(surveyId);
 	var connection = mysql.createConnection({
 		host: 'localhost',
 		post: 3306,
@@ -15,33 +16,85 @@ router.post('/',function(req,res,next){
 		database: 'project1'
 	});
 	connection.connect();
-	var sql = "select emotions from answer where surveyId="+surveyId+"and companyId="+companyId+";";
-	connection.query(sql, function(err,rows,fields){
+	var sql1 = "select COUNT(*) as cnt from answer where surveyId="+surveyId+" and userId="+companyId+";";
+	var sql2 = "select title, kioskId, description_survey, createdAt, beginsAt,expiresAt from survey where surveyId = "+surveyId+" and userId = "+companyId+";";
+	var sql3 = "select userName from user where userId = "+companyId+";";
+	var sql4 = "select location from kiosk where kioskId = ";
+	//answer sql
+	var answer;
+	connection.query(sql1,function(err,rows,fields){
 			if(!err){
-				console.log(rows);
 				console.log("answer select success");
-				var sql = "select title, kioskId, description_survey, createdAt, expiresAt from survey wher surveyId="+surveyId+"and companyId ="+companyId+";";
-				connection.query(sql,function(err,rows,fields){
-						connection.end();
-						if(!err){
-							console.log(rows);
-							console.log("survey select success");
-							res.json:({
-								title: rows[0]['title'],
-								kioskId: rows[0]['kioskId'],
-								description_survey: rows[0]["description_survey"],
-								createdAt: rows[0]['createdAt'],
-								expiresAt: rows[0]['expiresAt']
-							});
-						}
-						else{
-							console.log("survey select error");
-						}
-				});
-				
+				answer = rows[0]['cnt'];
+				send_message="{answer: "+rows[0]['cnt']+",";
 			}
 			else{
 				console.log("answer select error");
+				console.log(err);
+			}
+	});
+	//survey sql
+	var title;
+	var kioskId;
+	var description;
+	var createdAt;
+	var beginsAt;
+	var expiresAt;
+	var location;
+	connection.query(sql2,function(err,rows,fields){
+			if(!err){
+				console.log("survey select success");
+				title = rows[0]['title'];
+				kioskId = rows[0]['kioskId'];
+				description = rows[0]['description_survey'];
+				createdAt = rows[0]['createdAt'];
+				beginsAt = rows[0]['beginsAt'];
+				expiresAt = rows[0]['expiresAt'];
+				sql4+=kioskId+";";
+				//kiosk sql
+				connection.query(sql4,function(err2,rows2,fields2){
+					if(!err2){
+						console.log("kiosk select success");
+						location = rows2[0]['location'];
+						res.json({
+							title:title,
+							answer: answer,
+							kiosk:{
+								kioskId: kioskId,
+								location: location
+							},
+							user:{
+								companyName: companyName,
+								userId: companyId
+							},
+							createdAt: createdAt,
+							expiresAt: expiresAt,
+							description: description,
+							beginsAt: beginsAt
+
+						});
+					}
+					else{
+						console.log("kiosk select error");
+						console.log(err2);
+					}
+				});
+			}
+			else{
+				console.log("survey select error");
+				console.log(err);
+			}
+	});
+	//user sql
+	var companyName
+	connection.query(sql3,function(err,rows,fields){
+			connection.end();
+			if(!err){
+				companyName = rows[0]['userName'];
+			}
+			else{
+				console.log("user select error");
+				console.log(err);
 			}
 	});
 });

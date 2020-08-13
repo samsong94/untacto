@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
 import AreaRangeChart from '../charts/AreaRangeChart';
-import DonutChart from '../charts/DonutChart';
 import BarChart from '../charts/BarChart';
+import DonutChart from '../charts/DonutChart';
 
 const DashboardViewerBlock = styled(Main)`
   display: grid;
@@ -57,7 +57,6 @@ const DashboardItem = styled.div`
   background: ${palette.indigo[1]};
 `;
 
-// 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
 const DashboardViewer = ({ surveysAnswers, error, loading }) => {
   if (error) {
     return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
