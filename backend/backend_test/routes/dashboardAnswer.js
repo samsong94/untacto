@@ -37,7 +37,7 @@ router.get('/', function(req, res, next){
 	var x = new Array();
 	var begins_date = new Date();
 	var expires_date = new Date();
-	
+
 	var bySurvey = new Array();
 
 	var byGender = new Array();
@@ -123,11 +123,15 @@ router.get('/', function(req, res, next){
 			//set duration of chart
 
 			x.push('x');
-
 			//set begins_date, expires_date
-			begins_date = moment(result_duration[0]['beginsAt']).format('YYYY-MM-DD');
-			expires_date = moment(result_duration[0]['expiresAt']).format('YYYY-MM-DD');
-			
+			if(result_duration[0] == null){
+				err_answer = true;
+				begins_date = moment(begins_date).format('YYYY-MM-DD');
+				expires_date = moment(expires_date).format('YYYY-MM-DD');
+			} else {
+				begins_date = moment(result_duration[0]['beginsAt']).format('YYYY-MM-DD');
+				expires_date = moment(result_duration[0]['expiresAt']).format('YYYY-MM-DD');
+			}
 			//set duration
 			for(var i=1; i<count_survey; i++){
 				tmp_begins = moment(result_duration[i]['beginsAt']).format('YYYY-MM-DD');
