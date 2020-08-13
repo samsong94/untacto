@@ -76,23 +76,23 @@ const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
   }
 
   const totalData = {
-    columns: surveyAnswer.total,
+    columns: surveyAnswer?.total,
     type: 'line',
   };
   const youngData = {
-    columns: surveyAnswer.young,
+    columns: surveyAnswer?.young,
     type: 'line',
   };
   const oldData = {
-    columns: surveyAnswer.old,
+    columns: surveyAnswer?.old,
     type: 'line',
   };
   const maleData = {
-    columns: surveyAnswer.male,
+    columns: surveyAnswer?.male,
     type: 'line',
   };
   const femaleData = {
-    columns: surveyAnswer.female,
+    columns: surveyAnswer?.female,
     type: 'line',
   };
 
@@ -101,19 +101,19 @@ const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
       <>
         <h2>설문 분석</h2>
         <AnalysisItem className="one">
-          {!loading && surveyAnswer.total && <LineChart data={totalData} />}
+          {!loading && surveyAnswer?.total && <LineChart data={totalData} />}
         </AnalysisItem>
         <AnalysisItem className="two">
-          {!loading && surveyAnswer.young && <LineChart data={youngData} />}
+          {!loading && surveyAnswer?.young && <LineChart data={youngData} />}
         </AnalysisItem>
         <AnalysisItem className="three">
-          {!loading && surveyAnswer.old && <LineChart data={oldData} />}
+          {!loading && surveyAnswer?.old && <LineChart data={oldData} />}
         </AnalysisItem>
         <AnalysisItem className="four">
-          {!loading && surveyAnswer.male && <LineChart data={maleData} />}
+          {!loading && surveyAnswer?.male && <LineChart data={maleData} />}
         </AnalysisItem>
         <AnalysisItem className="five">
-          {!loading && surveyAnswer.female && <LineChart data={femaleData} />}
+          {!loading && surveyAnswer?.female && <LineChart data={femaleData} />}
         </AnalysisItem>
       </>
     </AnalysisViewerBlock>
