@@ -29,7 +29,6 @@ router.get('/', function (req, res, next) {
            			var mimetype = mime.getType(file);
            			res.setHeader('Content-disposition', 'attachment; filename = ' + filename);
             		res.setHeader('Content-type', mimetype);
-
             		var filestream = fs.createReadStream(file);
             		filestream.pipe(res);
         		}
