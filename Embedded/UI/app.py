@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import *
+﻿from PyQt5.QtWidgets import *
 from PyQt5.uic import * 
 from PyQt5.QtCore import * 
 from PyQt5 import QtSql
@@ -530,7 +530,7 @@ class Guide(QWidget):
         #self.setGeometry(0,0,1024,768)
         self.guide = QLabel("화면안에 얼굴을 고정시켜 주세요", self)
         self.guide.setGeometry(230, 0, 564, 100)
-        self.guide.setStyleSheet("font-size:30pt;")
+        self.guide.setStyleSheet("font-size:30pt;""background-color:white;")
         self.pic = QLabel("", self)
         self.pic.setGeometry(32, 108, 960, 640)
         
@@ -539,12 +539,29 @@ class Guide(QWidget):
         print("Guide th1 start")
         self.th1.start()
         
+        
+        '''
+        this is border css
+        '''
+        #isFace=false
+        #while True:
+        #    if(isFace==True):
+        #        self.pic.setStyleSheet("border-style:solid;""border-width:1px;""border-color:#3366FF;""border-radius:3px")
+        #        -- gonextdisplay--
+        #        break
+        #    self.pic.setStyleSheet("border-style:solid;""border-width:1px;""border-color:#FF3333;""border-radius:3px")
+        #    if(--people look!==True):
+        #        isFace=True
+
+
+
         self.th2 = timeWaitThread(5000)
         self.th2.timeWaitSignal.connect(self.getAlram)
         print("Guide th2 start")
         self.th2.start()
         
         self.showFullScreen()
+        self.setStyleSheet("background-color:white;")
         #self.show()
         
         #QTest.qWait(3000)
