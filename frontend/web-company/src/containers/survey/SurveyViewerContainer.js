@@ -4,22 +4,15 @@ import { withRouter } from 'react-router-dom';
 import { readSurvey, unloadSurvey } from '../../modules/survey';
 import SurveyViewer from '../../components/survey/SurveyViewer';
 
-const SurveyViewerContainer = ({ match, history }) => {
+const SurveyViewerContainer = ({ match }) => {
   const { surveyId } = match.params;
   const dispatch = useDispatch();
-  const { survey, error, loading, user } = useSelector(
-    ({ survey, loading, user }) => ({
-      survey: survey.survey,
-      error: survey.error,
-      loading: loading['survey/READ_SURVEY'],
-      user: user.user,
-    }),
-  );
-  useEffect(() => {
-    if (!user) {
-      history.push('/login');
-    }
-  }, [history, user]);
+  const { survey, error, loading } = useSelector(({ survey, loading }) => ({
+    survey: survey.survey,
+    error: survey.error,
+    loading: loading['survey/READ_SURVEY'],
+  }));
+
   useEffect(() => {
     dispatch(readSurvey(surveyId));
     return () => {

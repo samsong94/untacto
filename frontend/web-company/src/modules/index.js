@@ -8,12 +8,6 @@ import survey, { surveySaga } from './survey';
 import surveys, { surveysSaga } from './surveys';
 import surveyAnswer, { surveyAnswerSaga } from './surveyAnswer';
 import surveysAnswers, { surveysAnswersSaga } from './surveysAnswers';
-import customerAuth, { customerAuthSaga } from './customerAuth';
-import customer, { customerSaga } from './customer';
-import adminSurveys, { adminSurveysSaga } from './adminSurveys';
-import adminUsers, { adminUsersSaga } from './adminUsers';
-import adminCustomers, { adminCustomersSaga } from './adminCustomers';
-import adminKiosks, { adminKiosksSaga } from './adminKiosks';
 
 // root reducer
 const rootReducer = combineReducers({
@@ -25,12 +19,6 @@ const rootReducer = combineReducers({
   surveys,
   surveyAnswer,
   surveysAnswers,
-  customerAuth,
-  customer,
-  adminSurveys,
-  adminUsers,
-  adminCustomers,
-  adminKiosks,
 });
 
 // root saga
@@ -43,12 +31,6 @@ export function* rootSaga() {
     surveysSaga(),
     surveyAnswerSaga(),
     surveysAnswersSaga(),
-    customerAuthSaga(),
-    customerSaga(),
-    adminSurveysSaga(),
-    adminUsersSaga(),
-    adminCustomersSaga(),
-    adminKiosksSaga(),
   ]);
 }
 

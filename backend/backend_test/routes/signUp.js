@@ -6,7 +6,7 @@ var mysql = require('mysql');
 const secret="ThISisSecRETKeY";
 
 router.post('/', function (req, res, next) {
-    var userName = req.body['companyName'];
+    var companyName = req.body['companyName'];
     var password = req.body['password'];
 	var email = req.body['email'];
     var connection = mysql.createConnection({
@@ -18,24 +18,24 @@ router.post('/', function (req, res, next) {
 	});
     connection.connect();
 	
-	var sql = 'insert into user (userId, userName, password, email) values(';
-	connection.query('select COUNT(*) as cnt from user', function(err, rows){
+	var sql = 'insert into company (companyId, companyName, password, email) values(';
+	connection.query('select COUNT(*) as cnt from company', function(err, rows){
 		if(!err){
-			var userId=rows[0]['cnt'] + 1;
-			sql = sql + userId;
-			sql = sql +  ",'"+userName+"','"+password+"','"+email+"');";
+			var companyId=rows[0]['cnt'] + 1;
+			sql = sql + companyId;
+			sql = sql +  ",'"+companyName+"','"+password+"','"+email+"');";
 			connection.query(sql, function (err) {
 		        if (!err) {
 					console.log("signUp success");
 					console.log("login");
 					const token = jwt.sign({
-						id:userId,
+						id:companyId,
 						exp:Math.floor(Date.now()/1000) + (60*60)
 					},
 					secret);
 					res.cookie('user', token);
-					res.cookie('userName', userName);
-					res.cookie('userId', userId);
+					res.cookie('companyName', rows[0]['companyName']);
+					res.cookie('companyId', rows[0]['companyId']);
 					res.json({
 						result: 'ok',
 						token

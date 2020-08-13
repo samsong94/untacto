@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
-import LineChart from '../../components/charts/LineChart';
+import LineChart from '../charts/LineChart';
 
 const AnalysisViewerBlock = styled(Main)`
   display: grid;
@@ -71,52 +71,27 @@ const AnalysisItem = styled.div`
 
 // 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
 const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
-  // if (error) {
-  //   return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
-  // }
-
-  const totalData = {
-    columns: surveyAnswer.total,
-    type: 'line',
-  };
-  const youngData = {
-    columns: surveyAnswer.young,
-    type: 'line',
-  };
-  const oldData = {
-    columns: surveyAnswer.old,
-    type: 'line',
-  };
-  const maleData = {
-    columns: surveyAnswer.male,
-    type: 'line',
-  };
-  const femaleData = {
-    columns: surveyAnswer.female,
-    type: 'line',
-  };
-
   return (
-    <AnalysisViewerBlock>
-      <>
+    <>
+      <AnalysisViewerBlock>
         <h2>설문 분석</h2>
         <AnalysisItem className="one">
-          <LineChart data={totalData} />
+          <LineChart />
         </AnalysisItem>
         <AnalysisItem className="two">
-          <LineChart data={youngData} />
+          <LineChart />
         </AnalysisItem>
         <AnalysisItem className="three">
-          <LineChart data={oldData} />
+          <LineChart />
         </AnalysisItem>
         <AnalysisItem className="four">
-          <LineChart data={maleData} />
+          <LineChart />
         </AnalysisItem>
         <AnalysisItem className="five">
-          <LineChart data={femaleData} />
+          <LineChart />
         </AnalysisItem>
-      </>
-    </AnalysisViewerBlock>
+      </AnalysisViewerBlock>
+    </>
   );
 };
 

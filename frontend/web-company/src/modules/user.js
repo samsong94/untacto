@@ -49,12 +49,11 @@ export function* userSaga() {
 
 // initial state
 const initialState = {
-  // user: {
-  //   companyId: 1,
-  //   email: 'kenny@company.com',
-  //   companyName: 'kenny company',
-  // },
-  user: null,
+  user: {
+    companyId: 1,
+    email: 'kenny@company.com',
+    companyName: 'kenny company',
+  },
   checkError: null,
 };
 

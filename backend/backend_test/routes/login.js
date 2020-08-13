@@ -18,18 +18,18 @@ router.post('/', function (req, res, next) {
 	});
     connection.connect();
 	
-    connection.query('select * from user where email=\'' + email + '\' and password=\'' + password + '\'', function (err, rows, fields) {
+    connection.query('select * from company where email=\'' + email + '\' and password=\'' + password + '\'', function (err, rows, fields) {
         if (!err) {
             if (rows[0]!=undefined) {
 				console.log("login");
 				const token = jwt.sign({
-					id:rows[0]['userId'],
+					id:rows[0]['companyId'],
 					exp:Math.floor(Date.now()/1000) + (60*60)
 				},
 				secret);
 				res.cookie('user', token);
-				res.cookie('companyName', rows[0]['userName']);
-				res.cookie('companyId', rows[0]['userId']);
+				res.cookie('companyName', rows[0]['companyName']);
+				res.cookie('companyId', rows[0]['companyId']);
 				res.json({
 					result: 'ok',
 					token

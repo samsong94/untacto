@@ -6,5 +6,5 @@ const surveyDetailRouter = require('./surveyDetail');
 const {	verifyToken	} = require('./tokenAuth');
 
 router.use(cookieParser());
-router.get('/',verifyToken, surveyDetailRouter);
+router.post('/',verifyToken, surveyDetailRouter);
 module.exports = router;

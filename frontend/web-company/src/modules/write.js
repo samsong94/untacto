@@ -18,11 +18,10 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
 }));
 export const writeSurvey = createAction(
   WRITE_SURVEY,
-  ({ title, description, video, beginsAt, duration, selectedKiosk }) => ({
+  ({ title, description, video, duration, selectedKiosk }) => ({
     title,
     description,
     video,
-    beginsAt,
     duration,
     selectedKiosk,
   }),
@@ -39,7 +38,6 @@ const initialState = {
   title: '',
   description: '',
   video: '',
-  beginsAt: new Date(),
   duration: '',
   selectedKiosk: '1',
   kiosks: [

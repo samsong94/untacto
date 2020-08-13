@@ -12,8 +12,6 @@
 int RST = 4;
 int CLK = 5;
 int DAT = 6;
-int left = 12;
-int right = 13;
 DS1302 rtc(RST, DAT, CLK);
 
 //DHT11
@@ -34,8 +32,6 @@ char str_data[DATA_LEN];
 
 float temp, humi;
 
-int sensing_left = 0;
-int sensing_right = 0
 
 void setup() {
   dht.begin();
@@ -54,9 +50,6 @@ void setup() {
   Serial.begin(9600);
   //pinMode(ledPin, OUTPUT);
   //digitalWrite(ledPin, LOW); // turn it off
-
-  pinMode(left, INPUT);
-  pinMode(right, INPUT);
 }
 
 
@@ -84,8 +77,7 @@ void loop() {
     //Serial.println(F("%"));
   }
 
-  sensing_left = digitalRead(left);
-  sensing_right = digitalRead(right);
+  
   delay(100);
 }
 

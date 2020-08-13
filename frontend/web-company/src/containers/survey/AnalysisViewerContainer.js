@@ -7,42 +7,30 @@ import {
 } from '../../modules/surveyAnswer';
 import { withRouter } from 'react-router-dom';
 
-const SurveyAnalysisViewer = ({ match, history }) => {
+const SurveyAnalysisViewer = ({ match }) => {
   const { surveyId } = match.params;
   const dispatch = useDispatch();
-  const { surveyAnswer, error, loading, user } = useSelector(
-    ({ surveyAnswer, loading, user }) => ({
+  const { surveyAnswer, error, loading } = useSelector(
+    ({ surveyAnswer, loading }) => ({
       surveyAnswer: surveyAnswer.surveyAnswer,
       error: surveyAnswer.error,
       loading: loading['surveyAnswer/READ_SURVEY_ANSWER'],
-      user: user.user,
     }),
   );
-  useEffect(() => {
-    if (!user) {
-      history.push('/login');
-    }
-    return;
-  }, [history, user]);
   useEffect(() => {
     dispatch(readSurveyAnswer(surveyId));
     return () => {
       dispatch(unloadSurveyAnswer());
     };
   }, [dispatch, surveyId]);
-
-  if (user) {
-    return (
-      <AnalysisViewer
-        more
-        surveyAnswer={surveyAnswer}
-        error={error}
-        loading={loading}
-      />
-    );
-  } else {
-    return <h1>hi</h1>;
-  }
+  return (
+    <AnalysisViewer
+      more
+      surveyAnswer={surveyAnswer}
+      error={error}
+      loading={loading}
+    />
+  );
 };
 
 export default withRouter(SurveyAnalysisViewer);

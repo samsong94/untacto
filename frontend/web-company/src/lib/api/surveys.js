@@ -5,7 +5,6 @@ export const writeSurvey = ({
   title,
   description,
   video,
-  beginsAt,
   duration,
   selectedKiosk,
 }) => {
@@ -14,7 +13,6 @@ export const writeSurvey = ({
   formData.append('title', title);
   formData.append('description', description);
   formData.append('video', video);
-  formData.append('beginsAt', beginsAt);
   formData.append('duration', duration);
   formData.append('selectedKiosk', selectedKiosk);
   return client.post('/api/surveys', formData);
@@ -25,5 +23,5 @@ export const readSurvey = (id) => client.get(`/api/surveys/${id}`);
 
 // 설문 리스트
 export const listSurveys = ({ companyId }) => {
-  return client.get(`/api/surveys?companyId=${companyId}`);
+  return client.get(`/api/surveys?${companyId}`);
 };

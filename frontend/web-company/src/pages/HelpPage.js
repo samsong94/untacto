@@ -1,7 +1,7 @@
 import React from 'react';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import MobileHeaderContainer from '../containers/common/MobileHeaderContainer';
-import HelpPageViewer from '../components/etc/HelpPageViewer';
+import Main from '../components/common/Main';
 import Sidebar from '../components/common/Sidebar';
 
 const HelpPage = () => {
@@ -10,7 +10,7 @@ const HelpPage = () => {
       <HeaderContainer />
       <MobileHeaderContainer />
       <Sidebar />
-      <HelpPageViewer />
+      <Main>Help</Main>
     </>
   );
 };
