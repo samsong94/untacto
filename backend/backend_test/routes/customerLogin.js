@@ -31,6 +31,7 @@ router.post('/',function(req,res,next){
 					res.cookie('customer',token);
 					res.cookie('customerId',rows[0]['customerId']);
 					res.cookie('age',rows[0]['age']);
+					var point = rows[0]['point']+100;
 					var sql2 = 'update answer set customerId = '+rows[0]['customerId']+' where customerId = -1;';
 					connection.query(sql2, function(err2){
 							if(!err2){
@@ -40,7 +41,17 @@ router.post('/',function(req,res,next){
 								console.log("update err");
 								console.log(err);
 							}
-					});			
+					});
+					sql2 = 'update customer set point = '+point+' where customerId = '+rows[0]['customerId']+';';
+					connection.query(sql2,function(err2){
+							if(!err2){
+								console.log('update success');
+							}
+							else{
+								console.log("update err");
+								console.log(err);
+							}
+					});
 					res.json({
 						result: 'ok',
 						token
