@@ -50,7 +50,7 @@ router.post('/',upload.single('video'), function(req,res,next) {
 			if(!err){
 			var num = rows[0]['num'] + 1;
 			//add video
-			sql = 'insert into survey (surveyId,userId,title,kioskId,videoPath,description_survey,beginsAt,expiresAt,video) values('+num+','+userId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'","'+beginsAt+'","'+expiresAt+'","'+video_name+'");';
+			sql = 'insert into survey (surveyId,userId,title,kioskId,videoPath,description_survey,beginsAt,expiresAt,video) values('+num+','+userId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'","'+beginsAt+'","'+expiresAt+'","'+video+'");';
 			console.log(sql);
 			connection.query(sql,function(err){
 				connection.end();
