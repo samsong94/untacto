@@ -48,6 +48,8 @@ router.get('/', function(req, res, next){
 			if(!err){
 				console.log("survey select success");
 				var i =0;
+				var start = page_count;
+				var end;
 				while(rows[i]!=undefined){
 					if(i>=page_count&&i<next_count){
 						surveyId.push(rows[i]['surveyId']);
@@ -57,13 +59,15 @@ router.get('/', function(req, res, next){
 						createdAt.push(rows[i]['createdAt']);
 						expiresAt.push(rows[i]['expiresAt']);
 						beginsAt.push(rows[i]['beginsAt']);
+						end = i;
 					}
 					i++;
 				}
+				end+=1;
+				end-=start;
 				var len = surveyId.length;
 				if(len==0)
 					res.json(survey_list);
-				var end = i;
 				i = 0;
 				var j=0;
 				while(userId[i]!=undefined){
