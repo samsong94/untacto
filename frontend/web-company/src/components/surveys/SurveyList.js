@@ -83,7 +83,7 @@ const SurveyItem = ({ survey }) => {
     title,
     description,
     video,
-    videoPath,
+    // videoPath,
     surveyId,
   } = survey;
   return (
