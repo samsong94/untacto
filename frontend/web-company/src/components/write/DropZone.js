@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   margin-top: 150px;
-  display: flex;
   transform: translateY(-100%);
   p {
     color: red;
@@ -51,7 +50,7 @@ const DropZone = ({ onChangeField }) => {
   const fileDrop = (e) => {
     e.preventDefault();
     const files = e.dataTransfer.files;
-    // console.log(files);
+    console.log(files);
     // console.log(onChangeField);
     onChangeField({ key: 'video', value: files[0] });
   };

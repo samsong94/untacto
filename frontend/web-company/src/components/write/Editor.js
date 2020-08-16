@@ -30,6 +30,12 @@ const EditorBlock = styled.form`
       'Helvetica Neue', sans-serif;
   }
 
+  .video-title {
+    position: relative;
+    top: 25px;
+    font-size: 1.25rem;
+  }
+
   @media (max-width: 1600px) {
     width: 1200px;
   }
@@ -68,7 +74,7 @@ const VideoInput = styled.input`
 const DescriptionInput = styled.textarea`
   border: 1px solid ${palette.gray[6]};
   padding: 0.75rem;
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
   width: 100%;
   height: 300px;
   resize: none;
@@ -175,7 +181,9 @@ const Editor = ({
         value={description}
         name="description"
       />
+
       <label htmlFor="video">
+        <div className="video-title">선택된 영상: {video?.name}</div>
         <DropZone onChangeField={onChangeField} />
       </label>
       <VideoInput
