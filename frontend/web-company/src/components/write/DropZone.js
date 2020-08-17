@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import palette from '../../lib/styles/palette';
 
 const Container = styled.div`
   margin-top: 150px;
@@ -17,11 +18,11 @@ const DropZoneBlock = styled.div`
   margin: 0;
   width: 100%;
   height: 100px;
-  border: 4px dashed #4aa1f3;
+  border: 4px dashed ${palette.indigo[7]};
 `;
 const Message = styled.div`
   text-align: center;
-  color: #4aa1f3;
+  color: ${palette.indigo[7]};
   font-family: Arial;
   font-size: 20px;
   i {
