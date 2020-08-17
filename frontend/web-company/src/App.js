@@ -15,10 +15,14 @@ import AdminSurveyListPage from './pages/AdminSurveyListPage';
 import AdminUserListPage from './pages/AdminUserListPage';
 import AdminCustomerListPage from './pages/AdminCustomerListPage';
 import AdminKioskListPage from './pages/AdminKioskListPage';
+import { Helmet } from 'react-helmet-async';
 
 function App() {
   return (
     <>
+      <Helmet>
+        <title>UNTACTO</title>
+      </Helmet>
       <Route component={DashboardPage} path={'/'} exact />
       <Route component={SurveyListPage} path={'/survey'} exact />
       <Route component={SurveyPage} path={'/survey/:surveyId'} />
