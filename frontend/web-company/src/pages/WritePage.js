@@ -9,7 +9,7 @@ const WritePage = () => {
   return (
     <>
       <Helmet>
-        <title>UNTACTO | Create Survey</title>
+        <title>UNTACTO | CREATE</title>
       </Helmet>
       <HeaderContainer />
       <MobileHeaderContainer />
