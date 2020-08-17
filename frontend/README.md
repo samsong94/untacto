@@ -422,7 +422,12 @@ frontend
 
 - [billboardjs](https://naver.github.io/billboard.js/)
 - [react-billboardjs](https://naver.github.io/billboard.js/)
-- 
+- 데이터 종류에 따라 차트를 선택하여 시각화
+  - 대시보드에는 일별 응답 수를 AreaRange 차트로, 나이대별 응답 비율을 Donut 차트로, 일별 남녀 응답 수를 Bar 차트로 시각화
+  - 개별 설문화면에서는 Line 차트를 사용
+    - 전체 응답자 평균, 남자 응답자 평균, 여자 응답자 평균, 20대 이하 응답자 평균, 30대 이상 응답자 평균에 해당하는 데이터를 시각화
+- 그래프 시각화 패키지인 `billboardjs`에 react 환경에서의 rendering을 보완한 `react-billboardjs` 를 사용
+  - `BillboardChart` 컴포넌트를 import 해, 데이터, 크기, 타입 등의 정보를 props로 넘겨서 사용
 
 ### 반응형 웹
 
@@ -430,14 +435,19 @@ frontend
 
 - [CSS media queries](https://developer.mozilla.org/ko/docs/Web/CSS/@media)
 - [useState](https://ko.reactjs.org/docs/hooks-state.html)
-- 
+- 웹 페이지 크기 및 모바일 화면에 대한 반응형 화면 구현
+- media query를 사용한 `Main`  컴포넌트를 정의한 후, 모든 Viewer 컴포넌트에서 상속받아서 사용
+  - `max-width` 값에 따라 `width` 변경
+  - grid 를 사용하는 Viewer의 경우, `max-width` 값에 따라 `grid-template` 변경
 
 ### 인앱 가상 키보드
 
 > react-simple-keyboard 사용
 
 - [react-simple-keyboard](https://www.npmjs.com/package/react-simple-keyboard)
-- 
+- `CustomerAuthForm` 아래에 `Keyboard` 컴포넌트를 import한 후 적용
+  - `onChange`, `onKeyPress` 이벤트에 대한 handler를 정의한 후 props로 전달
+  - 이때, 상단의 번호 입력 input 은 `readOnly` 로 설정해 입력 방법을 `Keyboard` 컴포넌트로 제한
 
 ### 인앱 영상 재생
 
@@ -473,22 +483,85 @@ frontend
 ### Rendering before data fetched
 
 - 문제상황
+  
   - Dashboard 페이지와 SurveyDetail 페이지에서 설문 응답 데이터들을 시각화할 때, 데이터가 완전히 불러와지기 전에 rendering 이 시작되어 error 발생
+  
 - 해결
   - return with `&&`
+    - `&&` 논리연산의 경우 앞에 오는 값이 false 라면 뒤의 값을 판단하지 않고 false 를 return 하기 때문에, error 가 발생하지 않는다
   - [Optional chaining](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Optional_chaining)
+    - 참조하는 대상이 null 혹은 undfined 인 경우, error 를 발생시키지 않고 undefined를 return
+  
+  ```jsx
+  return (
+    <DashboardViewerBlock>
+      <h2>설문 현황</h2>
+      <DashboardItem>
+        {!loading && surveysAnswers?.bySurvey && (
+          <AreaRangeChart data={bySurveyData} />
+        )}
+      </DashboardItem>
+    </DashboardViewerBlock>
+  );
+  ```
 
 ### Data unload
 
 - 문제상황
+  
   - Dashboard 페이지에서 로그아웃한 후 다른 계정으로 로그인하는 경우, 데이터 요청에 대한 응답이 완료되기 전까지 이전 회사의 차트가 노출되는 문제 발생
 - 해결
+
   - [useEffect](https://ko.reactjs.org/docs/hooks-effect.html)
+
+    - useEffect의 return문에 data unloading 로직을 넣어 해결
+
+    - useEffect의 return문은, Class 컴포넌트의 componentWillUnmount 와 동일한 역할을 수행
+    - data unloading 로직은, state를 initial state로 돌리는 action을 추가해 작성
+
+    ```jsx
+    const DashboardViewerContainer = ({ history }) => {
+      const dispatch = useDispatch();
+      useEffect(() => {
+        // ...
+       	return () => {
+          dispatch(unloadSurveysAnswers());
+        };
+      }, [history, dispatch]);
+    	// ...
+    ```
 
 ### POST request with file data
 
 - 문제상황
+  
   - 설문생성 과정에서 기존의 방식으로 객체를 사용하여 POST 요청을 보내는 경우, file data가 백엔드로 전송되지 않는 문제 발생
 - 해결
   - [FormData](https://developer.mozilla.org/ko/docs/Web/API/FormData)
-  - [multer](https://www.npmjs.com/package/multer)
+  
+    - [multer](https://www.npmjs.com/package/multer)
+    - multer를 통해 미디어 파일 전송 가능
+    - 이때 multer는 FormData 인스턴스를 통한 POST 요청으로만 정상 커뮤니케이션 가능
+    - 기존의 객체 형식이 아닌, FormData 인스턴스를 통한 POST 요청
+  
+    ```jsx
+    export const writeSurvey = ({
+      title,
+      description,
+      video,
+      beginsAt,
+      duration,
+      selectedKiosk,
+    }) => {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('video', video);
+      formData.append('beginsAt', beginsAt);
+      formData.append('duration', duration);
+      formData.append('selectedKiosk', selectedKiosk);
+      return client.post('/api/surveys', formData);
+    };
+    ```
+  
+    
