@@ -14,6 +14,7 @@ import adminSurveys, { adminSurveysSaga } from './adminSurveys';
 import adminUsers, { adminUsersSaga } from './adminUsers';
 import adminCustomers, { adminCustomersSaga } from './adminCustomers';
 import adminKiosks, { adminKiosksSaga } from './adminKiosks';
+import videoPath, { videoPathSaga } from './videoPath';
 
 // root reducer
 const rootReducer = combineReducers({
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   adminUsers,
   adminCustomers,
   adminKiosks,
+  videoPath,
 });
 
 // root saga
@@ -49,6 +51,7 @@ export function* rootSaga() {
     adminUsersSaga(),
     adminCustomersSaga(),
     adminKiosksSaga(),
+    videoPathSaga(),
   ]);
 }
 

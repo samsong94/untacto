@@ -5,6 +5,7 @@ from PyQt5 import QtSql
 from PyQt5 import QtCore
 
 from PyQt5.QtMultimedia import *
+from PyQt5.QtMultimedia import QSound
 from PyQt5.QtMultimediaWidgets import *
 from PyQt5.QtTest import *
 from PyQt5.QtGui import *
@@ -51,13 +52,50 @@ cred = credentials.Certificate("./key/ServiceAccountKey.json")
 default_app = firebase_admin.initialize_app(cred, {
     'storageBucket': f"{PROJECT_ID}.appspot.com"    
 })
+
 bucket = storage.bucket()
+
+f = []
+file_list = []
+
+def init():
+    kioskId = open("/etc/kiosk/kioskId").read()
+    kioskId = int(kioskId)
+    print(kioskId)
+    db = QtSql.QSqlDatabase.addDatabase('QMYSQL') 
+    db.setHostName("<IP>") 
+    db.setDatabaseName("project1") 
+    db.setUserName("admin") 
+    db.setPassword("<PASSWD>")
+    db.setPort(3306)
+    ok = db.open()
+    print(ok)
+    query = QtSql.QSqlQuery("select surveyId, userId, kioskId, video, videoPath from survey where kioskId = %d"%(kioskId))
+    while (query.next()): 
+        record = query.record()
+        # getData = "%d | %d | %d | %s | %s" % (record.value(0), record.value(1), record.value(2), record.value(3), record.value(4))
+        # print(getData)
+        row = []
+        for i in range(5):
+            row.append(record.value(i))
+        sid = record.value(0)
+        print(row)
+        global file_list
+        file_list.append(row)
+        
+        
+        # url = 'http://i3a103.p.ssafy.io:7070/api/download/' + str(sid)
+        # r = requests.get(url, allow_redirects=True)
+        # downloadPath = '/home/pi/test/down/%s.jpg'%(str(sid)
+        # global video_list
+        # video_list.append(downloadPath)
+        # open(downloadPath), 'wb').write(r.content)
+
 
 def captureFileUpload(file):
     global url_list
     
     blob = bucket.blob(file)
-
     new_token = uuid4()
     metadata = {"firebaseStorageDownloadTokens": new_token}
     blob.metadata = metadata
@@ -92,7 +130,7 @@ def getEmotionData():
         emo_result = emo_result[emo_result.find("emotion"):]
         emo_result = emo_result[emo_result.find("{"):]
         emo_result = emo_result[:emo_result.find("}")+1]
-        
+        print(emo_result)
         emo_list.append(emo_result)
         
         
@@ -115,6 +153,7 @@ def sendingQuery():
         
         now = time.localtime()
         str_time = ("%04d-%02d-%02d %02d:%02d:%02d"%(now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+        str_time = str(str_time)
         
         for str_emotion in emo_list : 
             query.prepare("INSERT INTO answer (surveyId, userID, customerId, emotions, createdAt, timeIndex) VALUES(:surveyId, :userID, :customerId, :emotions, :createdAt, :timeIndex)")
@@ -122,9 +161,6 @@ def sendingQuery():
             query.bindValue(":userID", ramd_userID) 
             query.bindValue(":customerId", ramd_customerId) 
             query.bindValue(":emotions", str_emotion)
-            
-            
-            
             query.bindValue(":createdAt", str_time) 
             
             query.bindValue(":timeIndex", idx) 
@@ -143,6 +179,16 @@ def sendingQuery():
 ############################################## Threads ##############################################
 #####################################################################################################
 
+class surveyFinishThread(QThread):
+    def __init__(self):
+        super().__init__()
+    def run(self):
+        for img in img_list : 
+            captureFileUpload(img)
+        captureFileUpload()
+        sendingQuery()
+        
+
 global timeThreadLoop
 timeThreadLoop = True
 class timeThread1(QThread):
@@ -154,9 +200,10 @@ class timeThread1(QThread):
         timeThreadLoop = True
         
     def run(self):
+        print("timeThread1 loop")
         while True:
             if timeThreadLoop == True:
-                print("timeThread1 loop")
+                
                 now = time.localtime()
                 self.str_time = ("%02d:%02d:%02d"%(now.tm_hour, now.tm_min, now.tm_sec))
                 self.printTime(self.str_time)
@@ -179,9 +226,10 @@ class timeThread2(QThread):
         timeThreadLoop = True
         
     def run(self):
+        print("timeThread2 loop")
         while True:
             if timeThreadLoop == True:
-                print("timeThread2 loop")
+                
                 now = time.localtime()
                 self.str_time = ("%02d:%02d:%02d"%(now.tm_hour, now.tm_min, now.tm_sec))
                 self.printTime(self.str_time)
@@ -280,9 +328,8 @@ class videoStateThread(QThread):
         self.stateSignal.emit()
 
 
-
+cameraThreadLoop = True
 class cameraThread(QThread):
-    mySignal = pyqtSignal(QPixmap)
     def __init__(self):
         super().__init__()
         self.cam = cv2.VideoCapture(0)
@@ -292,10 +339,12 @@ class cameraThread(QThread):
 
     def run(self):
         now = time.localtime()
-        idx = 110
+        idx = 0
         bef = 0
         self.flag = False
         self.sec = now.tm_sec
+
+        global cameraThreadLoop
         while True:
             ret, self.img = self.cam.read()
             
@@ -303,11 +352,8 @@ class cameraThread(QThread):
                 self.flag = True
             else :
                 self.flag = False
-            #print("idx : %d, bef : %d"%(idx, bef))
-            #print(self.flag)
             self.printImage(self.img, int(idx/5), self.flag)
             now = time.localtime()
-            #print ("%d, %d"%(self.sec, now.tm_sec))
             if self.sec != now.tm_sec :
                 idx = 0
                 self.sec = now.tm_sec
@@ -315,6 +361,9 @@ class cameraThread(QThread):
             idx = idx +1    
             
             QTest.qWait(10)
+            if cameraThreadLoop == False :
+                break;
+            
 
     def printImage(self, imgBGR, idx, flag):
         global img_list
@@ -333,8 +382,7 @@ class cameraThread(QThread):
                 upload_file_path  = "./img/upload/" + self.str_file
                 cv2.imwrite(upload_file_path, imgRGB)
                 img_list.append(self.str_file)
-            
-        self.mySignal.emit(img)
+
 
 
 
@@ -343,32 +391,42 @@ setLocationCameraThreadLoop =  True
 
 class setLocationCameraThread(QThread):
     mySignal = pyqtSignal(QPixmap)
-    global setLocationCameraThreadLoop
+    
     def __init__(self):
         super().__init__()
+        print("setLocationCameraThread init")
+        print(1)
         self.cam = cv2.VideoCapture(0)
+        print(2)
         self.cam.set(3, 960)
+        print(3)
         self.cam.set(4, 640)
+        print(4)
+        global setLocationCameraThreadLoop
         setLocationCameraThreadLoop =  True
+        #print(setLocationCameraThreadLoop)
+
 
 
     def run(self):
+        global setLocationCameraThreadLoop
+        print("setLocationCameraThread run")
         while True:
+            #print("setLocationCameraThreadLoop : %s"%(setLocationCameraThreadLoop))
             if setLocationCameraThreadLoop == True:
                 ret, self.img = self.cam.read()
                 self.printImage(self.img)
                 QTest.qWait(10)
             else :
-                self.exit()
+                break
 
     def printImage(self, imgBGR):
-        global img_list
         now = time.localtime()
         imgRGB = cv2.cvtColor(imgBGR, cv2.COLOR_BGR2RGB)
         h, w, byte = imgRGB.shape
         img = QImage(imgRGB, w, h, byte * w, QImage.Format_RGB888)
         img = QPixmap(img.scaled(960, 640))
-        #img = cv2.rectangle(img, (100,60), (140,100),(0,0,255), 2)           
+        #img = cv2.rectangle(img, (100,60), (140,100),(0,0,255), 2)             
         self.mySignal.emit(img)
         
         
@@ -383,6 +441,14 @@ class timeWaitThread(QThread):
         QTest.qWait(self.wait_sec)
         self.timeWaitSignal.emit()
         
+        
+class soundPlayThread(QThread):
+    def __init__(self, soundFile):
+        super().__init__()
+        self.soundFile = soundFile
+    def run(self):
+        QSound(self.soundFile).play()
+        
     
 
 #####################################################################################################
@@ -392,11 +458,10 @@ class timeWaitThread(QThread):
 #####################################################################################################
 
 class VideoPlayer(QWidget):
-
     closeSignal = pyqtSignal()
     def __init__(self, parent=None) :
         super(VideoPlayer, self).__init__(parent)
-        print("VideoPlayer init start")
+        self.setAttribute(Qt.WA_DeleteOnClose)
         self.setGeometry(0,0,1024,768)
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface) 
         videoWidget = QVideoWidget()
@@ -460,7 +525,9 @@ class VideoPlayer(QWidget):
         self.th4.stateSignal.connect(self.printVideoState)
         self.th4.start()
         
-        self.showFullScreen()
+        #self.th5 = soundPlayThread("/home/pi/qt/video/test7.aac")
+        #self.th5.start()
+
     
     
     def setTime(self, str_time) :
@@ -494,10 +561,6 @@ class VideoPlayer(QWidget):
          
     #if screen touched start vote
     def mousePressEvent(self, e): # e ; QMouseEvent 
-        print("VideoPlayer close start")
-        #print('BUTTON PRESS') 
-        # self.close()
-        # self.destroy()
         global timeThreadLoop
         timeThreadLoop = False
         self.th2.exit()
@@ -518,83 +581,48 @@ class VideoPlayer(QWidget):
     
 
 class Guide(QWidget):
-    print("Guide start")
     closeSignal = pyqtSignal()
-    def __init__(self, parent=None) :
-        super().__init__(parent)
-        print("Guide init start")
-        # self.main()
+    def __init__(self) :
+        super().__init__()
+        self.setAttribute(Qt.WA_DeleteOnClose)
+        self.main()
         
-    # def main(self):
-        print("Guide main start")
-        #self.setGeometry(0,0,1024,768)
+    def main(self):
         self.guide = QLabel("화면안에 얼굴을 고정시켜 주세요", self)
         self.guide.setGeometry(230, 0, 564, 100)
-        self.guide.setStyleSheet("font-size:30pt;""background-color:white;")
+        self.guide.setStyleSheet("font-size:30pt;")
+        self.guide.setAlignment(Qt.AlignCenter)
         self.pic = QLabel("", self)
         self.pic.setGeometry(32, 108, 960, 640)
         
         self.th1 = setLocationCameraThread()
         self.th1.mySignal.connect(self.setImage)
-        print("Guide th1 start")
         self.th1.start()
         
-        
-        '''
-        this is border css
-        '''
-        #isFace=false
-        #while True:
-        #    if(isFace==True):
-        #        self.pic.setStyleSheet("border-style:solid;""border-width:1px;""border-color:#3366FF;""border-radius:3px")
-        #        -- gonextdisplay--
-        #        break
-        #    self.pic.setStyleSheet("border-style:solid;""border-width:1px;""border-color:#FF3333;""border-radius:3px")
-        #    if(--people look!==True):
-        #        isFace=True
-
-
-
-        self.th2 = timeWaitThread(5000)
+        self.th2 = timeWaitThread(10000)
         self.th2.timeWaitSignal.connect(self.getAlram)
-        print("Guide th2 start")
         self.th2.start()
-        
-        self.showFullScreen()
-        self.setStyleSheet("background-color:white;")
-        #self.show()
+
         
         #QTest.qWait(3000)
     def getAlram(self):
-        print("Guide close start")
         global setLocationCameraThreadLoop
         setLocationCameraThreadLoop = False
-        self.th1.exit()
-        self.th2.exit()
         self.closeSignal.emit()
 
-        # try:
-            # self.close()
-        # except:
-            # self.destroy()
-        
     def setImage(self, img):
-        print("setImage")
         self.pic.setPixmap(img)
-
-    # def closeEvent(self, e):
-        # print("Guide Close")
-        # self.th1.exit()
-        #self.th1.wait()
-        #self.destroy()
-        #self.destroy()
+        
+    def closeEvent(self, e):
+        self.th1.cam.release()
+        self.th1.exit()
+        self.th2.exit()
+        
 
 class SurveyVideo(QWidget):
-
     closeSignal = pyqtSignal()
-    def __init__(self) :
-        super().__init__()
-        print("SurveyVideo init start")
+    def __init__(self, parent=None) :
+        super(SurveyVideo, self).__init__(parent)
         self.setGeometry(0,0,1024,768)
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface) 
         videoWidget = QVideoWidget()
@@ -649,8 +677,8 @@ class SurveyVideo(QWidget):
         
 
     def main(self):
-        #self.th1 = cameraThread()
-    
+        self.th1 = cameraThread()
+        self.th1.start()
     
         self.th2 = timeThread2()
         self.th2.timeSignal.connect(self.setTime)
@@ -663,19 +691,16 @@ class SurveyVideo(QWidget):
         self.th4 = videoStateThread()
         self.th4.stateSignal.connect(self.checkVideoState)
         self.th4.start()
-        #self.showFullScreen()
-        #self.playVideo()
 
     def checkVideoState(self):
         if self.overlap_signal_cancle == False :
             if self.mediaPlayer.state() == QMediaPlayer.StoppedState :
                 self.overlap_signal_cancle = True
-                print("SurveyVideo close start")
                 global timeThreadLoop
+                global cameraThreadLoop
                 timeThreadLoop = False
-                self.th2.exit()
-                #self.th3.exit()
-                self.th4.exit()
+                cameraThreadLoop = False
+                
                 self.closeSignal.emit()
 
     
@@ -691,7 +716,7 @@ class SurveyVideo(QWidget):
             self.humiLabel.setText("현재 습도  " + gtnData[2] + "%")
         except:
             pass
-            #print("RECEIVE DATA : {}".format(str_data))
+
 
 
     def playVideo(self):
@@ -700,238 +725,118 @@ class SurveyVideo(QWidget):
         self.mediaPlayer.setVolume(50)
         self.mediaPlayer.play()
         
-    # def closeEvent(self, e):
-        # #self.th2.terminate()
-        # retcode = -1
-        # self.th2.exit(retcode)
-        # if test == True :
-            # print("timeThread exit : %d"%(retcode))
-        # #self.th3.quit(retcode)
-        # #if test == True :
-            # #print("dataThread exit : %d"%(retcode))
-        # if test == True :
-            # self.th4.exit(retcode)
-        # print("videoStateThread exit : %d"%(retcode))
-
-        # #self.th4.terminate()
-        
-        # self.closeSignal.emit()
+    def closeEvent(self, e):
+        self.th1.cam.release()
+        self.th1.exit()
+        self.th2.exit()
+        #self.th3.exit()
+        self.th4.exit()
         
 class GetInfo(QWidget):
-    print("GetInfo start")
+    
     closeSignal = pyqtSignal()
     proc = 0
     def __init__(self) :
         super().__init__()
-        self.th1 = timeWaitThread(15000)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+        self.th1 = timeWaitThread(7000)
         self.th1.timeWaitSignal.connect(self.timeOut)
-        
-        print("start Internet")
-        self.proc = subprocess.Popen(["chromium-browser", "--start-maxximized", "--kiosk", "http://i3a103.p.ssafy.io:3100/customerlogin"])
-        self.th1.start()
-        #print(proc)
-        #time.sleep(5)
-        #proc.terminate()
+        self.th2 = surveyFinishThread()
 
+        #self.proc = subprocess.Popen(["chromium-browser", "--start-maxximized", "--kiosk", "http://i3a103.p.ssafy.io:3100/customerlogin"])
+        self.proc = subprocess.Popen(["chromium-browser", "--start-maxximized", "--kiosk", "https://www.naver.com"])
+        self.th1.start()
+        self.th2.start()
         
     def timeOut(self):
-        print("Time OUT!!")
-        retcode = -1
         self.th1.exit()
+        self.th2.exit()
         self.proc.kill()
         self.closeSignal.emit()
-        
         
 class MainWindow(QMainWindow):
     def __init__(self) :
         super().__init__()
+        print("window init")
         self.setGeometry(QRect(0,0,1024, 768))
-        # self.btn = QPushButton("Close", self)
-        # self.btn.setGeometry(100,100,100,100)
-        # self.btn.clicked.connect(self.asdf)
-        # self.label = QLabel("잠시만 기다려주세요")
-        # self.label.setStyleSheet("font-size:80pt")
-        # self.label.setGeometry(0,30, 1000,80)
 
-        
-        self.main()
-        
-        
-        
-        
-    # def main(self):
-        # print("start main")
-        # self.advPlay()
-        
-    # def advPlay(self):
-        # self.player = VideoPlayer(self)
-        # self.player.setGeometry(QRect(0,0,1024,768))
-        # print("VideoPlayer")
-        # self.player.closeSignal.connect(self.guideCameraLine)
-        # #self.player.closeSignal.connect(self.asdf)
-        
-    # def guideCameraLine(self):
-        # self.player.close()
-        # print("VideoPlayer close")
-        # self.guide = Guide()
-        # print("Guide")
-        # self.guide.closeSignal.connect(self.surveyStart)
-        
-    # def surveyStart(self):
-        # self.guide.close()
-        # print("Guide close")
-        # self.survey = SurveyVideo()
-        # print("SurveyVideo")
-        # self.survey.setGeometry(QRect(0,0,1024,768))
-        # self.survey.showFullScreen()
-        # #self.survey.show()
-        
-        # self.survey.closeSignal.connect(self.getCustomerInfo)
-    
-    # def getCustomerInfo(self):
-        # self.survey.close()
-        # print("SurveyVideo close")
-        # self.getinfo = GetInfo()
-        # print("GetInfo")
-        # self.getinfo.closeSignal.connect(self.restart)
-        
-    # def restart(self):
-        # self.getinfo.close()
-        # self.main()        
-        
-        
-    # # def main(self):
-    
-        # # while True:
-            # # print("start main")
+        self.label = QLabel("잠시만 기다려주세요")
+        self.setCentralWidget(self.label)
+        self.label.setStyleSheet("font-size:80pt")
+        self.label.setGeometry(0,30, 1000,80)
+        self.advPlay()
 
-            # # self.player = VideoPlayer(self)
-            # # self.player.setGeometry(QRect(0,0,1024,768))
-            # # print("VideoPlayer")
-            # # self.player.closeSignal.connect(self.guideCameraLine)
-            
-            # # print("VideoPlayer close")
-            # # self.guide = Guide()
-            # # print("Guide")
-            # # self.guide.closeSignal.connect(self.surveyStart)       
-
-            # # self.survey = SurveyVideo()
-            # # print("SurveyVideo")
-            # # self.survey.setGeometry(QRect(0,0,1024,768))
-            # # self.survey.showFullScreen()
-            # # self.survey.closeSignal.connect(self.getCustomerInfo)
-            
-            # # self.getinfo = GetInfo()
-            # # print("GetInfo")
-            # # self.getinfo.closeSignal.connect(self.restart)
+    def main(self):
+        print("start main")
+        self.advPlay()
         
-    # # def guideCameraLine(self):
-        # # self.player.close()
-            
-            
-
-            
-    # # def surveyStart(self):
-        # # self.guide.close()
-        # # print("Guide close")
-
-        # # #self.survey.show()
-        
-        
-    
-    # # def getCustomerInfo(self):
-        # # self.survey.close()
-        # # print("SurveyVideo close")
-
-        
-    # # def restart(self):
-        # # self.getinfo.close()
-        
-        
-        
-        
-        
-    def restart(self):
-        self.getinfo.close()
-        self.main()            
-        
-    def getCustomerInfo(self):
-        self.survey.close()
-        print("SurveyVideo close")
-        self.getinfo = GetInfo()
-        print("GetInfo")
-        self.getinfo.closeSignal.connect(self.restart)        
-        
-    def surveyStart(self):
-        self.guide.close()
-        print("Guide close")
-        self.survey = SurveyVideo()
-        print("SurveyVideo")
-        self.survey.setGeometry(QRect(0,0,1024,768))
-        self.survey.showFullScreen()
-        #self.survey.show()
-        
-        self.survey.closeSignal.connect(self.getCustomerInfo)        
+    def advPlay(self):
+        self.player = VideoPlayer(self)
+        self.player.setGeometry(QRect(0,0,1024,768))
+        self.player.showFullScreen()
+        print("VideoPlayer")
+        self.player.closeSignal.connect(self.guideCameraLine)
         
     def guideCameraLine(self):
         self.player.close()
         print("VideoPlayer close")
         self.guide = Guide()
+        self.guide.setGeometry(QRect(0,0,1024,768))
+        self.guide.showFullScreen()
         print("Guide")
         self.guide.closeSignal.connect(self.surveyStart)
-
-    def advPlay(self):
-        self.player = VideoPlayer(self)
-        self.player.setGeometry(QRect(0,0,1024,768))
-        print("VideoPlayer")
-        self.player.closeSignal.connect(self.guideCameraLine)
-        #self.player.closeSignal.connect(self.asdf)            
         
-    def main(self):
-        print("start main")
-        global setLocationCameraThreadLoop 
-        global timeThreadLoop
-        # setLocationCameraThreadLoop = True
-        # timeThreadLoop = True
-        self.advPlay()
-        
-
-        
-
-        
-
+    def surveyStart(self):
+        self.guide.close()
+        print("Guide close")
+        self.survey = SurveyVideo(self)
+        print("SurveyVideo")
+        self.survey.setGeometry(QRect(0,0,1024,768))
+        self.survey.showFullScreen()
+        self.survey.closeSignal.connect(self.getCustomerInfo)
     
+    def getCustomerInfo(self):
+        self.survey.close()
+        print("SurveyVideo close")
+        self.getinfo = GetInfo()
+        print("GetInfo")
+        self.getinfo.closeSignal.connect(self.restart)
+        
+    def restart(self):
+        self.getinfo.close()
+        self.getinfo.destroy()
+        self.advPlay()        
+        
+     
+
 
         
-    
-        
-    
-        
-        
-        
+   
 #####################################################################################################        
         
 #####################################################################################################
 ##############################################TEST AREA##############################################
 #####################################################################################################
 
-
 #####################################################################################################
 
 def main():
+    print("start main()")
+    #init()
     app = QApplication([]) 
     app.setStyleSheet("background-color:black;")  
     win = MainWindow()
     win.setWindowTitle("KIOSK")
     win.setStyleSheet("background-color:white;")
+    win.setGeometry(0,0,1024,768)
     win.showFullScreen()
-    #win.show()
     app.exec()
     
 
 
 if __name__ == "__main__":
     # execute only if run as a script
+    print("main start")
     main()
 
 

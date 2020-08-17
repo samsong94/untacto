@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReactPlayer from 'react-player';
 import palette from '../../lib/styles/palette';
 import Main from '../common/Main';
 import AnalysisViewerContainer from '../../containers/survey/AnalysisViewerContainer';
+import VideoViewerContainer from '../../containers/survey/VideoViewerContainer';
 
 const SurveyViewerBlock = styled(Main)`
   margin-top: 4rem;
@@ -92,7 +92,6 @@ const SurveyViewer = ({ survey, error, loading }) => {
   //     description:
   //       '하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하',
   //     video: '일로와이로 - 뚜뚜뚜',
-  //     videoPath: 'https://youtu.be/E6c8G3n5EiQ',
   //   };
   const {
     title,
@@ -103,7 +102,6 @@ const SurveyViewer = ({ survey, error, loading }) => {
     kiosk,
     description,
     video,
-    videoPath,
   } = survey;
   return (
     <SurveyViewerBlock>
@@ -131,7 +129,7 @@ const SurveyViewer = ({ survey, error, loading }) => {
         <SurveyContent>
           <h2>영상</h2>
           <p>{video}</p>
-          <ReactPlayer url={videoPath} width="480px" height="270px" />
+          <VideoViewerContainer />
         </SurveyContent>
       </SurveyContentBlock>
       <AnalysisContent>
