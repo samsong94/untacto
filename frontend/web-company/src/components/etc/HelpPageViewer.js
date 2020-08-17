@@ -11,10 +11,10 @@ import Typography from '@material-ui/core/Typography';
 const HelpViewerBlock = styled(Main)`
   margin: 0 auto;
   padding: 4rem;
-  width: 48rem;
+  width: calc(100%-8rem);
 
   display: grid;
-  grid-template-columns: repeat(2, 100%);
+  grid-template-columns: 1fr 2fr;
   grid-gap: 1rem;
 
   h2 {
@@ -25,7 +25,7 @@ const HelpViewerBlock = styled(Main)`
   }
 
   @media (max-width: 1024px) {
-    grid-template-rows: 50px 400px 400px 400px;
+    grid-template-columns: 1fr;
     padding-left: 2rem;
     padding-right: 2rem;
   }
@@ -84,7 +84,6 @@ const HelpPageViewer = () => {
     <>
       <HelpViewerBlock>
         <h2>ABOUT UNTACTO</h2>
-
         <div>
           <Accordion
             square
