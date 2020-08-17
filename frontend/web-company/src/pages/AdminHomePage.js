@@ -8,7 +8,7 @@ const AdminHomePage = () => {
   return (
     <>
       <Helmet>
-        <title>UNTACTO | Admin</title>
+        <title>UNTACTO | ADMIN</title>
       </Helmet>
       <AdminHeader />
       <AdminListTemplate>

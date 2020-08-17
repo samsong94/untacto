@@ -9,7 +9,7 @@ const SurveyListPage = () => {
   return (
     <>
       <Helmet>
-        <title>UNTACTO | Survey List</title>
+        <title>UNTACTO | SURVEYLIST</title>
       </Helmet>
       <HeaderContainer />
       <MobileHeaderContainer />

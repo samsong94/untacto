@@ -9,7 +9,7 @@ const HelpPage = () => {
   return (
     <>
       <Helmet>
-        <title>UNTACTO | Help</title>
+        <title>UNTACTO | HELP</title>
       </Helmet>
       <HeaderContainer />
       <MobileHeaderContainer />

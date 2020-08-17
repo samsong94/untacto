@@ -9,7 +9,7 @@ const MemberPage = () => {
   return (
     <>
       <Helmet>
-        <title>UNTACTO | Member</title>
+        <title>UNTACTO | MEMBER</title>
       </Helmet>
       <HeaderContainer />
       <MobileHeaderContainer />

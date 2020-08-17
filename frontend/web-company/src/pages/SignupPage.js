@@ -9,7 +9,7 @@ const SignupPage = () => {
   return (
     <>
       <Helmet>
-        <title>UNTACTO | Signup</title>
+        <title>UNTACTO | SIGNUP</title>
       </Helmet>
       <HeaderContainer />
       <MobileHeaderContainer />

@@ -9,7 +9,7 @@ const DashboardPage = () => {
   return (
     <>
       <Helmet>
-        <title>UNTACTO | Dashboard</title>
+        <title>UNTACTO | DASHBOARD</title>
       </Helmet>
       <HeaderContainer />
       <MobileHeaderContainer />

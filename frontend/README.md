@@ -81,25 +81,25 @@ frontend
 
 ### Packages
 
-| Name                                                                               | Purpose                  |
-| :--------------------------------------------------------------------------------- | :----------------------- |
-| [axios](https://github.com/axios/axios)                                            | Fetching data            |
-| [bootstrap](https://www.npmjs.com/package/bootstrap)                               | UI design                |
-| [immer](https://www.npmjs.com/package/immer)                                       | Changing store easily    |
-| [qs](https://www.npmjs.com/package/qs)                                             | Handling query-string    |
-| [react-billboardjs](https://www.npmjs.com/package/react-billboardjs)               | Data visualization       |
-| [react-bootstrap](https://www.npmjs.com/package/react-bootstrap)                   | UI design                |
-| [react-calendar](https://www.npmjs.com/package/react-calendar)                     | In-app calendar          |
-| [react-helmet-async](https://www.npmjs.com/package/react-helmet-async)             | Handling titles of pages |
-| [react-player](https://www.npmjs.com/package/react-player)                         | In-app video player      |
-| [react-redux](https://react-redux.js.org/)                                         | Using redux with react   |
-| [react-router-dom](https://www.npmjs.com/package/react-router-dom)                 | Routing                  |
-| [react-simple-keyboard](https://www.npmjs.com/package/react-simple-keyboard)       | Kiosk Keyboard           |
-| [redux](https://redux.js.org/)                                                     | Managing state           |
-| [redux-actions](https://www.npmjs.com/package/redux-actions)                       | Handling redux action    |
+| Name                                                         | Purpose                  |
+| :----------------------------------------------------------- | :----------------------- |
+| [axios](https://github.com/axios/axios)                      | Fetching data            |
+| [bootstrap](https://www.npmjs.com/package/bootstrap)         | UI design                |
+| [immer](https://www.npmjs.com/package/immer)                 | Changing store easily    |
+| [qs](https://www.npmjs.com/package/qs)                       | Handling query-string    |
+| [react-billboardjs](https://www.npmjs.com/package/react-billboardjs) | Data visualization       |
+| [react-bootstrap](https://www.npmjs.com/package/react-bootstrap) | UI design                |
+| [react-calendar](https://www.npmjs.com/package/react-calendar) | In-app calendar          |
+| [react-helmet-async](https://www.npmjs.com/package/react-helmet-async) | Handling titles of pages |
+| [react-player](https://www.npmjs.com/package/react-player)   | In-app video player      |
+| [react-redux](https://react-redux.js.org/)                   | Using redux with react   |
+| [react-router-dom](https://www.npmjs.com/package/react-router-dom) | Routing                  |
+| [react-simple-keyboard](https://www.npmjs.com/package/react-simple-keyboard) | Kiosk Keyboard           |
+| [redux](https://redux.js.org/)                               | Managing state           |
+| [redux-actions](https://www.npmjs.com/package/redux-actions) | Handling redux action    |
 | [redux-devtools-extension](https://www.npmjs.com/package/redux-devtools-extension) | Dev tools for redux      |
-| [redux-saga](https://www.npmjs.com/package/redux-saga)                             | Redux middleware         |
-| [styled-components](https://styled-components.com/docs)                            | Styling components       |
+| [redux-saga](https://www.npmjs.com/package/redux-saga)       | Redux middleware         |
+| [styled-components](https://styled-components.com/docs)      | Styling components       |
 
 ## APIs
 
@@ -444,7 +444,29 @@ frontend
 > react-player 사용
 
 - [react-player](https://www.npmjs.com/package/react-player)
-- 
+- 영상을 받는 API를 따로 구축하고, 개별 설문 화면에 들어갈 때 GET 요청
+- redux store에 저장된 `videoPath`를 `ReactPlayer`컴포넌트의 url props로 넘겨서 구현
+
+### 드래그 앤 드랍
+
+> [참고 | Create a drag-and-drop component with react-dropzone](https://blog.logrocket.com/create-a-drag-and-drop-component-with-react-dropzone/) 
+
+- [HTML Drag and Drop API]([https://developer.mozilla.org/ko/docs/Web/API/HTML_%EB%93%9C%EB%9E%98%EA%B7%B8_%EC%95%A4_%EB%93%9C%EB%A1%AD_API](https://developer.mozilla.org/ko/docs/Web/API/HTML_드래그_앤_드롭_API))
+- Events about drag & drop
+  - onDragOver
+  - onDragEnter
+  - onDragLeave
+  - onDrop
+- [dataTransfer](https://developer.mozilla.org/ko/docs/Web/API/DataTransfer)
+  - drag & drop 이 발생하는 동안, drag 된 데이터를 잡아두는 객체
+  - 구현에서는 `e.dataTransfer.files`를 통해 drag 된 파일에 접근
+
+### 페이지별 제목
+
+> react-helmet-async 사용
+
+- [react-helmet-async](https://www.npmjs.com/package/react-helmet-async)
+- App 컴포넌트를 `HelmetProvider` 로 감싼 후, 각 페이지에서 `Helmet` 컴포넌트 안에 header 내 변경할 요소를 작성
 
 ## 어려웠던 구현
 

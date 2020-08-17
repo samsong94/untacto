@@ -7,7 +7,7 @@ const CustomerInfoPage = () => {
   return (
     <>
       <Helmet>
-        <title>UNTACTO | Customer</title>
+        <title>UNTACTO | CUSTOMER</title>
       </Helmet>
       <MobileHeader />
       <CustomerInfoViewerContainer />
