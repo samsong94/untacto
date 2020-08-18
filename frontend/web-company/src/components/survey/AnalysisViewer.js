@@ -10,6 +10,9 @@ const AnalysisViewerBlock = styled(Main)`
   grid-template-columns: repeat(2, 50%);
   grid-template-rows: 50px 400px 400px;
   grid-gap: 1rem;
+  @media (max-width: 1024px) {
+    top: 40rem;
+  }
   h2 {
     grid-column: 1 / 3;
     grid-row: 1/ 2;
@@ -77,9 +80,9 @@ const AnalysisItem = styled.div`
 `;
 
 const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
-  // if (error) {
-  //   return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
-  // }
+  if (error) {
+    return <AnalysisViewerBlock>오류가 발생했습니다</AnalysisViewerBlock>;
+  }
   if (!surveyAnswer?.total) {
     return (
       <AnalysisViewerBlock>

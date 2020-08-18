@@ -43,6 +43,10 @@ const Kiosk = styled.div`
 const SurveyContentBlock = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
 `;
 const SurveyContent = styled.div`
   margin-bottom: 10rem;
@@ -55,6 +59,12 @@ const SurveyContent = styled.div`
   }
   & + & {
     margin-left: 10rem;
+  }
+  @media (max-width: 1024px) {
+    margin-bottom: 0;
+    & + & {
+      margin-left: 0;
+    }
   }
 `;
 const AnalysisContent = styled.div`
@@ -77,22 +87,6 @@ const SurveyViewer = ({ survey, error, loading }) => {
   if (loading || !survey) {
     return null;
   }
-  // const SurveyViewer = ({ error, loading }) => {
-  //   const survey = {
-  //     title: '예시',
-  //     user: {
-  //       companyId: 1,
-  //       companyName: '나나',
-  //     },
-  //     createdAt: '2020-09-01',
-  //     kiosk: {
-  //       kioskId: 1,
-  //       location: '홍대',
-  //     },
-  //     description:
-  //       '하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하하',
-  //     video: '일로와이로 - 뚜뚜뚜',
-  //   };
   const {
     title,
     user,
