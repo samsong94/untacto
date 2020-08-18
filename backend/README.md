@@ -288,6 +288,19 @@ GET /api/answers/:id
 - user(회사)가 진행중인 설문조사의 응답을 확인하는 기능으로, 여러 기준(성별, 나이)으로 응답을 분류하여 분석 결과를 차트로 보여줍니다.
 ```
 
+### etc
+**1. downloadFile.js**
+```
+GET /api/download/:id
+- 파일을 다운로드 받을 수 있게 합니다.
+```
+
+**2. streamFile.js**
+```
+GET /api/stream/:id
+- 현재 survey에 맞는 동영상을 다운 받을 수 있도록 링크를 제공합니다.
+```
+
 ## DB
 
 **1. user**
