@@ -36,7 +36,7 @@ git clone https://lab.ssafy.com/s03-webmobile3-sub3/s03p13a103.git
 2. Install npm packages
 
 ```sh
-$ cd ./backend/backend-test/
+$ cd backend/backend-test/
 $ npm install
 $ npm install moment moment-timezone
 $ npm install -g pm2@latest
@@ -45,7 +45,7 @@ $ npm install -g pm2@latest
 3. Input a port
 
 ```js
-//./backend/backend-test/servers/server.js
+//backend/backend-test/servers/server.js
 const port = process.env.PORT || [port number];
 ```
 
