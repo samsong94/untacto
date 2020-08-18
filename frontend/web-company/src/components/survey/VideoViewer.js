@@ -20,7 +20,15 @@ const VideoViewer = ({ videoPath, error, loading }) => {
   if (loading || !videoPath) {
     return null;
   }
-  return <ReactPlayer url={videoPath} width="480px" height="270px" />;
+  return (
+    <ReactPlayer
+      url={videoPath}
+      playing="true"
+      loop="true"
+      width="480px"
+      height="270px"
+    />
+  );
 };
 
 export default VideoViewer;
