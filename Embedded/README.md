@@ -11,20 +11,19 @@
 
 ### Function summary
 
-**_승진오빠 이 부분 좀 더 추가해주세요..!! 그리고 이건 지워주세요_**
-
+- Qt를 이용한 화면 구성
 - OpenCV를 이용해서 카메라 사용 및 Microsoft Azure의 얼굴 표정 인식 API 활용해 감정 분석
 - 적외선 센서를 이용해 동작을 인식하여 키오스크 터치 최소화
 - 감정 분석 결과를 DB에 보내고 동영상과 같은 데이터를 DB에서 받으면서 통신
 
-## Tools
+## Settings
 
 ### HW
 
 |     Name     |              Info               |
 | :----------: | :-----------------------------: |
 | Raspberry Pi | Raspberry Pi 3 Model B Rev 1.2  |
-|   Arduino    |                                 |
+|   Arduino    |               Uno               |
 | LCD Monitor  | 7inch, Resolution : 1920 x 1080 |
 
 ### SW
@@ -38,7 +37,7 @@
 |   OpenCV   | 4.1.0                                                                                    |
 |   Python   | 3.7.3                                                                                    |
 
-## Check-Version
+### Check-Version
 
 ```
 $ uname -a
@@ -52,7 +51,7 @@ $ mysql --version
 
 ```
 
-## Require Module
+### Require Module
 
 ```
 sudo apt-get install update
@@ -71,18 +70,19 @@ sudo apt-get install libgtk2.0-dev libgtk-3-dev
 sudo apt-get install libatlas-base-dev gfortran
 sudo apt-get install libhdf5-dev libhdf5-serial-dev libhdf5-103
 sudo apt-get install libqtgui4 libqtwebkit4 libqt4-test python3-pyqt5
-sudo apt-get install qt5-default qtbase5-dev qtdeclarative5-dev qt5-qmake qtcreator libqt5gui5  qtscript5-dev qtmultimedia5-dev libqt5multimedia5-plugins qtquickcontrols2-5-dev libqt5network5 cmake build-essential
+sudo apt-get install qt5-default qtbase5-dev qtdeclarative5-dev qt5-qmake qtcreator libqt5gui5  qtscript5-dev qtmultimedia5-dev qtquickcontrols2-5-dev libqt5network5 cmake build-essential
+sudo apt-get install python3-pyqt5 qttools5-dev-tools python3-pyqt5.qtsql libqt5sql5-mysql
 sudo apt-get install python3-pyqt5.qtmultimedia
 sudo apt-get install python3-pyqt5.qtsql
 pip3 install imutils
 pip3 uninstall opencv-python
 pip3 install opencv-contrib-python==4.1.0.25
 
-apt-get install python3-pyqt5 qttools5-dev-tools python3-pyqt5.qtsql libqt5sql5-mysql
-sudo pip install firebase-admin
+
+sudo pip3 install firebase-admin
 ```
 
-## Submit Data
+### Submit Data
 
 ```
 	age gender contact
@@ -94,7 +94,7 @@ sudo pip install firebase-admin
 
 ## Pin Setting
 
-- Raspberry Pi
+Raspberry Pi
 
 | Connection |  Name  | Pin | Pin |  Name  | Connection |
 | :--------: | :----: | :-: | :-: | :----: | :--------: |
@@ -119,7 +119,7 @@ sudo pip install firebase-admin
 |            | GPIO26 | 37  | 38  | GPIO20 |            |
 |            |  GND   | 39  | 40  | GPIO21 |            |
 
-- Arduino
+Arduino
 
 | Connection |  Pin  | Pin | Connection |
 | :--------: | :---: | :-: | :--------: |
@@ -137,19 +137,38 @@ sudo pip install firebase-admin
 |  Pi GPIO2  |  A4   | D2  |            |
 |  Pi GPIO3  |  A5   | D1  |            |
 
-# Problem & Solve
+### Auth
 
-### Return to Initial Page
+```
+/home/pi/KIOSK/Auth/ServiceAccountKey.json
+```
 
-- 문제상황
-  - a
-- 해결
-  - a
+## description
+
+### Pages
+
+#### 1. 광고 재생
+
+    키오스크에 있는 모든 광고 영상 파일 반복 재생
+
+#### 2. 카메라 가이드
+
+    얼굴을 카메라에 고정시킬 수 있도록 카메라 촬영 화면을 보여줌
+
+#### 3. 선택 광고 재생
+
+    선택한 광고를 재생하면서 동시에 카메라를 통해 얼굴 표정 수집
+
+#### 4. 개인정보 수집
+
+    사용자 보상을 위해 사용자의 개인정보를 받음
+
+## Problem & Solve
 
 ### Real-Time Data Analysis
 
 - 문제상황
-  - 광고 영상에서 얻은 이미지 데이터를 실시간으로 분석하는 과정에서 1~2초 정도의 딜레이 발생
+  - 표정을 인식해 주는 Azure API 에서 로컬에 있는 파일을 확인할 수 없음
 - 해결
   - 웹서버인 파이어베이스(Firebase)를 사용해 실시간으로 DB에 사진을 업로드해 얼굴 인식 가능하게 함
   - [FireBase](https://firebase.google.com/docs/reference?hl=ko)
@@ -157,9 +176,9 @@ sudo pip install firebase-admin
 ### Auto Play
 
 - 문제상황
-  - a
+  - 카메라 리소스 문제로 카메라를 사용하는 페이지가 돌아오면 중지됨
 - 해결
-  - a
+  - 페이지 단위로 카메라를 릴리즈해서 페이지가 넘어가도 카메라 리소스를 계속해서 사용할 수 있도록 함
 
 # Unresolved Issues
 
