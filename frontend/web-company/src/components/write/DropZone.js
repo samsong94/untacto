@@ -51,7 +51,7 @@ const DropZone = ({ onChangeField }) => {
   const fileDrop = (e) => {
     e.preventDefault();
     const files = e.dataTransfer.files;
-    console.log(files);
+    // console.log(files);
     // console.log(onChangeField);
     onChangeField({ key: 'video', value: files[0] });
   };
