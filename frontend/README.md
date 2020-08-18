@@ -1,17 +1,17 @@
-# 프론트엔드
+## 프론트엔드
 
-## 개요
+### 개요
 
 > 프론트엔드 프로젝트 기능 및 구조 개요
 
-### 기능 개요
+#### 기능 개요
 
 - 웹에서 회사가 생성한 설문을 백엔드로 전송하여 저장
 - 키오스크에서 생성된 설문 응답들을 차트로 시각화하여 제공
 - 키오스크에서 설문 응답 후 포인트를 적립
 - 설문, 회사, 설문응답자, 키오스크에 대한 관리자 페이지
 
-### 프로젝트 구조
+#### 프로젝트 구조
 
 ```
 frontend
@@ -69,39 +69,39 @@ frontend
             └── WritePage.js
 ```
 
-## Tools
+### Tools
 
 > 프론트엔드 개발에 사용한 프레인워크 및 패키지들
 
-### Framework
+#### Framework
 
 | Name  | Version   |
 | :---- | :-------- |
 | React | v.16.13.1 |
 
-### Packages
+#### Packages
 
-| Name                                                         | Purpose                  |
-| :----------------------------------------------------------- | :----------------------- |
-| [axios](https://github.com/axios/axios)                      | Fetching data            |
-| [bootstrap](https://www.npmjs.com/package/bootstrap)         | UI design                |
-| [immer](https://www.npmjs.com/package/immer)                 | Changing store easily    |
-| [qs](https://www.npmjs.com/package/qs)                       | Handling query-string    |
-| [react-billboardjs](https://www.npmjs.com/package/react-billboardjs) | Data visualization       |
-| [react-bootstrap](https://www.npmjs.com/package/react-bootstrap) | UI design                |
-| [react-calendar](https://www.npmjs.com/package/react-calendar) | In-app calendar          |
-| [react-helmet-async](https://www.npmjs.com/package/react-helmet-async) | Handling titles of pages |
-| [react-player](https://www.npmjs.com/package/react-player)   | In-app video player      |
-| [react-redux](https://react-redux.js.org/)                   | Using redux with react   |
-| [react-router-dom](https://www.npmjs.com/package/react-router-dom) | Routing                  |
-| [react-simple-keyboard](https://www.npmjs.com/package/react-simple-keyboard) | Kiosk Keyboard           |
-| [redux](https://redux.js.org/)                               | Managing state           |
-| [redux-actions](https://www.npmjs.com/package/redux-actions) | Handling redux action    |
+| Name                                                                               | Purpose                  |
+| :--------------------------------------------------------------------------------- | :----------------------- |
+| [axios](https://github.com/axios/axios)                                            | Fetching data            |
+| [bootstrap](https://www.npmjs.com/package/bootstrap)                               | UI design                |
+| [immer](https://www.npmjs.com/package/immer)                                       | Changing store easily    |
+| [qs](https://www.npmjs.com/package/qs)                                             | Handling query-string    |
+| [react-billboardjs](https://www.npmjs.com/package/react-billboardjs)               | Data visualization       |
+| [react-bootstrap](https://www.npmjs.com/package/react-bootstrap)                   | UI design                |
+| [react-calendar](https://www.npmjs.com/package/react-calendar)                     | In-app calendar          |
+| [react-helmet-async](https://www.npmjs.com/package/react-helmet-async)             | Handling titles of pages |
+| [react-player](https://www.npmjs.com/package/react-player)                         | In-app video player      |
+| [react-redux](https://react-redux.js.org/)                                         | Using redux with react   |
+| [react-router-dom](https://www.npmjs.com/package/react-router-dom)                 | Routing                  |
+| [react-simple-keyboard](https://www.npmjs.com/package/react-simple-keyboard)       | Kiosk Keyboard           |
+| [redux](https://redux.js.org/)                                                     | Managing state           |
+| [redux-actions](https://www.npmjs.com/package/redux-actions)                       | Handling redux action    |
 | [redux-devtools-extension](https://www.npmjs.com/package/redux-devtools-extension) | Dev tools for redux      |
-| [redux-saga](https://www.npmjs.com/package/redux-saga)       | Redux middleware         |
-| [styled-components](https://styled-components.com/docs)      | Styling components       |
+| [redux-saga](https://www.npmjs.com/package/redux-saga)                             | Redux middleware         |
+| [styled-components](https://styled-components.com/docs)                            | Styling components       |
 
-## APIs
+### APIs
 
 > axios 사용
 >
@@ -109,7 +109,7 @@ frontend
 >
 > `client.js` 에서 axios 인스턴스를 생성 및 export한 후, 각 파일에서 import 하여 사용
 
-### Admin
+#### Admin
 
 > 웹 어플리케이션 관리자 페이지에서 사용하는 API
 
@@ -163,7 +163,7 @@ frontend
   GET /api/admin/kiosks
   ```
 
-### Auth
+#### Auth
 
 > 회사 계정과 관련된 API
 
@@ -191,7 +191,7 @@ frontend
   POST /api/auth/logout
   ```
 
-### Customers
+#### Customers
 
 > 설문 응답자 계정과 관련된 API
 
@@ -215,7 +215,7 @@ frontend
   /api/customer/logout
   ```
 
-### Surveys
+#### Surveys
 
 > 설문과 관련된 API
 
@@ -242,7 +242,7 @@ frontend
   GET /api/surveys/:surveyId
   ```
 
-### SurveyAnswers
+#### SurveyAnswers
 
 > 설문 응답과 관련된 API
 
@@ -260,7 +260,7 @@ frontend
 
   - query를 통해 companyId를 전달
 
-## Middleware
+### Middleware
 
 > redux-saga 사용
 >
@@ -281,7 +281,7 @@ frontend
   - createSagaMiddleware()를 통해 sagaMiddleware를 생성한 후, store 생성 시에 applyMiddleware를 통해 적용
   - 모든 Saga 를 모은 rootSaga 를 sagaMiddleware 를 통해 run
 
-## State Management
+### State Management
 
 > redux 사용
 >
@@ -292,24 +292,24 @@ frontend
   - index.js에서 App 컴포넌트를 Provider 컴포넌트로 감싸고, props로 store를 넘겨줘서 적용
 
     ```jsx
-    import React from 'react';
-    import { Provider } from 'react-redux';
-    import App from './App';
-    
-    // ... 
-    
+    import React from "react";
+    import { Provider } from "react-redux";
+    import App from "./App";
+
+    // ...
+
     const store = createStore(
       rootReducer,
-      composeWithDevTools(applyMiddleware(sagaMiddleware)),
+      composeWithDevTools(applyMiddleware(sagaMiddleware))
     );
-    
+
     // ...
-    
+
     ReactDOM.render(
       <Provider store={store}>
         <App />
       </Provider>,
-      document.getElementById('root'),
+      document.getElementById("root")
     );
     ```
 
@@ -324,15 +324,15 @@ frontend
   - 예시 (`adminCustomers`)
 
     ```jsx
-    import React from 'react';
-    import { useSelector } from 'react-redux';
-    
+    import React from "react";
+    import { useSelector } from "react-redux";
+
     const { adminCustomers, error, loading } = useSelector(
       ({ adminCustomers, loading }) => ({
         adminCustomers: adminCustomers.adminCustomers,
         error: adminCustomers.error,
-        loading: loading['adminCustomers/LIST_ADMIN_CUSTOMERS'],
-      }),
+        loading: loading["adminCustomers/LIST_ADMIN_CUSTOMERS"],
+      })
     );
     ```
 
@@ -347,18 +347,18 @@ frontend
   - 예시 (`listAdminCustomers`)
 
     ```jsx
-    import React, { useEffect } from 'react';
-    import { listAdminCustomers } from '../../modules/adminCustomers';
-    import { useDispatch } from 'react-redux';
-    
+    import React, { useEffect } from "react";
+    import { listAdminCustomers } from "../../modules/adminCustomers";
+    import { useDispatch } from "react-redux";
+
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
-        dispatch(listAdminCustomers());
-      }, [dispatch]);
+      dispatch(listAdminCustomers());
+    }, [dispatch]);
     ```
 
-## Routing
+### Routing
 
 > react-router-dom 사용
 >
@@ -388,19 +388,19 @@ frontend
   - 예시
 
     ```jsx
-    import React, { useEffect } from 'react';
-    import { withRouter } from 'react-router-dom';
-    
+    import React, { useEffect } from "react";
+    import { withRouter } from "react-router-dom";
+
     const AdminUsersListContainer = ({ history }) => {
       const onRemove = async (userId) => {
         try {
           await adminDeleteUser(userId);
-          history.push('/admin/user');
+          history.push("/admin/user");
         } catch (e) {
           console.log(e);
         }
       };
-    
+
       return (
         <AdminUsersList
           loading={loading}
@@ -410,13 +410,13 @@ frontend
         />
       );
     };
-    
+
     export default withRouter(AdminUsersListContainer);
     ```
 
-## UI/UX
+### UI/UX
 
-### 데이터 시각화
+#### 데이터 시각화
 
 > react-billboardjs 사용
 
@@ -429,18 +429,18 @@ frontend
 - 그래프 시각화 패키지인 `billboardjs`에 react 환경에서의 rendering을 보완한 `react-billboardjs` 를 사용
   - `BillboardChart` 컴포넌트를 import 해, 데이터, 크기, 타입 등의 정보를 props로 넘겨서 사용
 
-### 반응형 웹
+#### 반응형 웹
 
 > media queries 및 useState 사용
 
 - [CSS media queries](https://developer.mozilla.org/ko/docs/Web/CSS/@media)
 - [useState](https://ko.reactjs.org/docs/hooks-state.html)
 - 웹 페이지 크기 및 모바일 화면에 대한 반응형 화면 구현
-- media query를 사용한 `Main`  컴포넌트를 정의한 후, 모든 Viewer 컴포넌트에서 상속받아서 사용
+- media query를 사용한 `Main` 컴포넌트를 정의한 후, 모든 Viewer 컴포넌트에서 상속받아서 사용
   - `max-width` 값에 따라 `width` 변경
   - grid 를 사용하는 Viewer의 경우, `max-width` 값에 따라 `grid-template` 변경
 
-### 인앱 가상 키보드
+#### 인앱 가상 키보드
 
 > react-simple-keyboard 사용
 
@@ -449,7 +449,7 @@ frontend
   - `onChange`, `onKeyPress` 이벤트에 대한 handler를 정의한 후 props로 전달
   - 이때, 상단의 번호 입력 input 은 `readOnly` 로 설정해 입력 방법을 `Keyboard` 컴포넌트로 제한
 
-### 인앱 영상 재생
+#### 인앱 영상 재생
 
 > react-player 사용
 
@@ -457,11 +457,11 @@ frontend
 - 영상을 받는 API를 따로 구축하고, 개별 설문 화면에 들어갈 때 GET 요청
 - redux store에 저장된 `videoPath`를 `ReactPlayer`컴포넌트의 url props로 넘겨서 구현
 
-### 드래그 앤 드랍
+#### 드래그 앤 드랍
 
-> [참고 | Create a drag-and-drop component with react-dropzone](https://blog.logrocket.com/create-a-drag-and-drop-component-with-react-dropzone/) 
+> [참고 | Create a drag-and-drop component with react-dropzone](https://blog.logrocket.com/create-a-drag-and-drop-component-with-react-dropzone/)
 
-- [HTML Drag and Drop API]([https://developer.mozilla.org/ko/docs/Web/API/HTML_%EB%93%9C%EB%9E%98%EA%B7%B8_%EC%95%A4_%EB%93%9C%EB%A1%AD_API](https://developer.mozilla.org/ko/docs/Web/API/HTML_드래그_앤_드롭_API))
+- [HTML Drag and Drop API](<[https://developer.mozilla.org/ko/docs/Web/API/HTML_%EB%93%9C%EB%9E%98%EA%B7%B8_%EC%95%A4_%EB%93%9C%EB%A1%AD_API](https://developer.mozilla.org/ko/docs/Web/API/HTML_드래그_앤_드롭_API)>)
 - Events about drag & drop
   - onDragOver
   - onDragEnter
@@ -471,27 +471,28 @@ frontend
   - drag & drop 이 발생하는 동안, drag 된 데이터를 잡아두는 객체
   - 구현에서는 `e.dataTransfer.files`를 통해 drag 된 파일에 접근
 
-### 페이지별 제목
+#### 페이지별 제목
 
 > react-helmet-async 사용
 
 - [react-helmet-async](https://www.npmjs.com/package/react-helmet-async)
 - App 컴포넌트를 `HelmetProvider` 로 감싼 후, 각 페이지에서 `Helmet` 컴포넌트 안에 header 내 변경할 요소를 작성
 
-## 어려웠던 구현
+### 어려웠던 구현
 
-### Rendering before data fetched
+#### Rendering before data fetched
 
 - 문제상황
-  
+
   - Dashboard 페이지와 SurveyDetail 페이지에서 설문 응답 데이터들을 시각화할 때, 데이터가 완전히 불러와지기 전에 rendering 이 시작되어 error 발생
-  
+
 - 해결
+
   - return with `&&`
     - `&&` 논리연산의 경우 앞에 오는 값이 false 라면 뒤의 값을 판단하지 않고 false 를 return 하기 때문에, error 가 발생하지 않는다
   - [Optional chaining](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Optional_chaining)
     - 참조하는 대상이 null 혹은 undfined 인 경우, error 를 발생시키지 않고 undefined를 return
-  
+
   ```jsx
   return (
     <DashboardViewerBlock>
@@ -505,11 +506,12 @@ frontend
   );
   ```
 
-### Data unload
+#### Data unload
 
 - 문제상황
-  
+
   - Dashboard 페이지에서 로그아웃한 후 다른 계정으로 로그인하는 경우, 데이터 요청에 대한 응답이 완료되기 전까지 이전 회사의 차트가 노출되는 문제 발생
+
 - 해결
 
   - [useEffect](https://ko.reactjs.org/docs/hooks-effect.html)
@@ -531,19 +533,21 @@ frontend
     	// ...
     ```
 
-### POST request with file data
+#### POST request with file data
 
 - 문제상황
-  
+
   - 설문생성 과정에서 기존의 방식으로 객체를 사용하여 POST 요청을 보내는 경우, file data가 백엔드로 전송되지 않는 문제 발생
+
 - 해결
+
   - [FormData](https://developer.mozilla.org/ko/docs/Web/API/FormData)
-  
+
     - [multer](https://www.npmjs.com/package/multer)
     - multer를 통해 미디어 파일 전송 가능
     - 이때 multer는 FormData 인스턴스를 통한 POST 요청으로만 정상 커뮤니케이션 가능
     - 기존의 객체 형식이 아닌, FormData 인스턴스를 통한 POST 요청
-  
+
     ```jsx
     export const writeSurvey = ({
       title,
@@ -554,14 +558,12 @@ frontend
       selectedKiosk,
     }) => {
       const formData = new FormData();
-      formData.append('title', title);
-      formData.append('description', description);
-      formData.append('video', video);
-      formData.append('beginsAt', beginsAt);
-      formData.append('duration', duration);
-      formData.append('selectedKiosk', selectedKiosk);
-      return client.post('/api/surveys', formData);
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("video", video);
+      formData.append("beginsAt", beginsAt);
+      formData.append("duration", duration);
+      formData.append("selectedKiosk", selectedKiosk);
+      return client.post("/api/surveys", formData);
     };
     ```
-  
-    

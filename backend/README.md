@@ -1,9 +1,11 @@
-# Untacto
+## Untacto
 
 > "포스트 코로나 시대", 세상은 코로나로 인해 많은 부분이 변화하게 되었습니다. 되도록이면 서로의 접촉을 피하고, 심지어는 업무조차도 재택으로 하는 직장들이 아주 많아졌습니다. 이런 상황에서 자연스레 길거리에서 하는 설문조사는 기피의 대상이 되었습니다. 아는 사람도 피하는 상황에서 모르는 사람의 접근은 다들 달가워하지 않기 때문입니다.  
 > 이런 상황에서, 저희는 서로 대면하지 않으면서, 설문조사를 시행할 수 있는 방법은 없을까? 하는 생각으로 이번 프로젝트를 기획하게 되었습니다. 길거리에 흔하게 보이는 키오스크를 활용하여, 접촉 없이 얼굴 표정만으로 설문조사를 진행하면 좋을 것 같다는 생각으로, 얼굴 표정 인식 API를 활용하여 표정을 분석하고, 성별/나이 등 여러 기준으로 설문자를 나누어 해당 설문 결과를 차트를 통해 편하게 분석할 수 있도록 제공하였습니다. 거기에서 더 나아가, 길거리에서 흔하게 볼 수 있는 키오스크라는 장점을 살려, 광고의 기능을 더해 광고와 설문조사를 겸하는 플랫폼으로서 프로젝트를 개발하였습니다.
 
-## Proejct Surmmary
+## 백엔드
+
+### Proejct Surmmary
 
 > AWS에 Maria DB와 express.js를 설치하여 백엔드를 구동한다.  
 > Maria DB를 이용하여 회원정보, 설문정보 등을 DB에 저장할 수 있도록 한다.  
@@ -11,7 +13,7 @@
 > 백엔드는 node.js의 Express를 이용하여 서버를 개발하고 pm2를 이용하여 배포한다.  
 > 프론트엔드를 배포하기 위해 Nginx를 이용한다.
 
-## SW
+### SW
 
 |  Name   |          Version           |
 | :-----: | :------------------------: |
@@ -20,12 +22,12 @@
 |  Nginx  |      v1.14.0(ubuntu)       |
 |   pm2   |           v4.4.0           |
 
-## Release History
+### Release History
 
 - 0.0.1
   - Work in progress
 
-## Installation
+### Installation
 
 1. Clone the repo
 
@@ -73,7 +75,7 @@ $ sudo systemctl restart nginx
 - http://i3a103.p.ssafy.io/
 ```
 
-## Directory
+### Directory
 
 ```
 .
@@ -110,9 +112,9 @@ $ sudo systemctl restart nginx
             └── server.js
 ```
 
-## Routes description
+### Routes description
 
-### Admin
+#### Admin
 
 > 관리자 페이지에서 사용하는 기능들
 
@@ -174,7 +176,7 @@ GET /api/admin/users
 - admin에서만 사용 가능한 기능으로, 현재 user(회사)들의 리스트를 확인할 수 있는 기능입니다.
 ```
 
-### Auth
+#### Auth
 
 > 회사의 홈페이지 이용과 관련된 기능들
 
@@ -213,7 +215,7 @@ GET /api/auth/check
 - 수신한 토큰이 유효한지를 판단하는 함수를 포함하고 있습니다.
 ```
 
-### Customer
+#### Customer
 
 > 설문 응답자 계정의 홈페이지 이용과 관련된 기능들
 
@@ -240,7 +242,7 @@ GET /api/customer/logout
 - customer(설문자)가 로그아웃 하는 기능으로, 토큰을 파기하는 기능입니다.
 ```
 
-### Surveys
+#### Surveys
 
 > 설문을 생성하고 리스트를 확인하는 기능들
 
@@ -288,20 +290,23 @@ GET /api/answers/:id
 - user(회사)가 진행중인 설문조사의 응답을 확인하는 기능으로, 여러 기준(성별, 나이)으로 응답을 분류하여 분석 결과를 차트로 보여줍니다.
 ```
 
-### etc
+#### etc
+
 **1. downloadFile.js**
+
 ```
 GET /api/download/:id
 - 파일을 다운로드 받을 수 있게 합니다.
 ```
 
 **2. streamFile.js**
+
 ```
 GET /api/stream/:id
 - 현재 survey에 맞는 동영상을 다운 받을 수 있도록 링크를 제공합니다.
 ```
 
-## DB
+### DB
 
 **1. user**
 
@@ -367,7 +372,7 @@ GET /api/stream/:id
 | createdAt  | DATETIME |             |         |
 | timeIndex  |   INT    |      V      |         |
 
-## Difficulties
+### Difficulties
 
 **박성우**
 
@@ -380,5 +385,4 @@ GET /api/stream/:id
 > 첫번째 어려운점은 mysql 함수 사용이었습니다. mysql의 데이터를 가져온 후 프론트단으로 state에 맞추어 데이터를 넘겨주어야 했습니다. 두 개의 query 함수를 사용하여 DB에서 데이터를 가져오고 동시에 처리하려고 하면 query 함수의 딜레이 문제로 빈값을 참조하는 문제가 발생하였습니다. 위와 같은 문제가 query의 같은 depth에서 데이터를 처리해야 한다는 점을 발견하였고 이를 해결하기 위해 query 함수 내에서 데이터를 처리하고 프론트 단으로 데이터를 전송하였더니 해결되었습니다.  
 > 두번째 어려운 점은 RESTful API의 사용이었습니다. get, post와 같은 메서들이 어떻게 전달되는지 몰라 시간을 내어 프론트단의 코드를 하나하나 확인하였습니다. 이후 api가 어떻게 사용되고 무슨 데이터를 주고받는지 프론트를 담당하는 팀원에게 확인하여 구현하는 방식으로 진행하여 어려움을 해결할 수 있었습니다.
 
-## License
-
+### License

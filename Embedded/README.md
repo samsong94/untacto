@@ -1,6 +1,6 @@
-# Embedded
+## Embedded
 
-## Summary
+### Summary
 
 ```
 오픈소스 하드웨어인 라즈베리파이와 아두이노를 사용해 감정 분석이 가능한 키오스크를 제작했습니다.
@@ -9,16 +9,16 @@
 다양한 분야의 조직에게 적은 자원 투자로 신뢰할 수 있는 분석 결과물을 제공해줄 것이라 기대할 수 있습니다.
 ```
 
-### Function summary
+#### Function summary
 
 - Qt를 이용한 화면 구성
 - OpenCV를 이용해서 카메라 사용 및 Microsoft Azure의 얼굴 표정 인식 API 활용해 감정 분석
 - 적외선 센서를 이용해 동작을 인식하여 키오스크 터치 최소화
 - 감정 분석 결과를 DB에 보내고 동영상과 같은 데이터를 DB에서 받으면서 통신
 
-## Settings
+### Settings
 
-### HW
+#### HW
 
 |     Name     |              Info               |
 | :----------: | :-----------------------------: |
@@ -26,7 +26,7 @@
 |   Arduino    |               Uno               |
 | LCD Monitor  | 7inch, Resolution : 1920 x 1080 |
 
-### SW
+#### SW
 
 |    Name    | Version                                                                                  |
 | :--------: | :--------------------------------------------------------------------------------------- |
@@ -37,7 +37,7 @@
 |   OpenCV   | 4.1.0                                                                                    |
 |   Python   | 3.7.3                                                                                    |
 
-### Check-Version
+#### Check-Version
 
 ```
 $ uname -a
@@ -51,7 +51,7 @@ $ mysql --version
 
 ```
 
-### Require Module
+#### Require Module
 
 ```
 sudo apt-get install update
@@ -82,7 +82,7 @@ pip3 install opencv-contrib-python==4.1.0.25
 sudo pip3 install firebase-admin
 ```
 
-### Submit Data
+#### Submit Data
 
 ```
 	age gender contact
@@ -92,7 +92,7 @@ sudo pip3 install firebase-admin
 
 ```
 
-## Pin Setting
+### Pin Setting
 
 Raspberry Pi
 
@@ -137,35 +137,35 @@ Arduino
 |  Pi GPIO2  |  A4   | D2  |            |
 |  Pi GPIO3  |  A5   | D1  |            |
 
-### Auth
+#### Auth
 
 ```
 /home/pi/KIOSK/Auth/ServiceAccountKey.json
 ```
 
-## description
+### description
 
-### Pages
+#### Pages
 
-#### 1. 광고 재생
+##### 1. 광고 재생
 
     키오스크에 있는 모든 광고 영상 파일 반복 재생
 
-#### 2. 카메라 가이드
+##### 2. 카메라 가이드
 
     얼굴을 카메라에 고정시킬 수 있도록 카메라 촬영 화면을 보여줌
 
-#### 3. 선택 광고 재생
+##### 3. 선택 광고 재생
 
     선택한 광고를 재생하면서 동시에 카메라를 통해 얼굴 표정 수집
 
-#### 4. 개인정보 수집
+##### 4. 개인정보 수집
 
     사용자 보상을 위해 사용자의 개인정보를 받음
 
-## Problem & Solve
+### Problem & Solve
 
-### Real-Time Data Analysis
+#### Real-Time Data Analysis
 
 - 문제상황
   - 표정을 인식해 주는 Azure API 에서 로컬에 있는 파일을 확인할 수 없음
@@ -173,16 +173,16 @@ Arduino
   - 웹서버인 파이어베이스(Firebase)를 사용해 실시간으로 DB에 사진을 업로드해 얼굴 인식 가능하게 함
   - [FireBase](https://firebase.google.com/docs/reference?hl=ko)
 
-### Auto Play
+#### Auto Play
 
 - 문제상황
   - 카메라 리소스 문제로 카메라를 사용하는 페이지가 돌아오면 중지됨
 - 해결
   - 페이지 단위로 카메라를 릴리즈해서 페이지가 넘어가도 카메라 리소스를 계속해서 사용할 수 있도록 함
 
-# Unresolved Issues
+## Unresolved Issues
 
-### No Sound
+#### No Sound
 
 > 영상 재생시 디스플레이에서 소리가 재생되지 않는 에러를 발견
 > mp4(Window용)에서 h264(PyQT용)로 전환시, 영상과 소리를 따로 추출되는데 이 둘이 연동되지 않음
