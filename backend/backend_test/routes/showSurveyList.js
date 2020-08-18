@@ -88,8 +88,8 @@ router.get('/', function(req, res, next){
 				delete rows_list[i].userId;
 				delete rows_list[i].kioskId;
 				delete rows_list[i].description_survey;
-				rows_list[i].user = JSON.stringify(company_information);
-				rows_list[i].kiosk = JSON.stringify(kiosk[kioskId]);
+				rows_list[i].user = company_information;
+				rows_list[i].kiosk = kiosk[kioskId];
 				rows_list[i].description = description;
 				survey_list.push(rows_list[i]);
 			}
