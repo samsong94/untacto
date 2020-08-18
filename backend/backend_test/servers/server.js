@@ -29,6 +29,7 @@ const adminDeleteCustomerRouter = require('../routes/beforeAdminDeleteCustomer')
 const adminDeleteSurveyRouter = require('../routes/beforeAdminDeleteSurvey');
 const adminDeleteUserRouter = require('../routes/beforeAdminDeleteUser');
 const downloadFileRouter = require('../routes/downloadFile');
+const streamFileRouter = require('../routes/streamFile');
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -46,6 +47,8 @@ app.use('/api/admin/kiosks',adminListKioskRouter);
 app.use('/api/admin/customers',adminListCustomerRouter);
 app.use('/api/admin/kiosks',adminAddKioskRouter);
 app.use('/api/download/:id',function(req,res,next){res.locals.id=req.params.id;next();},downloadFileRouter);
+app.use('/api/stream/:id',function(req,res,next){res.locals.id=req.params.id;next();},streamFileRouter);
+app.use('/api/admin/customers/:id',function(req,res,next){res.locals.id=req.params.id; next();},adminDeleteCustomerRouter);
 app.use('/api/admin/customers/:id',function(req,res,next){res.locals.id=req.params.id; next();},adminDeleteCustomerRouter);
 app.use('/api/admin/surveys?',function(req,res,next){res.locals.query = req.query; next();},adminListSurveyRouter);
 app.use('/api/admin/surveys/addEventListener:surveyId',function(req,res,next){res.locals.surveyId=req.params.surveyId; next();},adminReadSurveyRouter);
