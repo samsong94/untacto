@@ -27,7 +27,6 @@ export function* videoPathSaga() {
 
 // initial state
 const initialState = {
-  // videoPath: 'https://youtu.be/E6c8G3n5EiQ',
   videoPath: null,
   error: null,
 };

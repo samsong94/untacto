@@ -55,13 +55,6 @@ export function* customerSaga() {
 
 // initial state
 const initialState = {
-  // customer: {
-  //   customerId: 1,
-  //   phoneNumber: '010-1234-1234',
-  //   gender: 'male',
-  //   age: '20',
-  //   point: '300',
-  // },
   customer: null,
   customerCheckError: null,
 };
