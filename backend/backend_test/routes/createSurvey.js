@@ -13,7 +13,8 @@ const storage=multer.diskStorage({
 	filename: (req,file,cb) => {
 		const newFilename = `${uuidv4()}${path.extname(file.originalname)}`;
 		cb(null,newFilename);
-	}
+	},
+	limits:{ fileSize: 1024*1024*1024 }
 });
 
 const upload = multer({ storage });
