@@ -634,18 +634,13 @@ frontend
 
 #### Packages
 
-| Name | Purpose |
-| :--- | :------ |
-|      |         |
-|      |         |
-|      |         |
-|      |         |
-|      |         |
-
-#### Release History
-
-- 0.0.1
-  - Work in progress
+| Name         | Purpose             |
+| :----------- | :------------------ |
+| jsonwebtoken | JSON Web Token(JWT) |
+| mime         | Get File type       |
+| moment       | Format dates        |
+| multer       | Upload files        |
+| uuid/v4      | Change file name    |
 
 #### Installation
 
@@ -1193,3 +1188,4 @@ sudo pip3 install firebase-admin
 > PyQT에서 사용하는 재생기인 Qmediaplayer 문제로 판단하였고,
 > 해결방안으로는 QT 동영상 라이브러리인 QtAV를 사용하면 제한된 재생파일로 인한 문제를 해결할 것이라 판단
 > [QtAV](https://github.com/wang-bin/QtAV)
+
