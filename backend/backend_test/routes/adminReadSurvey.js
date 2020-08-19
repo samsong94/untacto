@@ -9,7 +9,10 @@ const url = require('url');
 router.use(cookieParser());
 
 router.get('/', function(req, res, next){
-	var companyId = res.locals.userId;
+	var companyId = res.locals.companyId;
+	if(companyId == 'undefined'){
+		companyId = res.locals.userId;
+	}
 	var surveyId = res.locals.surveyId;
 
 	var connection = mysql.createConnection({
@@ -56,7 +59,6 @@ router.get('/', function(req, res, next){
 									});
 					delete survey_detail.userId;
 					delete survey_detail.kioskId;
-					console.log(survey_detail);	
 					res.json(survey_detail);
 				} else {
 					throw err_company;
