@@ -30,7 +30,7 @@ router.post('/',function(req,res,next){
 					secret);
 					var customer = {
 						phoneNumber:rows[0]['phoneNum'],
-						point:rows[0]['point'],
+						point:rows[0]['point']+100,
 						customerId:rows[0]['customerId'],
 						age:rows[0]['age']
 					};
@@ -53,15 +53,15 @@ router.post('/',function(req,res,next){
 					connection.query(sql2,function(err2){
 							if(!err2){
 								console.log('update success');
+								res.json({
+									result:'ok',
+									token
+								});
 							}
 							else{
 								console.log("update err");
 								console.log(err);
 							}
-					});
-					res.json({
-						result: 'ok',
-						token
 					});
 				}
 				else{
