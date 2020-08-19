@@ -32,7 +32,7 @@ router.get('/', function (req, res, next) {
             		var filestream = fs.createReadStream(file);
 					var count =0;
 					
-					var	videoPath='http://i3a103.p.ssafy.io:7070/api/download/'+id;
+					var	videoPath='http://i3a103.p.ssafy.io:8080/api/download/'+id;
 					res.send(videoPath);
         		}
         		else {

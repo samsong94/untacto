@@ -39,8 +39,8 @@ router.post('/', function (req, res, next) {
 					};
 					res.cookie('user', user);
 					res.cookie('tok',token);
-					res.cookie('userName', userName);
-					res.cookie('userId', userId);
+					res.cookie('companyName', userName);
+					res.cookie('companyId', userId);
 					res.json({
 						result: 'ok',
 						token
