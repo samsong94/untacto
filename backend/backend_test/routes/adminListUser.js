@@ -47,7 +47,6 @@ router.get('/', function(req, res, next){
 				user_list.push(user);
 				i++;
 			}
-			console.log(user_list);
 			res.json(user_list);
 		} else {
 			console.log(err_list);
