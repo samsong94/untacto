@@ -20,15 +20,21 @@ router.get('/', function(req, res, next){
 		database: 'project1'
 	});
 	connection.connect();
-	
+/***********************************************
+*                   sql query
+***********************************************/
 	var sql_survey_detail = 'select * from survey where userId=' + companyId + ' and surveyId=' + surveyId + ';';
 	var sql_survey_kiosk = 'select * from kiosk where kioskId='
 	var sql_survey_company = 'select userId, userName from user where userId=' + companyId + ';';
-		
+/***********************************************
+*                   variables
+***********************************************/		
 	var survey_detail = new Array();
 	var survey_kiosk = new Object();
 	var survey_company = new Object();
-
+/***********************************************
+*                   DB
+***********************************************/
 	connection.query(sql_survey_detail, function(err_detail, rows_detail, fields_detail){
 		if(!err_detail){
 			survey_detail = rows_detail[0];
@@ -44,7 +50,6 @@ router.get('/', function(req, res, next){
 			//change company info and send json data
 			connection.query(sql_survey_company, function(err_company, rows_company, fields_company){
 				if(!err_company){
-//					survey_company = JSON.stringify({
 					survey_detail.user = JSON.stringify({
 										userId: rows_company[0]['userId'],
 										companyName: rows_company[0]['userName'],
