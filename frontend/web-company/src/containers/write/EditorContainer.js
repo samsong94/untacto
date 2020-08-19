@@ -64,23 +64,23 @@ const EditorContainer = ({ history }) => {
   const kiosks = [
     {
       kioskId: '1',
-      location: '홍대',
-    },
-    {
-      kioskId: '2',
-      location: '신촌',
-    },
-    {
-      kioskId: '3',
-      location: '구의',
-    },
-    {
-      kioskId: '4',
       location: '역삼',
     },
     {
-      kioskId: '5',
+      kioskId: '2',
       location: '강남',
+    },
+    {
+      kioskId: '3',
+      location: '홍대',
+    },
+    {
+      kioskId: '4',
+      location: '신촌',
+    },
+    {
+      kioskId: '5',
+      location: '종로',
     },
   ];
 
