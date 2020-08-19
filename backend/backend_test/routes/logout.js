@@ -7,10 +7,10 @@ router.use(cookieParser());
 
 router.post('/', function (req, res, next) {
 	res.clearCookie('user');
-	res.clearCookie('userName');
-	res.clearCookie('userId');
+	res.clearCookie('companyName');
+	res.clearCookie('companyId');
 	res.clearCookie('tok');
-	res.redirect('/api/auth/check');
+	res.redirect('/');
 });
 
 module.exports = router;
