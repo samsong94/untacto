@@ -19,7 +19,7 @@ router.post('/',function(req,res,next){
 		});
 		connection.connect();
 
-		var sql = 'select * from customer where phoneNum = "'+phoneNumber+'" and gender = "'+gender+'" and age = '+age+';';
+		var sql = 'select * from customer where phoneNum = "'+phoneNumber+'" and gender = "'+gender+'";';
 		connection.query(sql, function(err,rows,fields){
 				if(!err){
 					console.log("customer login");
@@ -29,6 +29,8 @@ router.post('/',function(req,res,next){
 					},
 					secret);
 					var customer = {
+						phoneNumber:rows[0]['phoneNum'],
+						point:rows[0]['point'],
 						customerId:rows[0]['customerId'],
 						age:rows[0]['age']
 					};
@@ -67,7 +69,7 @@ router.post('/',function(req,res,next){
 					connection.query('select MAX(customerId) as cid from customer', function(err,rows){
 							if(!err){
 								var customerId = rows[0]['cid']+1;
-								var sql2 = 'insert into customer (customerId,point,age,gender,phoneNum) values('+customerId+',0,'+age+',"'+gender+'","'+phoneNumber+'";';
+								var sql2 = 'insert into customer (customerId,point,age,gender,phoneNum) values('+customerId+',100,'+age+',"'+gender+'","'+phoneNumber+'");';
 								connection.query(sql2,function(err){
 									if(!err){
 										console.log("customer signUp success");
@@ -77,7 +79,15 @@ router.post('/',function(req,res,next){
 												exp:Math.floor(Date.now()/1000)+(60*60)
 										},
 										secret);
-										res.cookie('customer',token);
+										var customer = {
+											point:100,
+											phoneNumber:phoneNumber,
+											customerId:customerId,
+											age:age
+										};
+
+										res.cookie('customer',customer);
+										res.cookie('tok',token);
 										res.cookie('customerId',customerId);
 										res.cookie('age',age);
 										res.json({
