@@ -144,14 +144,12 @@ router.get('/', function(req, res, next){
 						expires_date = tmp_expires;
 				}
 				var tmp_begin = (moment(today) - moment(begins_date)) / (1000 * 24 * 60 * 60);
-				
 				//limit duration
-				if(parseInt(tmp_begins) > 30){
+				if(parseInt(tmp_begin) > 30){
 					begins_date = moment(today).subtract(30, 'days').format('YYYY-MM-DD');
 				}
-
 				duration = (moment(expires_date) - moment(begins_date)) / (1000 * 24 * 60 * 60);
-	
+
 				//set days into 'x'
 				var date = moment(begins_date);
 				for(var i=0; i<=duration; i++){
