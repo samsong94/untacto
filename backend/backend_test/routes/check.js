@@ -10,11 +10,11 @@ var mysql = require('mysql');
 router.use(cookieParser());
 
 router.get('/', verifyToken, function (req, res, err) {
-	var companyName = req.cookies.userName;
-	var companyId = req.cookies.userId;
+	var companyName = req.cookies.companyName;
+	var companyId = req.cookies.companyId;
 	var user = {
-		userName: companyName,
-		userId: companyId
+		companyName: companyName,
+		companyId: companyId
 	};
 	if(user == null){
 		res.send('');
