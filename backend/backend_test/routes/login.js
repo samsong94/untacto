@@ -27,7 +27,13 @@ router.post('/', function (req, res, next) {
 					exp:Math.floor(Date.now()/1000) + (60*60)
 				},
 				secret);
-				res.cookie('user', token);
+				var user = {
+					companyName: rows[0]['userName'],
+					companyId: rows[0]['userId']
+				};
+				
+				res.cookie('user', user);
+				res.cookie('tok',token);
 				res.cookie('companyName', rows[0]['userName']);
 				res.cookie('companyId', rows[0]['userId']);
 				res.json({

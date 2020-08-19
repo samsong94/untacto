@@ -28,7 +28,12 @@ router.post('/',function(req,res,next){
 						exp:Math.floor(Date.now()/1000)+(60*60)
 					},
 					secret);
-					res.cookie('customer',token);
+					var customer = {
+						customerId:rows[0]['customerId'],
+						age:rows[0]['age']
+					};
+					res.cookie('customer',customer);
+					res.cookie('tok',token);
 					res.cookie('customerId',rows[0]['customerId']);
 					res.cookie('age',rows[0]['age']);
 					var point = rows[0]['point']+100;
