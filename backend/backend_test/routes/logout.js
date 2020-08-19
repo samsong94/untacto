@@ -6,11 +6,12 @@ var cookieParser = require('cookie-parser')
 router.use(cookieParser());
 
 router.post('/', function (req, res, next) {
-	console.log('logout: ' + req.cookies.user + '.');
+	//console.log('logout: ' + req.cookies.user + '.');
 	res.clearCookie('user');
-	res.clearCookie('companyName');
-	res.clearCookie('companyId');
-    res.redirect('/');
+	res.clearCookie('userName');
+	res.clearCookie('userId');
+	res.clearCookie('tok');
+	res.redirect('/');
 });
 
 module.exports = router;
