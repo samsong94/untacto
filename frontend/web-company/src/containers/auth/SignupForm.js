@@ -67,7 +67,6 @@ const SignupForm = ({ history }) => {
     }
     if (auth) {
       console.log('회원가입 성공');
-      console.log(auth);
       dispatch(check());
     }
   }, [auth, authError, dispatch]);

@@ -19,7 +19,6 @@ const AdminCustomersListContainer = ({ history }) => {
   }, [dispatch]);
 
   const onRemove = async (customerId) => {
-    // console.log(customerId);
     try {
       await adminDeleteCustomer(customerId);
       history.push('/admin/customer');

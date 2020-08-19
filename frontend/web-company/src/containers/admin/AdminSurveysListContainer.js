@@ -19,7 +19,6 @@ const AdminSurveysListContainer = ({ history }) => {
   }, [dispatch]);
 
   const onRemove = async (surveyId) => {
-    // console.log(surveyId);
     try {
       await adminDeleteSurvey(surveyId);
       history.push('/admin/survey');

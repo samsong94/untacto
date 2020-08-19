@@ -99,7 +99,6 @@ const CustomerAuthForm = ({ form, onChange, onSubmit, error }) => {
   };
 
   const onChangeKeyboard = (input) => {
-    // console.log('Input changed', input);
     setKeyboardInput(input);
     dispatch(
       changeField({
@@ -110,7 +109,6 @@ const CustomerAuthForm = ({ form, onChange, onSubmit, error }) => {
     );
   };
   const onKeyPress = (button) => {
-    // console.log('Button pressed', button);
     if (button === '{shift}' || button === '{lock}') handleShift();
   };
   const handleShift = () => {

@@ -18,7 +18,6 @@ const AdminUsersListContainer = ({ history }) => {
     dispatch(listAdminUsers());
   }, [dispatch]);
   const onRemove = async (userId) => {
-    // console.log(userId);
     try {
       await adminDeleteUser(userId);
       history.push('/admin/user');
