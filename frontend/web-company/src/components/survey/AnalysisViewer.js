@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
 import LineChart from '../../components/charts/LineChart';
+import { withRouter } from 'react-router-dom';
 
 const AnalysisViewerBlock = styled(Main)`
   top: 20rem;
@@ -79,9 +80,14 @@ const AnalysisItem = styled.div`
   background: ${palette.indigo[1]};
 `;
 
-const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
+const AnalysisViewer = ({ history, surveyAnswer, error, loading }) => {
   if (error) {
-    return <AnalysisViewerBlock>오류가 발생했습니다</AnalysisViewerBlock>;
+    if (error.response.status === 401) {
+      history.push('/login');
+      return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+    } else {
+      return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+    }
   }
   if (!surveyAnswer?.total) {
     return (
@@ -138,4 +144,4 @@ const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
   );
 };
 
-export default AnalysisViewer;
+export default withRouter(AnalysisViewer);

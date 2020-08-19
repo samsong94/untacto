@@ -5,6 +5,7 @@ import palette from '../../lib/styles/palette';
 import AreaRangeChart from '../charts/AreaRangeChart';
 import BarChart from '../charts/BarChart';
 import DonutChart from '../charts/DonutChart';
+import { withRouter } from 'react-router-dom';
 
 const DashboardViewerBlock = styled(Main)`
   display: grid;
@@ -57,9 +58,14 @@ const DashboardItem = styled.div`
   background: ${palette.indigo[1]};
 `;
 
-const DashboardViewer = ({ surveysAnswers, error, loading }) => {
+const DashboardViewer = ({ history, surveysAnswers, error, loading }) => {
   if (error) {
-    return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+    if (error.response.status === 401) {
+      history.push('/login');
+      return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+    } else {
+      return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+    }
   }
   if (!surveysAnswers?.bySurvey) {
     return (
@@ -117,4 +123,4 @@ const DashboardViewer = ({ surveysAnswers, error, loading }) => {
   );
 };
 
-export default DashboardViewer;
+export default withRouter(DashboardViewer);
