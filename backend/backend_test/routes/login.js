@@ -17,11 +17,10 @@ router.post('/', function (req, res, next) {
         database: 'project1'
 	});
     connection.connect();
-	
+
     connection.query('select * from user where email=\'' + email + '\' and password=\'' + password + '\'', function (err, rows, fields) {
         if (!err) {
             if (rows[0]!=undefined) {
-				console.log("login");
 				const token = jwt.sign({
 					id:rows[0]['userId'],
 					exp:Math.floor(Date.now()/1000) + (60*60)
