@@ -56,6 +56,10 @@ const DashboardViewerBlock = styled(Main)`
 
 const DashboardItem = styled.div`
   background: ${palette.indigo[1]};
+  h3 {
+    font-size: 1rem;
+    margin-left: 1rem;
+  }
 `;
 
 const DashboardViewer = ({ history, surveysAnswers, error, loading }) => {
@@ -107,14 +111,17 @@ const DashboardViewer = ({ history, surveysAnswers, error, loading }) => {
     <DashboardViewerBlock>
       <h2>설문 현황</h2>
       <DashboardItem className="one">
+        <h3>설문별 응답</h3>
         {!loading && surveysAnswers?.bySurvey && (
           <AreaRangeChart data={bySurveyData} />
         )}
       </DashboardItem>
       <DashboardItem className="two">
+        <h3>나이별 응답</h3>
         {!loading && surveysAnswers?.byAge && <DonutChart data={byAgeData} />}
       </DashboardItem>
       <DashboardItem className="three">
+        <h3>성별 응답</h3>
         {!loading && surveysAnswers?.byGender && (
           <BarChart data={byGenderData} />
         )}
