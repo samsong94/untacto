@@ -78,6 +78,10 @@ const AnalysisViewerBlock = styled(Main)`
 
 const AnalysisItem = styled.div`
   background: ${palette.indigo[1]};
+  h3 {
+    font-size: 1rem;
+    margin-left: 1rem;
+  }
 `;
 
 const AnalysisViewer = ({ history, surveyAnswer, error, loading }) => {
@@ -123,20 +127,25 @@ const AnalysisViewer = ({ history, surveyAnswer, error, loading }) => {
   return (
     <AnalysisViewerBlock>
       <>
-        <h2>설문 분석</h2>
+        <h2>설문응답 분석</h2>
         <AnalysisItem className="one">
+          <h3>전체 설문응답</h3>
           {!loading && surveyAnswer?.total && <LineChart data={totalData} />}
         </AnalysisItem>
         <AnalysisItem className="two">
+          <h3>20대이하 설문응답</h3>
           {!loading && surveyAnswer?.young && <LineChart data={youngData} />}
         </AnalysisItem>
         <AnalysisItem className="three">
+          <h3>30대이상 설문응답</h3>
           {!loading && surveyAnswer?.old && <LineChart data={oldData} />}
         </AnalysisItem>
         <AnalysisItem className="four">
+          <h3>남성 설문응답</h3>
           {!loading && surveyAnswer?.male && <LineChart data={maleData} />}
         </AnalysisItem>
         <AnalysisItem className="five">
+          <h3>여성 설문응답</h3>
           {!loading && surveyAnswer?.female && <LineChart data={femaleData} />}
         </AnalysisItem>
       </>
