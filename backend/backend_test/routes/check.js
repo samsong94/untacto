@@ -13,8 +13,8 @@ router.get('/', verifyToken, function (req, res, err) {
 	var companyName = req.cookies.userName;
 	var companyId = req.cookies.userId;
 	var user = {
-		companyName: companyName,
-		companyId: companyId
+		userName: companyName,
+		userId: companyId
 	};
 	if(user == null){
 		res.send('');
