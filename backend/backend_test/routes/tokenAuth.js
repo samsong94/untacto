@@ -8,7 +8,7 @@ router.use(cookieParser());
 
 const verifyToken = (req,res,next) =>{
 	try{
-		const clientToken = req.cookies.user;
+		const clientToken = req.cookies.tok;
 		const decoded = jwt.verify(clientToken,secret);
 		console.log(decoded)
 
@@ -31,7 +31,7 @@ const verifyToken = (req,res,next) =>{
 
 const verifyTokenCustomer = (req,res,next) =>{
 	try{
-		const customerToken = req.cookies.customer;
+		const customerToken = req.cookies.tok;
 		const decoded = jwt.verify(customerToken,secret);
 		console.log(decoded);
 
@@ -54,7 +54,7 @@ const verifyTokenCustomer = (req,res,next) =>{
 
 const verifyTokenAdmin = (req,res,next) =>{
 	try{
-		const adminToken = req.cookies.user;
+		const adminToken = req.cookies.tok;
 		const decoded = jwt.verify(adminToken,secret);
 		console.log(decoded);
 
