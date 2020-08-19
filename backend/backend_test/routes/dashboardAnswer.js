@@ -12,7 +12,9 @@ moment.tz.setDefault('Asia/Seoul');
 router.use(cookieParser());
 
 router.get('/', function(req, res, next){
-	var companyId = res.locals.userId; 
+	var companyId = res.locals.query.companyId;
+	if(companyId == 'undefined')
+		companyId = res.locals.userId; 
 
 	//connect DB
 	var connection = mysql.createConnection({

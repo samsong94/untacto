@@ -16,9 +16,9 @@ router.get('/', verifyToken, function (req, res, err) {
 		companyName: companyName,
 		companyId: companyId
 	};
-	if(user == null){
+	if(user == null){ //logout
 		res.send('');
-	} else {
+	} else { //login
 		res.json(user);
 	}
 });
