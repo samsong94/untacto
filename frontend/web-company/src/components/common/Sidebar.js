@@ -36,7 +36,6 @@ const Wrapper = styled(VerticalResponsive)`
       color: ${palette.gray[9]};
     }
     &:nth-child(4) {
-      margin-top: 40rem;
       font-size: 0.875rem;
     }
     &:nth-child(5) {
