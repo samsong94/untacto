@@ -84,9 +84,9 @@ const AnalysisViewer = ({ history, surveyAnswer, error, loading }) => {
   if (error) {
     if (error.response.status === 401) {
       history.push('/login');
-      return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+      return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
     } else {
-      return <DashboardViewerBlock>에러가 발생했습니다</DashboardViewerBlock>;
+      return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
     }
   }
   if (!surveyAnswer?.total) {
