@@ -9,8 +9,11 @@ const url = require('url');
 router.use(cookieParser());
 
 router.get('/', function(req, res, next){
-	var companyId = res.locals.userId;
-
+	var companyId = res.locals.query.companyId;
+	if(companyId == 'undefined'){
+		companyId = res.locals.userId;
+	}
+	
 	//connect DB
 	var connection = mysql.createConnection({
 			host: 'localhost',
@@ -89,7 +92,7 @@ router.get('/', function(req, res, next){
 				delete rows_list[i].kioskId;
 				delete rows_list[i].description_survey;
 				rows_list[i].user = company_information;
-				rows_list[i].kiosk = kiosk[kioskId];
+				rows_list[i].kiosk = kiosk[kioskId-1];
 				rows_list[i].description = description;
 				survey_list.push(rows_list[i]);
 			}
