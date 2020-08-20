@@ -9,6 +9,7 @@ const url = require('url');
 router.use(cookieParser());
 
 router.get('/', function(req, res, next){
+		console.log(res.locals);
 		var page = res.locals.query.page;
 		var userId = res.locals.query.companyId;
 		var kioskId = res.locals.query.kioskId;
@@ -53,7 +54,6 @@ router.get('/', function(req, res, next){
 					createdAt.push(rows[i]['createdAt']);
 					expiresAt.push(rows[i]['expiresAt']);
 					beginsAt.push(rows[i]['beginsAt']);
-					console.log(i);
 					i++;
 				}
 				var len = surveyId.length;
