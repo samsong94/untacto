@@ -43,10 +43,10 @@ const StyledButton = styled(Button)`
 
 const CustomerInfoViewer = ({ customer }) => {
   const { phoneNumber, point } = customer;
-  const newPhoneNumber = `${phoneNumber.slice(0, 5)}***-*${phoneNumber.slice(
-    10,
-    13,
-  )}`;
+  const newPhoneNumber = `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(
+    4,
+    5,
+  )}***-***${phoneNumber.slice(10)}`;
   return (
     <CustomerInfoViewerBlock>
       {customer && (
