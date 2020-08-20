@@ -21,7 +21,8 @@ router.post('/',function(req,res,next){
 
 		var sql = 'select * from customer where phoneNum = "'+phoneNumber+'" and gender = "'+gender+'";';
 		connection.query(sql, function(err,rows,fields){
-				if(!err){
+				//err check
+				if(!err&&rows[0]!=undefined){
 					console.log("customer login");
 					const token = jwt.sign({
 						id:rows[0]['customerId'],
