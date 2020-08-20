@@ -30,7 +30,6 @@ router.delete('/', function(req, res, next){
 		}
 		else{
 			console.log("delete survey error");
-			console.log(err);
 			res.json({error:err});
 		}
 	});
