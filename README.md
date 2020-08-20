@@ -641,6 +641,7 @@ frontend
 | moment       | Format dates        |
 | multer       | Upload files        |
 | uuid/v4      | Change file name    |
+| bcrypt       | hash passwords      |
 
 #### Installation
 
@@ -657,6 +658,7 @@ $ cd backend/backend-test/
 $ npm install
 $ npm install moment moment-timezone
 $ npm install -g pm2@latest
+$ sudo npm install bcrypt
 ```
 
 3. Input a port
@@ -861,22 +863,14 @@ GET /api/customer/logout
 
 > 설문을 생성하고 리스트를 확인하는 기능들
 
-**1. signUp.js**
-
-```
-POST /api/auth/signup
-- user(회사)가 회원가입하는 기능으로, 회사 이름, 이메일 주소, 비밀번호를 입력받아 회원가입을 진행합니다.
-회원가입 완료 시, jwt토큰을 발급하여 바로 로그인이 가능하도록 합니다.
-```
-
-**2. createSurvey.js**
+**1. createSurvey.js**
 
 ```
 POST /api/surveys
 - 일반 user(회사)가 사용 가능한 기능으로, 설문조사 제목, 광고 영상, 설문조사 설명, 설문조사 시작 기간, 진행 기간, 키오스크 위치를 선택하여 설문조사를 생성할 수 있는 기능입니다. (영상 업로드를 위해 multer 모듈 활용)
 ```
 
-**3. showSurveyList.js**
+**2. showSurveyList.js**
 
 ```
 GET /api/surveys/companyId=${companyId}
@@ -884,21 +878,21 @@ GET /api/surveys/companyId=${companyId}
 
 ```
 
-**4. surveyDetail.js**
+**3. surveyDetail.js**
 
 ```
 GET /api/surveys/:id
 - user(회사)가 현재 진행중인 설문조사의 정보를 확인하는 기능으로, 제목, 설문조사 설명, 키오스크 위치, 시작 날짜, 생성 날짜, 종료 날짜를 확인할 수 있습니다.
 ```
 
-**5. dashboardAnswer.js**
+**4. dashboardAnswer.js**
 
 ```
 GET /api/answers?companyId=${companyId}
 - user(회사)의 진행중인 설문조사 전체의 응답을 확인하는 기능으로, 각 설문에 대한 응답 수, 나이대 별 응답 수, 성별에 대한 응답 수를 차트로 확인할 수 있습니다.
 ```
 
-**6. surveyDetailAnswer.js**
+**5. surveyDetailAnswer.js**
 
 ```
 GET /api/answers/:id
