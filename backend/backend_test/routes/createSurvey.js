@@ -33,7 +33,6 @@ router.post('/',upload.single('video'), function(req,res,next) {
 		var startDate=start.getDate();
 		beginsAt=moment([startYear,startMonth,startDate]).format("YYYY-MM-DD hh:mm:ss");
 		var expiresAt = moment([startYear,startMonth,startDate]).add(duration, 'd').format("YYYY-MM-DD hh:mm:ss");
-		console.log(expiresAt);
 		let file = req.file;
 		var userId = res.locals.userId;
 		var video = file.originalname;
@@ -52,7 +51,6 @@ router.post('/',upload.single('video'), function(req,res,next) {
 			var num = rows[0]['num'] + 1;
 			//add video
 			sql = 'insert into survey (surveyId,userId,title,kioskId,videoPath,description_survey,beginsAt,expiresAt,video) values('+num+','+userId+',"'+title+'","'+selectedKiosk+'","'+videoPath+'","'+explain+'","'+beginsAt+'","'+expiresAt+'","'+video+'");';
-			console.log(sql);
 			connection.query(sql,function(err){
 				connection.end();
 				if(!err){
