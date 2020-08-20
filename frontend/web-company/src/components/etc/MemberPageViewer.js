@@ -83,7 +83,7 @@ const HelpViewerBlock = styled(Main)`
     height: 200px;
     border-radius: 30%;
     overflow: hidden;
-    border: 0.1px dashed ${palette.gray[5]};
+    border: 0.1px solid ${palette.gray[5]};
   }
   .profile {
     margin-top: 0px;
@@ -101,7 +101,7 @@ const HelpViewerBlock = styled(Main)`
     padding: 10% 10%;
     font-size: 3em;
     color: ${palette.gray[7]};
-    text-align: justfy;
+    text-align: center;
     font-weight: bold;
   }
   .partName {
@@ -110,7 +110,7 @@ const HelpViewerBlock = styled(Main)`
     padding: 0% 12%;
     font-size: 1em;
     color: ${palette.gray[7]};
-    text-align: justfy;
+    text-align: center;
   }
 `;
 

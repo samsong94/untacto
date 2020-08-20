@@ -14,11 +14,13 @@ int CLK = 5;
 int DAT = 6;
 int left = 12;
 int right = 13;
+int sensing_left = 0;
+int sensing_right = 0;
 DS1302 rtc(RST, DAT, CLK);
 
 //DHT11
 #define DHTTYPE    DHT11     // Using DHT 11
-#define DHTPIN 2  // DHT data pin
+#define DHTPIN 3  // DHT data pin
 DHT_Unified dht(DHTPIN, DHTTYPE);
 uint32_t delayMS;
 
@@ -34,8 +36,6 @@ char str_data[DATA_LEN];
 
 float temp, humi;
 
-int sensing_left = 0;
-int sensing_right = 0
 
 void setup() {
   dht.begin();
@@ -54,9 +54,6 @@ void setup() {
   Serial.begin(9600);
   //pinMode(ledPin, OUTPUT);
   //digitalWrite(ledPin, LOW); // turn it off
-
-  pinMode(left, INPUT);
-  pinMode(right, INPUT);
 }
 
 
@@ -85,8 +82,8 @@ void loop() {
   }
 
   sensing_left = digitalRead(left);
-  sensing_right = digitalRead(right);
-  delay(100);
+  sensing_right = digitalRead(right);  
+  delay(300);
 }
 
 
@@ -106,8 +103,8 @@ void getSendingData(){
   dtostrf(temp, 4, 2, tmp1);
   dtostrf(humi, 4, 2, tmp2);
   Time t = rtc.time();
-  snprintf(str_data, sizeof(str_data), "%02d:%02d:%02d %s %s", t.hr, t.min, t.sec, tmp1, tmp2);
-  //Serial.println(str_data);
+  snprintf(str_data, sizeof(str_data), "%02d:%02d:%02d %s %s %d %d", t.hr, t.min, t.sec, tmp1, tmp2, sensing_left, sensing_right);
+  Serial.println(str_data);
 }
 
 
@@ -131,8 +128,10 @@ void sendData(int howMany) {
 
 void receiveData(int bytes)
 {
-  int num = Wire.read();
-
+  byte num = Wire.read();
+  Serial.print("Receive Data : ");
+  Serial.println(num);
+  Serial.println();
   rtc.writeProtect(false);
   if(num > 0 && num <10)
   {
@@ -143,7 +142,7 @@ void receiveData(int bytes)
   }
 
   
-  Serial.print("Receive Data : ");
-  Serial.println(num);
+  //Serial.print("Receive Data : ");
+  //Serial.println(num);
 
 }

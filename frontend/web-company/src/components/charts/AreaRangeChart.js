@@ -3,7 +3,7 @@ import BillboardChart from 'react-billboardjs';
 import 'react-billboardjs/lib/billboard.css';
 
 const SIZE = {
-  height: 400,
+  height: 350,
 };
 const CHART_AXIS = {
   x: {

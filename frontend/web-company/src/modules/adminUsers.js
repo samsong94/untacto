@@ -22,38 +22,6 @@ export function* adminUsersSaga() {
 
 // initial state
 const initialState = {
-  // adminUsers: [
-  //   {
-  //     userId: 1,
-  //     email: '성우@company.com',
-  //     userName: '성우 company',
-  //     createdAt: '2020-08-03T04:16:38.000Z',
-  //   },
-  //   {
-  //     userId: 2,
-  //     email: '승진@company.com',
-  //     userName: '승진 company',
-  //     createdAt: '2020-08-03T04:16:38.000Z',
-  //   },
-  //   {
-  //     userId: 3,
-  //     email: '재훈@company.com',
-  //     userName: '재훈 company',
-  //     createdAt: '2020-08-03T04:16:38.000Z',
-  //   },
-  //   {
-  //     userId: 4,
-  //     email: '승민@company.com',
-  //     userName: '승민 company',
-  //     createdAt: '2020-08-03T04:16:38.000Z',
-  //   },
-  //   {
-  //     userId: 5,
-  //     email: '영부@company.com',
-  //     userName: '영부 company',
-  //     createdAt: '2020-08-03T04:16:38.000Z',
-  //   },
-  // ],
   adminUsers: null,
   error: null,
 };

@@ -3,12 +3,17 @@ import styled from 'styled-components';
 import Main from '../common/Main';
 import palette from '../../lib/styles/palette';
 import LineChart from '../../components/charts/LineChart';
+import { withRouter } from 'react-router-dom';
 
 const AnalysisViewerBlock = styled(Main)`
+  top: 20rem;
   display: grid;
   grid-template-columns: repeat(2, 50%);
   grid-template-rows: 50px 400px 400px;
   grid-gap: 1rem;
+  @media (max-width: 1024px) {
+    top: 40rem;
+  }
   h2 {
     grid-column: 1 / 3;
     grid-row: 1/ 2;
@@ -73,12 +78,20 @@ const AnalysisViewerBlock = styled(Main)`
 
 const AnalysisItem = styled.div`
   background: ${palette.indigo[1]};
+  h3 {
+    font-size: 1rem;
+    margin-left: 1rem;
+  }
 `;
 
-// 여기 밑에 one, two, three 적혀있는 안에다가 넣으면 됩니당
-const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
+const AnalysisViewer = ({ history, surveyAnswer, error, loading }) => {
   if (error) {
-    return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
+    if (error.response.status === 401) {
+      history.push('/login');
+      return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
+    } else {
+      return <AnalysisViewerBlock>에러가 발생했습니다</AnalysisViewerBlock>;
+    }
   }
   if (!surveyAnswer?.total) {
     return (
@@ -114,20 +127,25 @@ const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
   return (
     <AnalysisViewerBlock>
       <>
-        <h2>설문 분석</h2>
+        <h2>설문응답 분석</h2>
         <AnalysisItem className="one">
+          <h3>전체 설문응답</h3>
           {!loading && surveyAnswer?.total && <LineChart data={totalData} />}
         </AnalysisItem>
         <AnalysisItem className="two">
+          <h3>20대이하 설문응답</h3>
           {!loading && surveyAnswer?.young && <LineChart data={youngData} />}
         </AnalysisItem>
         <AnalysisItem className="three">
+          <h3>30대이상 설문응답</h3>
           {!loading && surveyAnswer?.old && <LineChart data={oldData} />}
         </AnalysisItem>
         <AnalysisItem className="four">
+          <h3>남성 설문응답</h3>
           {!loading && surveyAnswer?.male && <LineChart data={maleData} />}
         </AnalysisItem>
         <AnalysisItem className="five">
+          <h3>여성 설문응답</h3>
           {!loading && surveyAnswer?.female && <LineChart data={femaleData} />}
         </AnalysisItem>
       </>
@@ -135,4 +153,4 @@ const AnalysisViewer = ({ surveyAnswer, error, loading }) => {
   );
 };
 
-export default AnalysisViewer;
+export default withRouter(AnalysisViewer);

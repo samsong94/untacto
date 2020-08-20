@@ -12,6 +12,8 @@ import rootReducer, { rootSaga } from './modules/index';
 // store 적용에 사용
 import { Provider } from 'react-redux';
 import { tempSetUser, check } from './modules/user';
+// page별 제목
+import { HelmetProvider } from 'react-helmet-async';
 
 const sagaMiddleware = createSagaMiddleware();
 // root reducer에 대한 store 생성
@@ -45,7 +47,9 @@ loadUser();
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </Router>
   </Provider>,
   document.getElementById('root'),

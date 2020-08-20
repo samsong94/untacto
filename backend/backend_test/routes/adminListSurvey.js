@@ -9,6 +9,7 @@ const url = require('url');
 router.use(cookieParser());
 
 router.get('/', function(req, res, next){
+		console.log(res.locals);
 		var page = res.locals.query.page;
 		var userId = res.locals.query.companyId;
 		var kioskId = res.locals.query.kioskId;
@@ -24,10 +25,6 @@ router.get('/', function(req, res, next){
 		var sql_user = "select * from user where userId = ";
 		var sql_kiosk = "select * from kiosk where kioskId = ";
 		var survey_list = new Array();
-		if(page==undefined)
-			page=1;
-		var page_count = (page-1)*10;
-		var next_count = page*10;
 		if(userId!=undefined&&kioskId!=undefined){
 			sql+=" where userId = "+userId+" and kioskId = "+kioskId+";";
 		}
@@ -48,22 +45,20 @@ router.get('/', function(req, res, next){
 			if(!err){
 				console.log("survey select success");
 				var i =0;
+				var end;
 				while(rows[i]!=undefined){
-					if(i>=page_count&&i<next_count){
-						surveyId.push(rows[i]['surveyId']);
-						userId.push(rows[i]['userId']);
-						kioskId.push(rows[i]['kioskId']);
-						title.push(rows[i]['title']);
-						createdAt.push(rows[i]['createdAt']);
-						expiresAt.push(rows[i]['expiresAt']);
-						beginsAt.push(rows[i]['beginsAt']);
-					}
+					surveyId.push(rows[i]['surveyId']);
+					userId.push(rows[i]['userId']);
+					kioskId.push(rows[i]['kioskId']);
+					title.push(rows[i]['title']);
+					createdAt.push(rows[i]['createdAt']);
+					expiresAt.push(rows[i]['expiresAt']);
+					beginsAt.push(rows[i]['beginsAt']);
 					i++;
 				}
 				var len = surveyId.length;
 				if(len==0)
 					res.json(survey_list);
-				var end = i;
 				i = 0;
 				var j=0;
 				while(userId[i]!=undefined){
@@ -109,7 +104,7 @@ router.get('/', function(req, res, next){
 								};
 								j++;
 								survey_list.push(survey);
-								if(j>=end){
+								if(userId[j]==undefined){
 									console.log("end");
 									connection.end();
 									res.json(survey_list);

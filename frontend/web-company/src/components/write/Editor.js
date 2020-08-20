@@ -4,6 +4,7 @@ import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import DropZone from './DropZone';
 
 const EditorBlock = styled.form`
   position: absolute;
@@ -22,36 +23,17 @@ const EditorBlock = styled.form`
       'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
       'Helvetica Neue', sans-serif;
   }
-
-  .video-label {
-    border: 1px dotted ${palette.indigo[4]};
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    label {
-      cursor: pointer;
-      height: 80%;
-      width: 80%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: ${palette.indigo[4]};
-      font-family: 'Nanum-Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-        'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-        'Helvetica Neue', sans-serif;
-      &:hover {
-        color: ${palette.indigo[7]};
-        font-weight: bold;
-      }
-    }
-  }
   .date-label {
-    margin-top: 2rem;
     font-size: 1.125rem;
     font-family: 'Nanum-Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI',
       'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
       'Helvetica Neue', sans-serif;
+  }
+
+  .video-title {
+    position: relative;
+    top: 25px;
+    font-size: 1.25rem;
   }
 
   @media (max-width: 1600px) {
@@ -92,7 +74,7 @@ const VideoInput = styled.input`
 const DescriptionInput = styled.textarea`
   border: 1px solid ${palette.gray[6]};
   padding: 0.75rem;
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
   width: 100%;
   height: 300px;
   resize: none;
@@ -199,12 +181,11 @@ const Editor = ({
         value={description}
         name="description"
       />
-      <div className="video-label">
-        <label htmlFor="video">
-          <i className="fas fa-upload"></i>
-          영상 업로드
-        </label>
-      </div>
+
+      <label htmlFor="video">
+        <div className="video-title">선택된 영상: {video?.name}</div>
+        <DropZone onChangeField={onChangeField} />
+      </label>
       <VideoInput
         type="file"
         name="video"

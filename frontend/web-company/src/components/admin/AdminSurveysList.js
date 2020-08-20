@@ -99,7 +99,6 @@ const AdminSurveysList = ({ loading, error, adminSurveys, onRemove }) => {
       return <InfoBlock>에러가 발생했습니다</InfoBlock>;
     }
   }
-  // console.log(error?.response.status);
   if (loading) {
     return <InfoBlock>loading...</InfoBlock>;
   }

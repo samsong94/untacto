@@ -12,14 +12,14 @@ router.use(cookieParser());
 router.get('/', verifyToken, function (req, res, err) {
 	var companyName = req.cookies.companyName;
 	var companyId = req.cookies.companyId;
-	var user ={
-		companyName:companyName,
-		companyId:companyId
+	var user = {
+		companyName: companyName,
+		companyId: companyId
 	};
-	if(user == null){
+	if(user == null){ //logout
 		res.send('');
-	} else {
-	res.json(user);
+	} else { //login
+		res.json(user);
 	}
 });
 

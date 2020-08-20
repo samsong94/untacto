@@ -11,15 +11,21 @@ router.use(cookieParser());
 
 router.get('/', verifyTokenCustomer, function (req, res, err) {
 	var customer = req.cookies.customer;
-	var customerId = req.cookies.customerId;
+	var customerId = req.cookies.customer.customerId;
+	var token = req.cookies.tok;
+	var phoneNumber = req.cookies.customer.phoneNumber;
+	var point = req.cookies.customer.point;
 	var age = req.cookies.age;
+	console.log(phoneNumber);
 	if(customer == null){
 		res.send('');
 	} else {
 	res.json({
-			'customer': customer,
-			'age': age,
-			'customerId': customerId,
+			'phoneNumber':phoneNumber,
+			'point':point,
+			'customer':customer,
+			'customerId':customerId,
+			'token':token
 		});
 	}
 });

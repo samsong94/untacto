@@ -12,7 +12,9 @@ moment.tz.setDefault('Asia/Seoul');
 router.use(cookieParser());
 
 router.get('/', function(req, res, next){
-	var companyId = res.locals.userId; 
+	var companyId = res.locals.query.companyId;
+	if(companyId == 'undefined')
+		companyId = res.locals.userId; 
 
 	//connect DB
 	var connection = mysql.createConnection({
@@ -132,6 +134,7 @@ router.get('/', function(req, res, next){
 				x.push('x');
 				begins_date = moment(result_duration[0]['beginsAt']).format('YYYY-MM-DD');
 				expires_date = moment(result_duration[0]['expiresAt']).format('YYYY-MM-DD');
+				var today = new Date();
 				
 				//set duration
 				for(var i=1; i<count_survey; i++){
@@ -142,8 +145,13 @@ router.get('/', function(req, res, next){
 					if(expires_date < tmp_expires)
 						expires_date = tmp_expires;
 				}
+				var tmp_begin = (moment(today) - moment(begins_date)) / (1000 * 24 * 60 * 60);
+				//limit duration
+				if(parseInt(tmp_begin) > 30){
+					begins_date = moment(today).subtract(30, 'days').format('YYYY-MM-DD');
+				}
 				duration = (moment(expires_date) - moment(begins_date)) / (1000 * 24 * 60 * 60);
-	
+
 				//set days into 'x'
 				var date = moment(begins_date);
 				for(var i=0; i<=duration; i++){
