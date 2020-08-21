@@ -52,7 +52,8 @@ temp_sensor = 2
 humi_sensor = 4
 left_sensor = 8
 right_sensor = 16
-
+wear_mask = False
+hand_emotion = True
 
 PROJECT_ID = "kiosk-69866"
 
@@ -73,23 +74,24 @@ addr = 0x08
 first = True
 
 
+video_list = []
+
+
 def init():
     local_file_list = []
     res = ""
     str_file = subprocess.check_output(["ls", "/home/pi/Videos"])
 
-    print("videos : ")
     for ch in str_file:
         if ch == 10:
-            print(res)
             local_file_list.append(res)
             res = ""
         else:
             res = res + chr(ch)
 
+    remove_list = local_file_list
     kioskId = open("/etc/kiosk/kioskId").read()
     kioskId = int(kioskId)
-    print(kioskId)
     db = QtSql.QSqlDatabase.addDatabase('QMYSQL')
     db.setHostName("<IP>")
     db.setDatabaseName("project1")
@@ -97,38 +99,40 @@ def init():
     db.setPassword("<PASSWD>")
     db.setPort(3306)
     ok = db.open()
-    print("ok:%d" % (ok))
+
     query = QtSql.QSqlQuery(
         "select surveyId, userId, kioskId, video, videoPath from survey where kioskId = %d" % (kioskId))
     global video_count
     while (query.next()):
         record = query.record()
-        # getData = "%d | %d | %d | %s | %s" % (record.value(0), record.value(1), record.value(2), record.value(3), record.value(4))
-        # print(getData)
+        #getData = "%d | %d | %d | %s | %s" % (record.value(0), record.value(1), record.value(2), record.value(3), record.value(4))
+
         row = []
         for i in range(5):
             row.append(record.value(i))
         sid = record.value(0)
-        print(row)
+
         video_count = video_count + 1
         file_name = '%s_%s' % (record.value(0), record.value(3))
-        print("local list : %s" % (local_file_list))
-        print("down list : %s" % (file_name))
-        if file_name not in local_file_list:
-            print(file_name)
-            # local_file_list.remove(file_name)
+        downloadPath = '/home/pi/Videos/%s' % (file_name)
+        global video_list
+        video_list.append(downloadPath+'.h264')
+        if file_name+'.h264' not in local_file_list:
 
-            url = 'http://i3a103.p.ssafy.io:7070/api/download/' + str(sid)
-            print("download %s" % (url))
+            # #local_file_list.remove(file_name)
+
+            url = 'http://i3a103.p.ssafy.io:8080/api/download/' + str(sid)
             r = requests.get(url, allow_redirects=True)
-            downloadPath = '/home/pi/Videos/%s' % (file_name)
-            global video_list
-            video_list.append(downloadPath)
+
             open(downloadPath, 'wb').write(r.content)
 
             os.system("ffmpeg -i %s %s" % (downloadPath, downloadPath+'.h264'))
-
-    for removedFile in local_file_list:
+            remove_list.append(file_name)
+            time.sleep(1)
+        else:
+            remove_list.remove(file_name+'.h264')
+    print(local_file_list)
+    for removedFile in remove_list:
         os.system("rm /home/pi/Videos/" + removedFile)
 
 
@@ -150,7 +154,7 @@ def captureFileUpload(file):
 
 
 subscription_key = "<SUBSCRIPTION KEY>"
-face_api_url = '<URL>'
+face_api_url = '<API_URL>'
 
 
 def getEmotionData():
@@ -193,25 +197,34 @@ def sendingQuery():
     idx = 1
 
     now = time.localtime()
-    str_time = str("%04d-%02d-%02d %02d:%02d:%02d" % (now.tm_year,
-                                                      now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
-    #str_time = str(str_time)
+    str_time = ("%04d-%02d-%02d %02d:%02d:%02d" % (now.tm_year,
+                                                   now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+    str_time = str(str_time)
 
     for str_emotion in emo_list:
         query.prepare("INSERT INTO answer (surveyId, userID, customerId, emotions, createdAt, timeIndex) VALUES(:surveyId, :userID, :customerId, :emotions, :createdAt, :timeIndex)")
         query.bindValue(":surveyId", ramd_surveyId)
         query.bindValue(":userID", ramd_userID)
         query.bindValue(":customerId", ramd_customerId)
-        query.bindValue(":emotions", str_emotion)
+        if wear_mask == False:
+            query.bindValue(":emotions", str_emotion)
+        else:
+            if hand_emotion == False:
+                query.bindValue(
+                    ":emotions", '{"anger": 0.0, "contempt": 0.0, "disgust": 0.0, "fear": 0.0, "happiness": 1.0, "neutral": 0.0, "sadness": 0.0, "surprise": 0.0}')
+            else:
+                query.bindValue(
+                    ":emotions", '{"anger": 1.0, "contempt": 0.0, "disgust": 0.0, "fear": 0.0, "happiness": 0.0, "neutral": 0.0, "sadness": 0.0, "surprise": 0.0}')
         query.bindValue(":createdAt", str_time)
 
         query.bindValue(":timeIndex", idx)
         idx = idx+1
 
-        str_time = QDateTime().currentDateTime()
+        #str_time =  QDateTime().currentDateTime()
         # print(str_time)
 
-        query.exec_()
+        if str_emotion != "":
+            query.exec_()
         print("sending query complement")
 
 
@@ -226,6 +239,7 @@ class surveyFinishThread(QThread):
     def run(self):
         print(img_list)
         for img in img_list:
+            print("upload img")
             captureFileUpload(img)
         getEmotionData()
         sendingQuery()
@@ -240,10 +254,12 @@ class timeThread1(QThread):
 
     def __init__(self):
         super().__init__()
+        print("timeThread1 start")
         global timeThreadLoop
         timeThreadLoop = True
 
     def run(self):
+        print("timeThread1 loop")
         while True:
             if timeThreadLoop == True:
 
@@ -253,6 +269,7 @@ class timeThread1(QThread):
                 self.printTime(self.str_time)
                 QTest.qWait(100)
             else:
+                print("timeThreadLoop exit1")
                 break
 
     def printTime(self, str_time):
@@ -264,6 +281,7 @@ class timeThread2(QThread):
 
     def __init__(self):
         super().__init__()
+        print("timeThread2 start")
         global timeThreadLoop
         timeThreadLoop = True
 
@@ -277,6 +295,7 @@ class timeThread2(QThread):
                 self.printTime(self.str_time)
                 QTest.qWait(100)
             else:
+                print("timeThreadLoop exit2")
                 break
 
     def printTime(self, str_time):
@@ -555,6 +574,7 @@ class getMaskData(QThread):
 #####################################################################################################
 videoIdx = 0
 current_idx = 0
+#video_list = ['/home/pi/Videos/video1.h264', '/home/pi/Videos/video2.h264']
 
 
 class VideoPlayer(QWidget):
@@ -577,10 +597,14 @@ class VideoPlayer(QWidget):
             time.sleep(0.3)
             get_data = atoc(i2c.read_i2c_block_data(addr, 0, 32))
             get_data = get_data.split()
-            if get_data[0] == "00:00:00":
-                break
-            else:
-                time.sleep(0.3)
+            try:
+                if get_data[0] == "00:00:00":
+                    break
+                else:
+                    time.sleep(0.3)
+            except:
+                print("print get_data")
+                print(get_data)
 
         global current_idx
         self.setAttribute(Qt.WA_DeleteOnClose)
@@ -637,6 +661,9 @@ class VideoPlayer(QWidget):
         self.th2.timeSignal.connect(self.setTime)
         self.th2.start()
 
+        # self.th = startData()
+        # self.th.start()
+
         self.th3_video = dataThread()
         self.th3_video.dataSignal.connect(self.setData)
         self.th3_video.start()
@@ -659,7 +686,12 @@ class VideoPlayer(QWidget):
             #print("RECEIVE DATA : {}".format(str_data))
 
     def playVideo(self):
-        fileName = "/home/pi/qt/video/output.h264"
+        #fileName = "/home/pi/qt/video/output.mp4"
+        global video_list
+        global current_idx
+        print(video_list)
+        print(current_idx)
+        fileName = video_list[current_idx]
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(fileName)))
         self.mediaPlayer.setVolume(50)
         self.mediaPlayer.play()
@@ -721,7 +753,7 @@ class Guide(QWidget):
         self.th1.mySignal.connect(self.setImage)
         self.th1.start()
 
-        self.th2 = timeWaitThread(5000)
+        self.th2 = timeWaitThread(7000)
         self.th2.timeWaitSignal.connect(self.getAlram)
         self.th2.start()
 
@@ -740,9 +772,6 @@ class Guide(QWidget):
         cameraThreadLoop = False
         self.th1.exit()
         self.th2.exit()
-
-
-wear_mask = False
 
 
 class Mask(QWidget):
@@ -776,10 +805,10 @@ class Mask(QWidget):
         self.guide.setAlignment(Qt.AlignCenter)
 
         self.guide = QLabel("< 예                                아니요 >", self)
-        self.guide.setPixmap(QPixmap("choose.png").scaledToWidth(1024))
-        self.guide.setGeometry(0, 200, 1024, 400)
-        #self.guide.setGeometry(230, 400, 564, 100)
-        self.guide.setStyleSheet("font-size:40pt;")
+        # self.guide.setPixmap(QPixmap("choose.png").scaledToWidth(1024))
+        #self.guide.setGeometry(0, 200, 1024, 400)
+        self.guide.setGeometry(230, 400, 564, 100)
+        self.guide.setStyleSheet("font-size:30pt;")
         self.guide.setAlignment(Qt.AlignCenter)
 
     def getAnswer(self, ans):
@@ -787,10 +816,10 @@ class Mask(QWidget):
         global wear_mask
         if ans == 1:
             print("MASK NO")
-            wear_mask = True
+            wear_mask = False
         else:
             print("MASK YES")
-            wear_mask = False
+            wear_mask = True
         self.getAlram()
 
     def getAlram(self):
@@ -921,7 +950,10 @@ class SurveyVideo(QWidget):
             pass
 
     def playVideo(self):
-        fileName = "/home/pi/qt/video/output.h264"
+        global video_list
+        global current_idx
+        print(current_idx)
+        fileName = video_list[current_idx]
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(fileName)))
         self.mediaPlayer.setVolume(50)
         self.mediaPlayer.play()
@@ -937,13 +969,13 @@ class SurveyVideo(QWidget):
         self.th4.exit()
 
 
-class getEmotionByHand(QWidget):
-    def __init__(self):
-        super().__init__()
-        # self.th1 = dataThread()
-        # self.th1.dataSignal.connect(self.setData)
-        # self.th.start()
-        self.setGeometry(0, 0, 1024, 768)
+# class getEmotionByHand(QWidget):
+    # def __init__(self) :
+        # super().__init__()
+        # # self.th1 = dataThread()
+        # # self.th1.dataSignal.connect(self.setData)
+        # # self.th.start()
+        # self.setGeometry(0,0,1024,768)
 
 
 class getEmotionByHand(QWidget):
@@ -951,27 +983,46 @@ class getEmotionByHand(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.main()
+
+        sending_data = 1
+
+        global i2c
+        while True:
+            try:
+                i2c.write_byte(addr, sending_data)
+            except:
+                time.sleep(0.3)
+            else:
+                break
+        time.sleep(0.3)
+
         self.th1 = getMaskData()
         self.th1.dataSignal.connect(self.getAnswer)
         self.th1.start()
 
+        self.main()
+
     def main(self):
-        self.label = QLabel("", self)
-        self.label.setPixmap(QPixmap("choose.png"))
-        self.label.setGeometry(230, 400, 564, 100)
-        self.label.setStyleSheet("font-size:40pt;")
-        self.label.setAlignment(Qt.AlignCenter)
+        self.guide = QLabel("광고에 대한 평가를 해주세요?", self)
+        self.guide.setGeometry(230, 0, 564, 100)
+        self.guide.setStyleSheet("font-size:30pt;")
+        self.guide.setAlignment(Qt.AlignCenter)
+
+        self.guide.setPixmap(QPixmap("choose.png").scaledToWidth(1024))
+        self.guide.setGeometry(0, 200, 1024, 400)
+        #self.guide.setGeometry(230, 400, 564, 100)
+        self.guide.setStyleSheet("font-size:40pt;")
+        self.guide.setAlignment(Qt.AlignCenter)
 
     def getAnswer(self, ans):
         print(ans)
-        global wear_mask
+        global hand_emotion
         if ans == 1:
-            print("MASK NO")
-            wear_mask = True
+            print("NO LIKE")
+            hand_emotion = True
         else:
-            print("MASK YES")
-            wear_mask = False
+            print("LIKE")
+            hand_emotion = False
         self.getAlram()
 
     def getAlram(self):
@@ -988,12 +1039,12 @@ class GetInfo(QWidget):
     def __init__(self):
         super().__init__()
         self.setAttribute(Qt.WA_DeleteOnClose)
-        self.th1 = timeWaitThread(10000)
+        self.th1 = timeWaitThread(40000)
         self.th1.timeWaitSignal.connect(self.timeOut)
         self.th2 = surveyFinishThread()
 
-        self.proc = subprocess.Popen(
-            ["chromium-browser", "--start-maxximized", "--kiosk", "http://i3a103.p.ssafy.io/customerlogin"])
+        self.proc = subprocess.Popen(["chromium-browser", "--disable-restore-session-state",
+                                      "--start-maxximized", "--kiosk", "http://i3a103.p.ssafy.io/customerlogin"])
         #self.proc = subprocess.Popen(["chromium-browser", "--start-maxximized", "--kiosk", "https://www.naver.com"])
         self.th1.start()
         self.th2.start()
@@ -1075,13 +1126,29 @@ class MainWindow(QMainWindow):
 
         self.survey.setGeometry(QRect(0, 0, 1024, 768))
         self.survey.showFullScreen()
-        self.survey.closeSignal.connect(self.getCustomerInfo)
+        # self.survey.closeSignal.connect(self.getCustomerInfo)
+        self.survey.closeSignal.connect(self.branch)
+
+    def branch(self):
+        if wear_mask == True:
+            self.usingMask()
+        else:
+            self.getCustomerInfo()
+
+    def usingMask(self):
+        self.survey.close()
+        print("survey close")
+        self.emo = getEmotionByHand()
+        self.emo.setGeometry(QRect(0, 0, 1024, 768))
+        self.emo.showFullScreen()
+        self.emo.closeSignal.connect(self.getCustomerInfo)
 
     def getCustomerInfo(self):
-        self.survey.close()
-        print("SurveyVideo close")
+        if wear_mask == True:
+            self.emo.close()
+        else:
+            self.survey.close()
         self.getinfo = GetInfo()
-        print("GetInfo")
         self.getinfo.closeSignal.connect(self.restart)
 
     def restart(self):
