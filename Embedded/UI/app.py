@@ -75,6 +75,8 @@ first = True
 
 
 video_list = []
+query_list = []
+current_sid = 0
 
 
 def init():
@@ -191,8 +193,14 @@ def sendingQuery():
     ok = db.open()
     print(ok)
     query = QtSql.QSqlQuery("select * from answer")
-    ramd_surveyId = random.randrange(1, 1000)
-    ramd_userID = random.randrange(1, 1000)
+
+    ramd_surveyId = current_sid
+    ramd_userID = 0
+
+    for idx in range(len(query_list)):
+        if query_list[idx][0] == current_sid:
+            ramd_userID = query_list[idx][1]
+
     ramd_customerId = -1
     idx = 1
 
@@ -227,10 +235,10 @@ def sendingQuery():
             query.exec_()
         print("sending query complement")
 
-
 #####################################################################################################
 ############################################## Threads ##############################################
 #####################################################################################################
+
 
 class surveyFinishThread(QThread):
     def __init__(self):
@@ -691,8 +699,9 @@ class VideoPlayer(QWidget):
         global current_idx
         print(video_list)
         print(current_idx)
-        fileName = video_list[current_idx]
-        self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(fileName)))
+        self.fileName = video_list[current_idx]
+        self.mediaPlayer.setMedia(QMediaContent(
+            QUrl.fromLocalFile(self.fileName)))
         self.mediaPlayer.setVolume(50)
         self.mediaPlayer.play()
 
@@ -706,6 +715,12 @@ class VideoPlayer(QWidget):
     def mousePressEvent(self, e):  # e ; QMouseEvent
         global timeThreadLoop
         global dataThreadLoop
+        global current_sid
+
+        li = self.fileName.split('_')
+        print(li)
+        current_sid = int(li[0].strip("/home/pi/Videos/"))
+
         #global i2c
         timeThreadLoop = False
         dataThreadLoop = False
