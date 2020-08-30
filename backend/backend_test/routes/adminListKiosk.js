@@ -8,15 +8,15 @@ const url = require('url');
 
 router.use(cookieParser());
 
-router.get('/', function(req, res, next){
+router.get('/', function (req, res, next) {
 
 	//connect DB
 	var connection = mysql.createConnection({
-			host: 'localhost',
-			post: 3306,
-			user: 'admin',
-			password: 'a103',
-			database: 'project1'		
+		host: 'localhost',
+		post: 3306,
+		user: 'admin',
+		password: '####',
+		database: '####'
 	});
 	connection.connect();
 
@@ -24,17 +24,17 @@ router.get('/', function(req, res, next){
 	var sql_kiosk = 'select * from kiosk;';
 
 	//set state in surveys 
-	connection.query(sql_kiosk, function(err_list, rows_list, fields_list){
-		if(!err_list){
+	connection.query(sql_kiosk, function (err_list, rows_list, fields_list) {
+		if (!err_list) {
 			console.log("kiosk_list success");
 			var kiosk_list = new Array();
 			var i = 0;
-			while(rows_list[i]!=undefined){
+			while (rows_list[i] != undefined) {
 				var kioskId = rows_list[i]['kioskId'];
 				var location = rows_list[i]['location'];
-				var kiosk ={
-					kioskId:kioskId,
-					location:location
+				var kiosk = {
+					kioskId: kioskId,
+					location: location
 				};
 				kiosk_list.push(kiosk);
 				i++;

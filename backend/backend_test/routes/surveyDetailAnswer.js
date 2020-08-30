@@ -10,8 +10,8 @@ router.get('/', function (req, res, next) {
 		host: 'localhost',
 		post: 3306,
 		user: 'admin',
-		password: 'a103',
-		database: 'project1'
+		password: '####',
+		database: '####'
 	});
 	connection.connect();
 	var sql_all = "select emotions,timeIndex,customerId from answer where userId = " + userId + " and surveyId = " + surveyId + " order by timeIndex asc;";
@@ -260,7 +260,7 @@ router.get('/', function (req, res, next) {
 							female.push(neutral);
 							female.push(sadness);
 							female.push(surprise);
-	
+
 						}
 						else {
 							console.log("select female error");

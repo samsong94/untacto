@@ -9,56 +9,56 @@ const fs = require('fs');
 
 router.use(cookieParser());
 
-router.delete('/', function(req, res, next){
+router.delete('/', function (req, res, next) {
 	var id = res.locals.id;
-	
+
 	//connect DB
 	var connection = mysql.createConnection({
-			host: 'localhost',
-			post: 3306,
-			user: 'admin',
-			password: 'a103',
-			database: 'project1'		
+		host: 'localhost',
+		post: 3306,
+		user: 'admin',
+		password: '####',
+		database: '####'
 	});
 	connection.connect();
-	
+
 	//sql query
 	var sql_user = 'delete from user where userId=' + id + ';';
 	var sql_survey = 'select * from survey where userId=' + id + ';';
 	var sql_delete_survey = 'delete from survey where userId=' + id + ';';
-	connection.query(sql_user, function(err){
-		if(!err){
+	connection.query(sql_user, function (err) {
+		if (!err) {
 			console.log("delete user success");
 			//delete video
-			connection.query(sql_survey, function(err_video, rows){
-				if(!err_video){
-					for(var i=0; i<rows.length; i++){
-						fs.unlink(rows[i]['videoPath'], function(err_fs){
-							if(err_fs)
+			connection.query(sql_survey, function (err_video, rows) {
+				if (!err_video) {
+					for (var i = 0; i < rows.length; i++) {
+						fs.unlink(rows[i]['videoPath'], function (err_fs) {
+							if (err_fs)
 								throw err_fs;
 							console.log('delete videos');
 						});
 					}
 				}
-				else{
+				else {
 					throw err_video;
 				}
 			});
 			//delete survey
-			connection.query(sql_delete_survey, function(err2){
-				if(!err2){
+			connection.query(sql_delete_survey, function (err2) {
+				if (!err2) {
 					console.log("delete surveys success");
-					res.json({result:"ok"});
+					res.json({ result: "ok" });
 				}
-				else{
+				else {
 					console.log("delete surveys error");
-					res.json({error:err2});
+					res.json({ error: err2 });
 				}
 			});
 		}
-		else{
+		else {
 			console.log("delete delete error");
-			res.json({error:err});
+			res.json({ error: err });
 		}
 	});
 });
